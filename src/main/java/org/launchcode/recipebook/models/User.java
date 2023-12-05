@@ -1,7 +1,7 @@
 package org.launchcode.recipebook.models;
 
 import jakarta.persistence.Entity;
-import org.antlr.v4.runtime.misc.NotNull;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
