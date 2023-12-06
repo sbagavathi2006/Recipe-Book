@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: org.springframework.data:spring-data-rest-core:4.2.0" type="java-imported" external-system-id="GRADLE">
+    <properties groupId="org.springframework.data" artifactId="spring-data-rest-core" version="4.2.0" />
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-rest-core/4.2.0/d6f1e8b0962888ad63e34c09e5bcb654057df4cc/spring-data-rest-core-4.2.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.data/spring-data-rest-core/4.2.0/2608c6c5d0af80370ebd30e582ecf35218bcff9b/spring-data-rest-core-4.2.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
