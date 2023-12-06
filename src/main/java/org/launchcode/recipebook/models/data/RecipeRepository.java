@@ -1,4 +1,4 @@
-package org.launchcode.recipebook.data;
+package org.launchcode.recipebook.models.data;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
