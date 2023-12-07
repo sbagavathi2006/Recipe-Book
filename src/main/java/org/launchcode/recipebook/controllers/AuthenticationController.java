@@ -13,7 +13,6 @@ public class AuthenticationController {
 
     @Autowired
     UserRepository userRepository;
-    // Testing trying to be a contributor
 
     private static final String userSessionKey = "user";
 

@@ -1,6 +1,6 @@
 package org.launchcode.recipebook.models.dto;
 
-public class RegisterFromDTO extends LoginFormDTO {
+public class RegisterFormDTO extends LoginFormDTO {
 
     private String verifyPassword;
 
