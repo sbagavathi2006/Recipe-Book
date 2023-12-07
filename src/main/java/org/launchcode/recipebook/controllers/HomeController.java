@@ -9,4 +9,7 @@ public class HomeController {
     @GetMapping("/custom-login")
     public String displayLogin() { return "custom-login"; }
 
+    @GetMapping("/register")
+    public String displayRegister() { return "register"; }
+
 }
