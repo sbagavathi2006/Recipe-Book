@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+<p th:unless="${recipes} and ${recipes.size()}">No Recipes Available!!!!</p>
+<div>
+    <h2>Recipes</h2>
+    <ul>
+        <li th:each="recipe:${recipes}">
+            <a th:href="@{'/add-recipe/view/' + ${recipe.id}" th:text="${recipe.name}"></a>
+        </li>
+    </ul>
+    <a th:href="@{'/add-recipe/add'}">Add Recipes</a>
+
+</div>
+
+</body>
+</html>
