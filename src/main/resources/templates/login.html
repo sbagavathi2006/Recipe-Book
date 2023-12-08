@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head>This is the head</head>
-<body>
+<head th:replace="~{fragments :: head}"></head>
+
+<body class="container">
 
 <header th:replace="~{fragments :: header}"></header>
-<p>This is the Login Page</p>
-
+<br>
 
 <form method="post">
     <div class="form-group">
@@ -24,7 +24,7 @@
     <input type="submit" class="btn btn-primary" value="Log In" />
 </form>
 
-<!--<p>Don't have an account? <a href="/register">Register for one.</a></p>-->
+<p>Don't have an account? <a href="/register">Register for one.</a></p>
 
 </body>
 </html>

@@ -1,8 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="~{fragments :: head}"></head>
+
 <body class="container">
 
-<header th:replace="fragments :: header"></header>
-
-<p>This is the registration page</p>
+<header th:replace="~{fragments :: header}"></header>
+<br>
 
 <form method="post">
     <div class="form-group">
