@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+<h1>Add Recipe</h1>
+
+<!--<nav th:replace="~{fragments :: page-header}"></nav>-->
+<form method="post" style="max-width:600px;" th:action="@{/add-recipe/add}">
+    <div class="form-group">
+        <label th:for="recipeName">Recipe Name</label>
+        <input class="form-control" th:field="${addRecipe.recipeName}" />
+        <span th:errors="${addRecipe.recipeName}" class="error"></span>
+    </div>
+    <br/>
+
+<!--    <div class="form-group">-->
+<!--        <label th:for="ingredients">Ingredients</label>-->
+<!--        <input type="text" th:field="${addRecipe.ingredients}"/>-->
+<!--        <button type="button" onclick="addIngredient()">Add Ingredient</button>-->
+<!--        <span th:errors="${addRecipe.ingredients}" class="error"></span>-->
+<!--    </div>-->
+<!--    <label>Ingredients:</label>-->
+<!--    <div class="form-group ingredients-list">-->
+<!--        &lt;!&ndash; Display added ingredients &ndash;&gt;-->
+<!--        <div th:each="ingredient : ${addRecipe.ingredients}">-->
+<!--            <ol><span th:text="${ingredient}"></span><br/></ol>-->
+<!--        </div>-->
+
+<!--        &lt;!&ndash; Input for adding new ingredient &ndash;&gt;-->
+<!--        <input type="text" th:field="${addRecipe.ingredients}" placeholder="Enter ingredient"/>-->
+<!--        <span th:errors="${addRecipe.ingredients}" class="error"></span>-->
+<!--        <button type="button" onclick="addIngredient()">Add Ingredient</button>-->
+<!--    </div>-->
+<!--    <br/>-->
+
+    <div class="form-group">
+        <label th:for="preparation">Preparation</label>
+        <input class="form-control" th:field="${addRecipe.preparation}" />
+        <span th:errors="${addRecipe.preparation}" class="error"></span>
+    </div>
+    <br/>
+    <div class="form-group">
+        <label th:for="mealType">Meal Type</label>
+        <input class="form-control" th:field="${addRecipe.mealType}" />
+        <span th:errors="${addRecipe.mealType}" class="error"></span>
+<!--        <input type="checkbox" th:each="mealType : ${T(com.example.MealType).values()}"-->
+<!--               th:value="${mealType}" th:field="*{mealTypes}" th:text="${#strings.capitalize(mealType.name())}"/>-->
+
+    </div>
+    <br/>
+    <div class="form-group">
+        <label th:for="creatorName">Creator Name</label>
+        <input class="form-control" th:field="${addRecipe.creatorName}" />
+        <span th:errors="${addRecipe.creatorName}" class="error"></span>
+    </div>
+    <br/>
+    <div class="form-group">
+        <label th:for="imageUrl">Image URL</label>
+        <input class="form-control" th:field="${addRecipe.imageUrl}" />
+        <span th:errors="${addRecipe.imageUrl}" class="error"></span>
+    </div>
+    <br/>
+    <input type="submit" value="Add Recipe" />
+
+</form>
+
+</body>
+</html>
