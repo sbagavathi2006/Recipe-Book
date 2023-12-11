@@ -47,6 +47,5 @@ public class AddRecipeController {
         } else {
             return "redirect:../";
         }
-
     }
 }

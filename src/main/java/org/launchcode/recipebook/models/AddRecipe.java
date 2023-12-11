@@ -49,7 +49,6 @@ public class AddRecipe extends AbstractEntity{
 //    public void setIngredients(List<String> ingredients) {
 //        this.ingredients = ingredients;
 //    }
-
     public String getPreparation() {
         return preparation;
     }
