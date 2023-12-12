@@ -63,6 +63,7 @@ public class AddRecipe extends AbstractEntity{
 
     public void setMealType(String mealType) {
         this.mealType = mealType;
+
     }
 
     public String getCreatorName() {

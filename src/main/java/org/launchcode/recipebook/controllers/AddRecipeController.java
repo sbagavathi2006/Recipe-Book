@@ -38,7 +38,6 @@ public class AddRecipeController {
     }
     @GetMapping("view/{recipeId}")
     public String displayViewSkill(Model model, @PathVariable int recipeId) {
-
         Optional optSkill = addRecipeRepository.findById(recipeId);
         if (optSkill.isPresent()) {
             AddRecipe addRecipe = (AddRecipe) optSkill.get();
