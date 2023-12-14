@@ -16,6 +16,7 @@ if (rootElement) {
 
 import Component1 from './components/RecipeSearchComponent.jsx';
 import Component2 from './components/Component2';
+import ReactDOM from 'react';
 
 document.addEventListener('DOMContentLoaded', () => {
   const component1Mount = document.querySelector(

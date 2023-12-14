@@ -5,7 +5,7 @@ export default function RecipeSearchComponent() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const apiKey = config.API_KEY;
-  const maxResults = 1;
+  const maxResults = 3;
 
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
