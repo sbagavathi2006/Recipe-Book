@@ -17,19 +17,19 @@ if (rootElement) {
 import Component1 from './components/RecipeSearchComponent.jsx';
 import Component2 from './components/Component2';
 
-// document.addEventListener('DOMContentLoaded', () => {
-//   const component1Mount = document.querySelector(
-//     '[data-react-component="component-1-mount"]'
-//   );
-//   const component2Mount = document.querySelector(
-//     '[data-react-component="component-2-mount"]'
-//   );
+document.addEventListener('DOMContentLoaded', () => {
+  const component1Mount = document.querySelector(
+    '[data-react-component="component-1-mount"]'
+  );
+  const component2Mount = document.querySelector(
+    '[data-react-component="component-2-mount"]'
+  );
 
-//   if (component1Mount) {
-//     ReactDOM.render(<Component1 />, component1Mount);
-//   }
+  if (component1Mount) {
+    ReactDOM.render(<Component1 />, component1Mount);
+  }
 
-//   if (component2Mount) {
-//     ReactDOM.render(<Component2 />, component2Mount);
-//   }
-// });
+  if (component2Mount) {
+    ReactDOM.render(<Component2 />, component2Mount);
+  }
+});

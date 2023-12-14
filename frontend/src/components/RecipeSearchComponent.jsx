@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import config from '../../config';
 
 export default function RecipeSearchComponent() {
@@ -25,12 +25,10 @@ export default function RecipeSearchComponent() {
       }
 
       const data = await response.json();
-      console.log(data);
+
       setSearchResults(data);
-      // Handle the retrieved data as needed (e.g., update state, display results)
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
-      // Handle errors (e.g., show error message to the user)
     }
   };
 
@@ -39,17 +37,20 @@ export default function RecipeSearchComponent() {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
+          id="searchInput"
           value={searchTerm}
           onChange={handleInputChange}
           placeholder="Search for a recipe here"
         />
         <button type="submit">Search</button>
       </form>
-      {searchResults && searchResults.length > 0 ? (
+      {searchResults &&
+      searchResults.results &&
+      searchResults.results.length > 0 ? (
         <div className="search-results">
           <h2>Search Results</h2>
           <ul>
-            {searchResults.map((result, index) => (
+            {searchResults.results.map((result, index) => (
               <li key={index}>
                 <h3>{result.title}</h3>
                 <img src={result.image} alt={result.title} />
