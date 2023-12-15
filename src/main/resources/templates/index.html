@@ -6,14 +6,15 @@
 
 <div th:replace="~{fragments :: header}"></div>
 
-<div class="container body-content">
-    <h2>Recipe Book</h2>
-</div>
+<div id="root"></div>
+
+<div class="container body-content"></div>
+
+<div class="search-results"></div>
 
 
-<div data-react-component="component-1-mount"></div>
-<div data-react-component="component-2-mount"></div>
-<script th:src="@{/dist/assets/index-696c4d61.js}"></script> <!-- Reference to your React app's JavaScript bundle -->
+<!-- need to update this with the proper JS file name after building out the frontend-->
+<script th:src="@{/dist/assets/index-e973490e.js}" defer></script>
 
 
 </body>
