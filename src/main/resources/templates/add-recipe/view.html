@@ -1,19 +1,31 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head>
+<head th:replace="~{fragments :: head}">
     <meta charset="UTF-8"/>
     <title></title>
 </head>
-<body>
+<body class="container">
 <h1 th:text="${'Recipe: ' + addRecipe.recipeName}">Default Title</h1>
+<header th:replace="~{fragments :: header}"></header>
+
 <!--<nav th:replace="~{fragments :: page-header}"></nav>-->
 <div >
-
     <ul>
-        <p th:text="${'Preparation : ' + addRecipe.preparation}"></p>
         <p th:text="${'Meal Type : ' + addRecipe.mealType}"></p>
-        <p th:text="${'Creator Name : ' + addRecipe.creatorName}"></p>
-        <p th:text="${'Image URL : ' + addRecipe.imageUrl}"></p>
+        <p th:text="${'Ingredients: '}"></p>
+        <ul>
+            <li th:each="ingredient : ${#strings.arraySplit(addRecipe.ingredients, ',')}" th:text="${ingredient}"></li>
+        </ul>
+        <p th:text="${'Preparation : '}"></p>
+        <ul>
+            <li th:each="preparation : ${#strings.arraySplit(addRecipe.preparation, '.')}" th:text="${preparation}"></li>
+        </ul>
+
+        <p th:text="${'Upload Image : ' + addRecipe.getUploadImage()}"></p>
+               <!-- Display the image -->
+        <img th:src="'data:image/png;base64,' + ${base64Image}" alt="Recipe Image"/>
+        </p>
+
     </ul>
 </div>
 </body>
