@@ -4,8 +4,9 @@ import config from '../../config';
 export default function RecipeSearchComponent() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const [recipe, setRecipe] = useState(null);
   const apiKey = config.API_KEY;
-  const maxResults = 3;
+  const maxResults = 1;
 
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
@@ -32,6 +33,25 @@ export default function RecipeSearchComponent() {
     }
   };
 
+  const handleClick = async (event) => {
+    
+    try {
+      const recipeApiUrl = `https://api.spoonacular.com/recipes/${event}/information?apiKey=${apiKey}`;
+      const recipeResponse = await fetch(recipeApiUrl);
+
+      if (!recipeResponse.ok) {
+        throw new Error('Network response was not ok.');
+      }
+
+      const recipeData = await recipeResponse.json();
+
+      setRecipe(recipeData);
+      console.log(recipeData);
+    } catch(error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -52,7 +72,8 @@ export default function RecipeSearchComponent() {
           <ul>
             {searchResults.results.map((result, index) => (
               <li key={index}>
-                <h3>{result.title}</h3>
+                <h3><a href="#" onClick={() => handleClick(result.id)}>
+                {result.title}</a></h3>
                 <img src={result.image} alt={result.title} />
               </li>
             ))}
