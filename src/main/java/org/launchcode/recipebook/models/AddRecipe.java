@@ -15,7 +15,6 @@ public class AddRecipe extends AbstractEntity{
     @NotBlank(message = "Recipe Name is required")
     @Size(min=2, max = 75, message = "Name must be between 2 to 75 characters")
     private String recipeName;
-
     @NotEmpty(message = "Ingredient is required")
     @Size(min =2, max = 1000, message = "Name should be between 2 to 1000 characters")
     private String ingredients;

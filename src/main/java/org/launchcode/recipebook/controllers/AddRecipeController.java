@@ -37,6 +37,7 @@ public class AddRecipeController {
         if (errors.hasErrors()) {
             return "add-recipe/add";
         }
+
         if (!imageFile.isEmpty()) {
             try {
                 byte[] imageData = imageFile.getBytes();
