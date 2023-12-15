@@ -1,9 +1,11 @@
 package org.launchcode.recipebook.models;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,26 +15,39 @@ public class AddRecipe extends AbstractEntity{
     @NotBlank(message = "Recipe Name is required")
     @Size(min=2, max = 75, message = "Name must be between 2 to 75 characters")
     private String recipeName;
-
-//    @NotBlank(message = "Ingredient is required")
-//    @Size(min =2, max = 250, message = "Name should be between 2 to 250 characters")
-//    private List<String> ingredients = new ArrayList<>();
-
+    @NotEmpty(message = "Ingredient is required")
+    @Size(min =2, max = 1000, message = "Name should be between 2 to 1000 characters")
+    private String ingredients;
+    @Column(length = 3000)
     @NotBlank(message = "Preparation is required")
-    @Size(min =2, max = 1500, message = "Name should be between 2 to 1500 characters")
+    @Size(min =2, max = 3000, message = "Name should be between 2 to 3000 characters")
     private String preparation;
+    @ElementCollection
+    @CollectionTable(name = "meal_type", joinColumns = @JoinColumn(name = "recipe_id"))
+    @Column(name = "meal_type")
+    @NotEmpty(message = "Meal Type is required")
+    private List<String> mealType;
+//    @NotEmpty(message = "Image is required")
+    private String uploadImage;
 
-    @NotBlank(message = "Meal Type is required")
-    private String mealType;
+//    @NotBlank(message = "Image is required")
+    @Lob
+//    @Column(name = "image_data")
+    private byte[] imageData;
 
-    @NotBlank(message = "Creator Name is required")
-    @Size(min=2, max = 75, message = "Name must be between 2 to 75 characters")
-    private String creatorName;
-
-    @NotBlank(message = "Image is required")
-    private String imageUrl;
+    // Add a transient field to handle file upload
+    @Transient
+    private MultipartFile imageFile;
 
     public AddRecipe(){   }
+
+    public String getUploadImage() {
+        return uploadImage;
+    }
+
+    public void setUploadImage(String uploadImage) {
+        this.uploadImage = uploadImage;
+    }
 
     public String getRecipeName() {
         return recipeName;
@@ -42,13 +57,13 @@ public class AddRecipe extends AbstractEntity{
         this.recipeName = recipeName;
     }
 
-//    public List<String> getIngredients() {
-//        return ingredients;
-//    }
-//
-//    public void setIngredients(List<String> ingredients) {
-//        this.ingredients = ingredients;
-//    }
+    public String getIngredients() {
+        return ingredients;
+    }
+
+    public void setIngredients(String ingredients) {
+        this.ingredients = ingredients;
+    }
     public String getPreparation() {
         return preparation;
     }
@@ -57,28 +72,27 @@ public class AddRecipe extends AbstractEntity{
         this.preparation = preparation;
     }
 
-    public String getMealType() {
+    public List<String> getMealType() {
         return mealType;
     }
 
-    public void setMealType(String mealType) {
+    public void setMealType(List<String> mealType) {
         this.mealType = mealType;
-
     }
 
-    public String getCreatorName() {
-        return creatorName;
+    public byte[] getImageData() {
+        return imageData;
     }
 
-    public void setCreatorName(String creatorName) {
-        this.creatorName = creatorName;
+    public void setImageData(byte[] imageData) {
+        this.imageData = imageData;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public MultipartFile getImageFile() {
+        return imageFile;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setImageFile(MultipartFile imageFile) {
+        this.imageFile = imageFile;
     }
 }

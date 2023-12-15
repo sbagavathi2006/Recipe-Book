@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
-<head>
+<head th:replace="~{fragments :: head}">
     <meta charset="UTF-8"/>
     <title></title>
 </head>
-<body>
+<body class="container">
+<header th:replace="~{fragments :: header}"></header>
+
 <p th:unless="${recipes} and ${recipes.size()}">No Recipes Available!!!!</p>
 <div>
-
     <h2>Recipes</h2>
     <ul>
         <li th:each="recipe:${recipes}">
