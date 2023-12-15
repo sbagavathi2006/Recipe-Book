@@ -5,6 +5,7 @@ export default function RecipeSearchComponent() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [recipe, setRecipe] = useState(null);
+  const [loading, setLoading] = useState(false);
   const apiKey = config.API_KEY;
   const maxResults = 1;
 
@@ -33,10 +34,11 @@ export default function RecipeSearchComponent() {
     }
   };
 
-  const handleClick = async (event) => {
-    
+  const handleClick = async (recipeId) => {
+
     try {
-      const recipeApiUrl = `https://api.spoonacular.com/recipes/${event}/information?apiKey=${apiKey}`;
+      setLoading(true);
+      const recipeApiUrl = `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apiKey}`;
       const recipeResponse = await fetch(recipeApiUrl);
 
       if (!recipeResponse.ok) {
@@ -45,11 +47,24 @@ export default function RecipeSearchComponent() {
 
       const recipeData = await recipeResponse.json();
 
-      setRecipe(recipeData);
+      const htmlInstructionsResponse = recipeData.instructions;
+      const plainTextInstructions = extractPlainText(htmlInstructionsResponse);
+
+      setRecipe({...recipeData, plainTextInstructions: plainTextInstructions,});
       console.log(recipeData);
+    console.log(plainTextInstructions);
     } catch(error) {
       console.error('There was a problem with the fetch operation:', error);
+      setRecipe(null);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const extractPlainText = (htmlContent) => {
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlContent;
+    return tempDiv.textContent || tempDiv.innerText;
   };
 
   return (
@@ -78,6 +93,17 @@ export default function RecipeSearchComponent() {
               </li>
             ))}
           </ul>
+          {recipe && recipe.extendedIngredients && recipe.extendedIngredients.length > 0 && (
+            <div>
+              <h3>Ingredients List</h3>
+              <ul>
+                {recipe.extendedIngredients.map((ingredient, index) => (
+                  <li key={index}>{ingredient.original}</li>
+                ))}
+              </ul>
+              <p>{recipe.plainTextInstructions}</p>
+            </div>
+          )}
         </div>
       ) : (
         <p>No results found</p>
