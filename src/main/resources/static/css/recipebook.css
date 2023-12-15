@@ -25,15 +25,3 @@ body::before {
     z-index: -1;
     opacity: 0.2;
 }
-
-.search-results {
-    border: 3px solid;
-    border-color: purple;
-    height: 800px;
-    width: 500px;
-    margin-left: 5px;
-}
-
-.recipe-search {
-
-}
