@@ -16,8 +16,7 @@ function App() {
 
   const handleRecipe = (recipe) => {
     setRecipe(recipe);
-    console.log(recipe);
-  }
+  };
 
   return (
     <>
@@ -31,9 +30,7 @@ function App() {
           searchResults={searchResults}
           setRecipe={handleRecipe}
         />
-        <CurrentRecipeComponent id="current-recipe-component"
-        recipe={recipe}
-       />
+        <CurrentRecipeComponent id="current-recipe-component" recipe={recipe} />
         <div className="rightsideBody">
           <FavoriteRecipesComponent id="favorite-recipes-component" />
           <AddYourOwnRecipeComponent id="add-your-own-recipe-component" />

@@ -39,7 +39,7 @@ export default function SearchFormComponent({ setSearchResults }) {
           id="searchInput"
           value={searchTerm}
           onChange={handleInputChange}
-          placeholder="  Search for a recipe here"
+          placeholder="Search for a recipe here"
         />
         <button type="submit">Search</button>
       </form>
