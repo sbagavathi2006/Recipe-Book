@@ -4,6 +4,10 @@
   text-align: center;
 }
 
+body {
+  background-color: #f0f0f0;
+}
+
 table {
   font-size: 18px;
 }
@@ -17,8 +21,12 @@ img {
   width: 60px;
 }
 
+a {
+  color: rgb(94, 94, 14);
+}
+
 p {
-  color: red;
+  color: rgb(66, 34, 178);
 }
 
 form {
@@ -49,6 +57,14 @@ body {
   overflow: hidden;
 }
 
+li {
+  list-style-type: none;
+}
+
+h3 {
+  font-size: 20px;
+}
+
 .mainBody {
   width: 99%;
   border: 3px solid;
@@ -60,11 +76,19 @@ body {
   overflow: hidden;
 }
 
+form button {
+  border: 1px solid;
+}
+
 .recipeSearch {
   width: 30%;
   margin: 0 auto;
   padding-top: 15px;
   padding-bottom: 15px;
+}
+
+input#searchInput {
+  padding-left: 7px;
 }
 
 .recipeSearch input[type='text'] {
@@ -76,7 +100,7 @@ body {
 }
 
 .resultsDisplay {
-  width: 20%;
+  width: 25%;
   align-items: flex-start;
   color: rgb(112, 0, 0);
   border: 1px solid;
@@ -98,12 +122,12 @@ body {
 
 .currentRecipe {
   height: 100%;
-  width: 60%;
+  width: 50%;
   border: 1px dashed;
 }
 
 .rightsideBody {
-  width: 20%;
+  width: 25%;
   height: 100%;
   border: 1px dashed;
 }
@@ -118,4 +142,46 @@ body {
   width: 100%;
   height: 25%;
   border: 1px dashed;
+}
+
+.current-image {
+  height: 250px;
+  width: 500px;
+}
+
+.current-title-favorite {
+  display: inline;
+  font-size: 20px;
+}
+
+.current-title-favorite p {
+  margin: 8px;
+}
+
+.favorite-btn {
+  display: inline-block;
+  padding: 8px 15px;
+  font-size: 14px;
+  border: none;
+  background-color: #f0f0f0;
+  color: #333;
+  position: relative;
+  border: 1px solid;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+.favorite-btn:hover {
+  outline: auto;
+}
+
+.star {
+  display: inline-block;
+  width: 0px;
+  height: 0px;
+  border-right: 10px solid transparent;
+  border-bottom: 15px solid #f1c40f; /* Adjust color as needed */
+  border-left: 10px solid transparent;
+  transform: rotate(40deg);
+  margin-right: 5px;
 }

@@ -17,7 +17,7 @@ body::before {
     right: 0;
     bottom: 0;
     left: 0;
-    background-image: url('../images/background.jpg');
+    background-image: url('../images/recipe-paper-background.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
