@@ -5,8 +5,9 @@
 
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
     <link th:href="@{/css/recipebook.css}" rel="stylesheet" />
-
+    <link th:href="@{/dist/assets/index-bef5e734.css}" rel="stylesheet" />
     <title th:text="${title}">Recipe Book</title>
+
 </head>
 
 <body>
@@ -14,21 +15,24 @@
 <div th:fragment="header" class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a th:href="@{/}" class="navbar-brand">Recipe Book</a>
+            <a th:href="@{/}" class="navbar-brand rb-title" >Recipe Book</a>
         </div>
-        <div class="navbar-header">
-            <a th:href="@{/add-recipe/add}" class="navbar-brand">Add Recipe</a>
-        </div>
-        <div class="navbar-header">
-            <a th:href="@{/add-recipe/}" class="navbar-brand">All Recipes</a>
-        </div>
+    </div>
+</div>
 
+<div th:fragment="header-logout" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a th:href="@{/}" class="navbar-brand rb-title" >Recipe Book</a>
+        </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li><a th:href="@{/logout}">Logout</a></li>
             </ul>
         </div>
     </div>
+
+
 </div>
 
 </body>

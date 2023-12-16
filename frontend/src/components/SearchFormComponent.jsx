@@ -1,0 +1,48 @@
+import React, { useState } from 'react';
+import config from '../../config';
+
+export default function SearchFormComponent({ setSearchResults }) {
+  const [searchTerm, setSearchTerm] = useState('');
+  const apiKey = config.API_KEY;
+  const maxResults = 3;
+
+  const handleInputChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const apiUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&query=${encodeURIComponent(
+        searchTerm
+      )}&number=${maxResults}`;
+      const response = await fetch(apiUrl);
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok.');
+      }
+
+      const data = await response.json();
+
+      setSearchResults(data);
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+    }
+  };
+
+  return (
+    <div className="recipeSearch">
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          id="searchInput"
+          value={searchTerm}
+          onChange={handleInputChange}
+          placeholder="  Search for a recipe here"
+        />
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  );
+}
