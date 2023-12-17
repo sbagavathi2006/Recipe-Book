@@ -1,4 +1,22 @@
+import { useState } from 'react';
+
 export default function CurrentRecipeComponent({ recipe }) {
+  function handleClick(recipeData) {
+    fetch('http://localhost:8080/add-recipe/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(recipeData),
+    })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   if (
     !recipe ||
     !recipe.extendedIngredients ||
@@ -7,14 +25,26 @@ export default function CurrentRecipeComponent({ recipe }) {
     return <div className="currentRecipe"></div>; // Return null if recipe or its properties are undefined or empty
   }
 
-  const { title, image, extendedIngredients, plainTextInstructions } = recipe;
+  const { title, image, extendedIngredients, plainTextInstructions } = recipe; // Destructure recipe into its components
+
+  const [recipeData, setRecipeData] = useState({
+    // Build out recipeData object to send to the backend
+    name: { title },
+    description: { plainTextInstructions },
+    ingredients: { extendedIngredients },
+    image: { image },
+    user: null,
+  });
 
   return (
     <div className="currentRecipe">
       <div className="current-title-favorite">
         <p>
           {title && title + ' '}
-          <button className="favorite-btn">
+          <button
+            className="favorite-btn"
+            onClick={() => handleClick(recipeData)}
+          >
             <span className="star"></span> Add to Favorites
           </button>
         </p>

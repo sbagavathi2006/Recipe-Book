@@ -32,7 +32,10 @@ function App() {
         />
         <CurrentRecipeComponent id="current-recipe-component" recipe={recipe} />
         <div className="rightsideBody">
-          <FavoriteRecipesComponent id="favorite-recipes-component" />
+          <FavoriteRecipesComponent
+            id="favorite-recipes-component"
+            // recipeList={recipeList}
+          />
           <AddYourOwnRecipeComponent id="add-your-own-recipe-component" />
         </div>
       </div>
