@@ -1,13 +1,10 @@
-//package org.launchcode.recipebook.models.data;
-//
-//import org.launchcode.recipebook.models.Recipe;
-//import org.springframework.data.repository.CrudRepository;
-//import org.springframework.stereotype.Repository;
-//
-//import java.util.List;
-//
-//@Repository
-//public interface RecipeRepository extends CrudRepository<Recipe, Integer> {
-//    List<Recipe> findByUserId(Integer, userId);
-//}
-// All names up for change if need be
+package org.launchcode.recipebook.models.data;
+
+import org.launchcode.recipebook.models.Recipe;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+
+@Repository
+public interface RecipeRepository extends CrudRepository<Recipe, Integer> {
+}
