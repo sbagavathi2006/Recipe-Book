@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function CurrentRecipeComponent({ recipe }) {
+export default function CurrentRecipeComponent({ recipe, currentUser }) {
   function handleClick(recipeData) {
     fetch('http://localhost:8080/add-recipe/add', {
       method: 'POST',
@@ -29,11 +29,11 @@ export default function CurrentRecipeComponent({ recipe }) {
 
   const [recipeData, setRecipeData] = useState({
     // Build out recipeData object to send to the backend
-    name: { title },
-    description: { plainTextInstructions },
-    ingredients: { extendedIngredients },
-    image: { image },
-    user: null,
+    name: title,
+    description: plainTextInstructions,
+    ingredients: extendedIngredients,
+    image: image,
+    user: currentUser || null,
   });
 
   return (
