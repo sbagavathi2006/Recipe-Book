@@ -31,7 +31,8 @@ public class AuthenticationFilter implements HandlerInterceptor {
                 return true;
             }
         }
-        return false;
+//        return false;
+        return true; // for development purposes
     }
 
     @Override
@@ -55,6 +56,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
 
         // The user is NOT logged in
         response.sendRedirect("/login");
-        return false;
+//        return false;
+        return true; // For development purposes
     }
 }

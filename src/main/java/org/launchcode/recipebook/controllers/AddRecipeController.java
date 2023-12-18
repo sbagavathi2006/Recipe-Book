@@ -1,8 +1,11 @@
 package org.launchcode.recipebook.controllers;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.launchcode.recipebook.models.AddRecipe;
 import org.launchcode.recipebook.models.Recipe;
+import org.launchcode.recipebook.models.User;
 import org.launchcode.recipebook.models.data.RecipeRepository;
+import org.launchcode.recipebook.models.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,6 +24,12 @@ public class AddRecipeController {
 
     @Autowired
     private RecipeRepository recipeRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private AuthenticationController authenticationController;
 
     @PostMapping("add")
     public ResponseEntity<String> handleAddFavoriteRecipeData(@RequestBody Recipe recipe) {

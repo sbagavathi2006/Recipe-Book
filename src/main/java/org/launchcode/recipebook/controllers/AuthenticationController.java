@@ -7,6 +7,7 @@ import org.launchcode.recipebook.models.User;
 import org.launchcode.recipebook.models.data.UserRepository;
 import org.launchcode.recipebook.models.dto.LoginFormDTO;
 import org.launchcode.recipebook.models.dto.RegisterFormDTO;
+import org.launchcode.recipebook.services.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,9 @@ public class AuthenticationController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    private UserSessionService userSessionService;
 
     private static final String userSessionKey = "user";
 

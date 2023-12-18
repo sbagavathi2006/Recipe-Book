@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import SearchFormComponent from './components/SearchFormComponent';
 import DisplayResultsComponent from './components/DisplayResultsComponent';
@@ -9,6 +9,7 @@ import AddYourOwnRecipeComponent from './components/AddYourOwnRecipeComponent';
 function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [recipe, setRecipe] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const handleSearchResults = (results) => {
     setSearchResults(results);
@@ -17,6 +18,31 @@ function App() {
   const handleRecipe = (recipe) => {
     setRecipe(recipe);
   };
+
+  useEffect(() => {
+    // Fetch current user when the component mounts
+    fetch('http://localhost:8080/get-user', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // Add any necessary authentication headers or credentials if required
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then((userData) => {
+        setCurrentUser(userData); // Set the retrieved user data in state
+      })
+      .catch((error) => {
+        console.error('There was a problem fetching the current user:', error);
+      });
+  }, []); // Empty dependency array means this effect runs once (on mount)
+
+  // .
 
   return (
     <>
@@ -34,6 +60,7 @@ function App() {
         <div className="rightsideBody">
           <FavoriteRecipesComponent
             id="favorite-recipes-component"
+            currentUser={currentUser}
             // recipeList={recipeList}
           />
           <AddYourOwnRecipeComponent id="add-your-own-recipe-component" />
