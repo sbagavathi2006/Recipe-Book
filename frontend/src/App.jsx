@@ -59,13 +59,22 @@ function App() {
           searchResults={searchResults}
           setRecipe={handleRecipe}
         />
-        <CurrentRecipeComponent id="current-recipe-component" recipe={recipe} />
+
+        {currentUser !== null && (
+          <CurrentRecipeComponent
+            id="current-recipe-component"
+            recipe={recipe}
+            currentUser={currentUser}
+          />
+        )}
+
         <div className="rightsideBody">
           <FavoriteRecipesComponent
             id="favorite-recipes-component"
             currentUser={currentUser}
             // recipeList={recipeList}
           />
+
           <AddYourOwnRecipeComponent id="add-your-own-recipe-component" />
         </div>
       </div>
