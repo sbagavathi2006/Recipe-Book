@@ -23,14 +23,14 @@ public class User extends AbstractEntity{
 
     public User() {};
 
-    public User(String username, String pwHash) {
+    public User(String username, String password) {
         this.username = username;
-        this.pwHash = pwHash;
+        this.pwHash = encoder.encode(password);
     }
 
-//    public User(String username, String pwHash, List<Recipe> recipes) {
+//    public User(String username, String password, List<Recipe> recipes) {
 //        this.username = username;
-//        this.pwHash = pwHash;
+//        this.pwHash = encoder.encode(password);
 //        this.recipes = recipes;
 //    }
 

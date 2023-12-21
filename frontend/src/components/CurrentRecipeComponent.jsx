@@ -2,19 +2,19 @@ import { useState } from 'react';
 
 export default function CurrentRecipeComponent({ recipe, currentUser }) {
   function handleClick(recipeData) {
-    fetch('http://localhost:8080/add-recipe/add', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(recipeData),
-    })
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // fetch('http://localhost:8080/add-recipe/add', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(recipeData),
+    // })
+    //   .then((response) => {
+    //     console.log(response);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   }
 
   if (

@@ -21,7 +21,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
     @Autowired
     AuthenticationController authenticationController;
 
-    private static final List<String> whitelist = Arrays.asList("/login", "/register", "/logout", "/css");
+    private static final List<String> whitelist = Arrays.asList("/login", "/register", "/logout", "/css", "/get-user");
 
 
 
@@ -31,8 +31,8 @@ public class AuthenticationFilter implements HandlerInterceptor {
                 return true;
             }
         }
-//        return false;
-        return true; // for development purposes
+        return false;
+//        return true; // for development purposes
     }
 
     @Override
@@ -40,9 +40,13 @@ public class AuthenticationFilter implements HandlerInterceptor {
                              HttpServletResponse response,
                              Object handler) throws IOException {
 
+        // Allow OPTIONS requests without authentication
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            return true;
+        }
+
         // Don't require sign-in for whitelisted pages
         if (isWhitelisted(request.getRequestURI())) {
-            // returning true indicates that the request may proceed
             return true;
         }
 
@@ -56,7 +60,6 @@ public class AuthenticationFilter implements HandlerInterceptor {
 
         // The user is NOT logged in
         response.sendRedirect("/login");
-//        return false;
-        return true; // For development purposes
+        return false;
     }
 }
