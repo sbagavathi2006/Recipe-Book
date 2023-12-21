@@ -26,7 +26,6 @@ function App() {
       headers: {
         'Content-Type': 'application/json',
       },
-      // Add any necessary authentication headers or credentials if required
     })
       .then((response) => {
         if (!response.ok) {
@@ -42,6 +41,10 @@ function App() {
       });
   }, []); // Empty dependency array means this effect runs once (on mount)
 
+  useEffect(() => {
+    // This effect runs whenever `currentUser` changes
+    console.log('Current user changed:', currentUser);
+  }, [currentUser]);
   // .
 
   return (
