@@ -64,14 +64,14 @@ function App() {
           <CurrentRecipeComponent
             id="current-recipe-component"
             recipe={recipe}
-            currentUser={currentUser}
+            // currentUser={currentUser}
           />
         )}
 
         <div className="rightsideBody">
           <FavoriteRecipesComponent
             id="favorite-recipes-component"
-            currentUser={currentUser}
+            // currentUser={currentUser}
             // recipeList={recipeList}
           />
 

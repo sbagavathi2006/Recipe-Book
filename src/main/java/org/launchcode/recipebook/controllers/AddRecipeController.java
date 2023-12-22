@@ -1,11 +1,14 @@
 package org.launchcode.recipebook.controllers;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpServletRequest;
+
 import jakarta.validation.Valid;
 import org.launchcode.recipebook.models.AddRecipe;
 import org.launchcode.recipebook.models.Recipe;
 import org.launchcode.recipebook.models.User;
 import org.launchcode.recipebook.models.data.RecipeRepository;
 import org.launchcode.recipebook.models.data.UserRepository;
+import org.launchcode.recipebook.models.dto.RecipeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -16,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -31,9 +35,20 @@ public class AddRecipeController {
     @Autowired
     private AuthenticationController authenticationController;
 
+
+
     @PostMapping("add")
-    public ResponseEntity<String> handleAddFavoriteRecipeData(@RequestBody Recipe recipe) {
-        recipeRepository.save(recipe);
+    public ResponseEntity<String> processAddRecipe(@RequestBody RecipeDTO recipeDTO, HttpServletRequest request) {
+        System.out.println("Received Request");
+        List<String> ingredients = recipeDTO.getIngredients();
+
+        HttpSession session = request.getSession();
+        User user = authenticationController.getUserFromSession(session);
+
+        Recipe recipe = new Recipe(recipeDTO.getName(), recipeDTO.getDescription(), recipeDTO.getImage(), recipeDTO.getIngredients(), user);
+
+recipeRepository.save(recipe);
+
 
         return ResponseEntity.ok("Received data successfully");
     }
