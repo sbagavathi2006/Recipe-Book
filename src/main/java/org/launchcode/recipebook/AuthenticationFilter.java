@@ -21,7 +21,7 @@ public class AuthenticationFilter implements HandlerInterceptor {
     @Autowired
     AuthenticationController authenticationController;
 
-    private static final List<String> whitelist = Arrays.asList("/login", "/register", "/logout", "/css", "/get-user");
+    private static final List<String> whitelist = Arrays.asList("/login", "/register", "/logout", "/css");
 
 
 
@@ -32,7 +32,6 @@ public class AuthenticationFilter implements HandlerInterceptor {
             }
         }
         return false;
-//        return true; // for development purposes
     }
 
     @Override

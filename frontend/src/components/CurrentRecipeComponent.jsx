@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function CurrentRecipeComponent({ recipe, currentUser }) {
+export default function CurrentRecipeComponent({ recipe }) {
   function handleClick(recipeData) {
     fetch('http://localhost:8080/add-recipe/add', {
       method: 'POST',
@@ -27,18 +27,22 @@ export default function CurrentRecipeComponent({ recipe, currentUser }) {
 
   const { title, image, extendedIngredients, plainTextInstructions } = recipe; // Destructure recipe into its components
 
-  console.log(currentUser);
-
   const [recipeData, setRecipeData] = useState({
     // Build out recipeData object to send to the backend
     name: title,
     description: plainTextInstructions,
-    ingredients: extendedIngredients,
+    ingredients: extendedIngredients.map((ingredient) => ingredient.original),
     image: image,
-    user: currentUser,
   });
 
-  console.log(recipeData);
+  useEffect(() => {
+    setRecipeData({
+      name: title,
+      description: plainTextInstructions,
+      ingredients: extendedIngredients.map((ingredient) => ingredient.original),
+      image: image,
+    });
+  }, [title, plainTextInstructions, extendedIngredients, image]);
 
   return (
     <div className="currentRecipe">
