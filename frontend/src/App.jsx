@@ -60,13 +60,13 @@ function App() {
           setRecipe={handleRecipe}
         />
 
-        {currentUser !== null && (
+{/*         {currentUser !== null && ( */}
           <CurrentRecipeComponent
             id="current-recipe-component"
             recipe={recipe}
             // currentUser={currentUser}
           />
-        )}
+{/*         )} */}
 
         <div className="rightsideBody">
           <FavoriteRecipesComponent

@@ -11,33 +11,37 @@ export default function CurrentRecipeComponent({ recipe }) {
       body: JSON.stringify(recipeData),
     })
       .then((response) => {
-        console.log(response);
+        console.log(response.text());
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
+  // Return null if recipe or its properties are undefined or empty
   if (
     !recipe ||
     !recipe.extendedIngredients ||
     recipe.extendedIngredients.length === 0
   ) {
-    return <div className="currentRecipe"></div>; // Return null if recipe or its properties are undefined or empty
+    return <div className="currentRecipe"></div>;
   }
 
-  let { title, image, extendedIngredients, plainTextInstructions } = recipe; // Destructure recipe into its components
+  // Destructure recipe into its components
+  let { title, image, extendedIngredients, plainTextInstructions } = recipe;
 
-  plainTextInstructions = plainTextInstructions.slice(0, 200);
+  // Shortens instructions to fit screen/not throw an error saving to database
+  plainTextInstructions = plainTextInstructions.slice(0, 900);
 
+  // Build out recipeData object to send to the backend
   const [recipeData, setRecipeData] = useState({
-    // Build out recipeData object to send to the backend
     name: title,
     description: plainTextInstructions,
     ingredients: extendedIngredients.map((ingredient) => ingredient.original),
     image: image,
   });
 
+  // Rebuilds recipeData any time its items change
   useEffect(() => {
     setRecipeData({
       name: title,
