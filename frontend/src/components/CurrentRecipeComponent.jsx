@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 export default function CurrentRecipeComponent({ recipe }) {
   function handleClick(recipeData) {
+    console.log(recipeData);
     fetch('http://localhost:8080/add-recipe/add', {
       method: 'POST',
       headers: {
@@ -25,7 +26,9 @@ export default function CurrentRecipeComponent({ recipe }) {
     return <div className="currentRecipe"></div>; // Return null if recipe or its properties are undefined or empty
   }
 
-  const { title, image, extendedIngredients, plainTextInstructions } = recipe; // Destructure recipe into its components
+  let { title, image, extendedIngredients, plainTextInstructions } = recipe; // Destructure recipe into its components
+
+  plainTextInstructions = plainTextInstructions.slice(0, 200);
 
   const [recipeData, setRecipeData] = useState({
     // Build out recipeData object to send to the backend
