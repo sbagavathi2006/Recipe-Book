@@ -38,15 +38,25 @@ public class AddRecipeController {
 
 
     @PostMapping("add")
-    public ResponseEntity<String> processAddRecipe(@RequestBody RecipeDTO recipeDTO, HttpServletRequest request) {
+    public ResponseEntity<String> processAddRecipe(@RequestBody @Valid RecipeDTO recipeDTO, Errors errors, HttpServletRequest request) {
         System.out.println("Received Request");
+
+        System.out.println(recipeDTO.getDescription().length());
+
+        if (errors.hasErrors()) {
+            System.out.println(errors);
+            return ResponseEntity.badRequest().body("Validation errors found");
+            }
+
         List<String> ingredients = recipeDTO.getIngredients();
 
         HttpSession session = request.getSession();
+        System.out.println(session);
         User user = authenticationController.getUserFromSession(session);
+        System.out.println(user);
 
-        Recipe recipe = new Recipe(recipeDTO.getName(), recipeDTO.getDescription(), recipeDTO.getImage(), recipeDTO.getIngredients(), user);
-
+        Recipe recipe = new Recipe(recipeDTO.getName(), recipeDTO.getDescription(), recipeDTO.getImage(), ingredients, user);
+        System.out.println(recipe);
 recipeRepository.save(recipe);
 
 

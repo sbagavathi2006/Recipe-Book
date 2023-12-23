@@ -1,5 +1,6 @@
 package org.launchcode.recipebook.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
@@ -16,11 +17,13 @@ public class Recipe extends AbstractEntity {
     @Size(min = 3, max = 50, message = "Recipe name must be between 3 and 50 characters")
     private String name;
 
-    @Size(min = 10, max = 500, message = "Description must be between 10 and 500 characters")
+    @Column(length = 2000)
+    @Size(min = 10, max = 2000, message = "Description must be between 10 and 1000 characters")
     private String description;
 
     private String image;
 
+    @Column(length = 1000)
     private List<String> ingredients;
 
     @ManyToOne
