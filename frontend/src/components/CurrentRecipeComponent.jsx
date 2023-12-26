@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
-export default function CurrentRecipeComponent({ recipe }) {
+export default function CurrentRecipeComponent({ recipe , showAddRecipeForm }) {
+
   function handleClick(recipeData) {
     console.log(recipeData);
     fetch('http://localhost:8080/add-recipe/add', {
@@ -51,7 +52,11 @@ export default function CurrentRecipeComponent({ recipe }) {
     });
   }, [title, plainTextInstructions, extendedIngredients, image]);
 
-  return (
+ 
+    if(showAddRecipeForm === true){
+      return (
+      <p>Add recipe form</p>)
+    } else {  return (
     <div className="currentRecipe">
       <div className="current-title-favorite">
         <p>
@@ -79,5 +84,5 @@ export default function CurrentRecipeComponent({ recipe }) {
         </div>
       </div>
     </div>
-  );
+  );}
 }

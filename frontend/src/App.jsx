@@ -10,6 +10,7 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [recipe, setRecipe] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const[showAddRecipeForm, setShowAddRecipeForm] = useState(false);
 
   const handleSearchResults = (results) => {
     setSearchResults(results);
@@ -64,6 +65,7 @@ function App() {
           <CurrentRecipeComponent
             id="current-recipe-component"
             recipe={recipe}
+            showAddRecipeForm={showAddRecipeForm}
             // currentUser={currentUser}
           />
 {/*         )} */}
@@ -75,7 +77,8 @@ function App() {
             // recipeList={recipeList}
           />
 
-          <AddYourOwnRecipeComponent id="add-your-own-recipe-component" />
+          <AddYourOwnRecipeComponent id="add-your-own-recipe-component"
+          setShowAddRecipeForm= {setShowAddRecipeForm}/>          
         </div>
       </div>
     </>
