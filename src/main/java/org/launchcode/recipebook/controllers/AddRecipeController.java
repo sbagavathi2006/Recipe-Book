@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
@@ -58,12 +59,19 @@ public class AddRecipeController {
         return ResponseEntity.ok("Received data successfully");
     }
 
-//    @GetMapping("/")
-//    public String index(Model model){
-//        model.addAttribute("recipes", addRecipeRepository.findAll() );
-//        return "add-recipe/index";
-//    }
-//
+    @GetMapping("get")
+
+    public ResponseEntity<List<Recipe>> getRecipeList() {
+
+        Iterable<Recipe> recipeIterable = recipeRepository.findAll();
+        List<Recipe> recipes = new ArrayList<>();
+
+        recipeIterable.forEach(recipes::add);
+
+        return ResponseEntity.ok().body(recipes);
+    }
+
+
 //    @GetMapping("add")
 //    public String displayAddRecipeForm(Model model) {
 //        model.addAttribute(new AddRecipe());
