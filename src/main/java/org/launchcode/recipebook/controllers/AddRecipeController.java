@@ -60,7 +60,9 @@ public class AddRecipeController {
     }
 
     @GetMapping("get")
+
     public ResponseEntity<List<Recipe>> getRecipeList() {
+
         Iterable<Recipe> recipeIterable = recipeRepository.findAll();
         List<Recipe> recipes = new ArrayList<>();
 
@@ -68,6 +70,7 @@ public class AddRecipeController {
 
         return ResponseEntity.ok().body(recipes);
     }
+
 
 //    @GetMapping("add")
 //    public String displayAddRecipeForm(Model model) {
