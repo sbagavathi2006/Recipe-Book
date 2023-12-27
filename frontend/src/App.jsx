@@ -10,6 +10,7 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [recipe, setRecipe] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const[showAddRecipeForm, setShowAddRecipeForm] = useState(false);
 
   const handleSearchResults = (results) => {
     setSearchResults(results);
@@ -60,7 +61,11 @@ function App() {
           setRecipe={handleRecipe}
         />
 
-        <CurrentRecipeComponent id="current-recipe-component" recipe={recipe} />
+          <CurrentRecipeComponent
+            id="current-recipe-component"
+            recipe={recipe}
+            showAddRecipeForm={showAddRecipeForm}
+          />
 
         <div className="rightsideBody">
           <FavoriteRecipesComponent
@@ -68,7 +73,8 @@ function App() {
             handleRecipe={handleRecipe}
           />
 
-          <AddYourOwnRecipeComponent id="add-your-own-recipe-component" />
+          <AddYourOwnRecipeComponent id="add-your-own-recipe-component"
+          setShowAddRecipeForm= {setShowAddRecipeForm}/>          
         </div>
       </div>
     </>
