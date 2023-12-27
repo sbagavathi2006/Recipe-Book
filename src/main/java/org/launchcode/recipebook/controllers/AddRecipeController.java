@@ -3,7 +3,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpServletRequest;
 
 import jakarta.validation.Valid;
-import org.launchcode.recipebook.models.AddRecipe;
 import org.launchcode.recipebook.models.Recipe;
 import org.launchcode.recipebook.models.User;
 import org.launchcode.recipebook.models.data.RecipeRepository;
@@ -12,16 +11,11 @@ import org.launchcode.recipebook.models.dto.RecipeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequestMapping("add-recipe")
@@ -71,13 +65,6 @@ public class AddRecipeController {
         return ResponseEntity.ok().body(recipes);
     }
 
-
-//    @GetMapping("add")
-//    public String displayAddRecipeForm(Model model) {
-//        model.addAttribute(new AddRecipe());
-//        return "add-recipe/add";
-//    }
-//
 //    @PostMapping("add")
 //    public String processAddRecipeForm(@ModelAttribute @Valid AddRecipe newAddRecipe,
 //                                       @RequestParam("imageFile") MultipartFile imageFile,

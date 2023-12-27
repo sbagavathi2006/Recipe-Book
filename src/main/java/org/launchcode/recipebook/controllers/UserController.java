@@ -23,7 +23,6 @@ public class UserController {
         User user = authenticationController.getUserFromSession(session);
 
         if (user != null) {
-//            return "{\"userId\": " + user.getId() + "}";
             return String.valueOf(user.getId());
         } else {
             return "{\"error\": \"No user in session\"}";

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export default function FavoriteRecipesComponent() {
+export default function FavoriteRecipesComponent({ handleRecipe }) {
   const [recipeList, setRecipeList] = useState(null);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ export default function FavoriteRecipesComponent() {
       })
         .then((response) => {
           if (!response.ok) {
-            throw new error('Network resonse was not ok');
+            throw new Error('Network resonse was not ok');
           }
           return response.json();
         })
@@ -35,7 +35,11 @@ export default function FavoriteRecipesComponent() {
       {recipeList && recipeList.length > 0 ? (
         <ul>
           {recipeList.map((recipe, index) => (
-            <li key={index}>{recipe.title}</li>
+            <a>
+              <li key={index}>
+                <span onClick={() => handleRecipe(recipe)}>{recipe.name}</span>
+              </li>
+            </a>
           ))}
         </ul>
       ) : (

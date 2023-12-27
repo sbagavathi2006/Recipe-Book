@@ -61,20 +61,16 @@ function App() {
           setRecipe={handleRecipe}
         />
 
-{/*         {currentUser !== null && ( */}
           <CurrentRecipeComponent
             id="current-recipe-component"
             recipe={recipe}
             showAddRecipeForm={showAddRecipeForm}
-            // currentUser={currentUser}
           />
-{/*         )} */}
 
         <div className="rightsideBody">
           <FavoriteRecipesComponent
             id="favorite-recipes-component"
-            // currentUser={currentUser}
-            // recipeList={recipeList}
+            handleRecipe={handleRecipe}
           />
 
           <AddYourOwnRecipeComponent id="add-your-own-recipe-component"
