@@ -79,21 +79,4 @@ public class Recipe extends AbstractEntity {
         this.ingredients = ingredients;
     }
 
-    //    public double getAverageRating() {
-//        return averageRating;
-//    }
-//
-//    public void setAverageRating(double averageRating) {
-//        this.averageRating = averageRating;
-//    }
-//
-//    public int getTotalVotes() {
-//        return totalVotes;
-//    }
-//
-//    public void setTotalVotes(int totalVotes) {
-//        this.totalVotes = totalVotes;
-//    }
-
-
 }
