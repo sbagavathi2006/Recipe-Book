@@ -37,7 +37,14 @@ export default function FavoriteRecipesComponent({ handleRecipe }) {
           {recipeList.map((recipe, index) => (
             <a>
               <li key={index}>
-                <span onClick={() => handleRecipe(recipe)}>{recipe.name}</span>
+                <span
+                  onClick={() => {
+                    console.log(recipe);
+                    handleRecipe(recipe);
+                  }}
+                >
+                  {recipe.name}
+                </span>
               </li>
             </a>
           ))}
