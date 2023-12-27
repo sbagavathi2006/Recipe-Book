@@ -46,17 +46,22 @@ export default function CurrentRecipeComponent({ recipe , showAddRecipeForm }) {
     }
   }, [recipe]);
 
-  if (!displayedRecipe) {
-    return <div className="currentRecipe"></div>;
-  }
-
-  const { name, description, ingredients, image } = displayedRecipe;
+  // if (!displayedRecipe) {
+  //   return <div className="currentRecipe"></div>;
+  // }
+// if(!displayedRecipe=== null){
+//   const { name, description, ingredients, image } = displayedRecipe;}
 
 
     if(showAddRecipeForm === true){
       return (
       <p>Add recipe form</p>)
-    } else {  return (
+    } else if(!displayedRecipe){
+      return (<div className="currentRecipe"></div>);
+      
+    } else {  
+        const { name, description, ingredients, image } = displayedRecipe;
+      return (
     <div className="currentRecipe">
       <div className="current-title-favorite">
         <p>
@@ -85,4 +90,5 @@ export default function CurrentRecipeComponent({ recipe , showAddRecipeForm }) {
       </div>
     </div>
   );
+}
 }
