@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 
 export default function CurrentRecipeComponent({ recipe }) {
-  function handleClick(recipeData) {
+  const [displayedRecipe, setDisplayedRecipe] = useState(null);
+
+  const handleClick = (recipeData) => {
     console.log(recipeData);
     fetch('http://localhost:8080/add-recipe/add', {
       method: 'POST',
@@ -16,49 +18,48 @@ export default function CurrentRecipeComponent({ recipe }) {
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
-  // Return null if recipe or its properties are undefined or empty
-  if (
-    !recipe ||
-    !recipe.extendedIngredients ||
-    recipe.extendedIngredients.length === 0
-  ) {
+  useEffect(() => {
+    if (
+      recipe?.title &&
+      recipe?.image &&
+      recipe?.extendedIngredients &&
+      recipe?.plainTextInstructions
+    ) {
+      let { title, image, extendedIngredients, plainTextInstructions } = recipe;
+
+      // Shortens instructions to fit screen/not throw an error saving to database
+      plainTextInstructions = plainTextInstructions.slice(0, 900);
+
+      // Build out displayedRecipe object to update displayed content
+      const updatedDisplayedRecipe = {
+        name: title,
+        description: plainTextInstructions,
+        ingredients: extendedIngredients.map(
+          (ingredient) => ingredient.original
+        ),
+        image: image,
+      };
+
+      setDisplayedRecipe(updatedDisplayedRecipe);
+    }
+  }, [recipe]);
+
+  if (!displayedRecipe) {
     return <div className="currentRecipe"></div>;
   }
 
-  // Destructure recipe into its components
-  let { title, image, extendedIngredients, plainTextInstructions } = recipe;
-
-  // Shortens instructions to fit screen/not throw an error saving to database
-  plainTextInstructions = plainTextInstructions.slice(0, 900);
-
-  // Build out recipeData object to send to the backend
-  const [recipeData, setRecipeData] = useState({
-    name: title,
-    description: plainTextInstructions,
-    ingredients: extendedIngredients.map((ingredient) => ingredient.original),
-    image: image,
-  });
-
-  // Rebuilds recipeData any time its items change
-  useEffect(() => {
-    setRecipeData({
-      name: title,
-      description: plainTextInstructions,
-      ingredients: extendedIngredients.map((ingredient) => ingredient.original),
-      image: image,
-    });
-  }, [title, plainTextInstructions, extendedIngredients, image]);
+  const { name, description, ingredients, image } = displayedRecipe;
 
   return (
     <div className="currentRecipe">
       <div className="current-title-favorite">
         <p>
-          {title && title + ' '}
+          {name && name + ' '}
           <button
             className="favorite-btn"
-            onClick={() => handleClick(recipeData)}
+            onClick={() => handleClick(displayedRecipe)}
           >
             <span className="star"></span> Add to Favorites
           </button>
@@ -66,16 +67,16 @@ export default function CurrentRecipeComponent({ recipe }) {
       </div>
       <div>
         <div className="current-image-div">
-          <img src={image} alt={title} className="current-image" />
+          <img src={image} alt={name} className="current-image" />
         </div>
         <div>
           <h3>Ingredients List:</h3>
           <ul>
-            {extendedIngredients.map((ingredient, index) => (
-              <li key={index}>{ingredient.original}</li>
+            {ingredients.map((ingredient, index) => (
+              <li key={index}>{ingredient}</li>
             ))}
           </ul>
-          <p>{plainTextInstructions}</p>
+          <p>{description}</p>
         </div>
       </div>
     </div>
