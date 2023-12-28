@@ -47,8 +47,15 @@ public class AddRecipeController {
         HttpSession session = request.getSession();
         User user = authenticationController.getUserFromSession(session);
 
+
+
         Recipe recipe = new Recipe(recipeDTO.getName(), recipeDTO.getDescription(), recipeDTO.getImage(), ingredients, user);
-        recipeRepository.save(recipe);
+
+        Recipe existingRecipe = recipeRepository.findByName(recipeDTO.getName());
+
+        if (existingRecipe == null) {
+            recipeRepository.save(recipe);
+        }
 
         return ResponseEntity.ok("Received data successfully");
     }
