@@ -2,22 +2,66 @@ import { useState, useEffect } from 'react';
 
 export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
+  const [successMessage, setSuccessMessage] = useState("");
+
   // Code for Add form recipe -Baga
   const [addrecipe, setAddrecipe] = useState({
     name: '',
     description: '',
-    ingredients: '',
+    ingredients: [],
     image: '',
   });
-
+    const[errors, setErrors] = useState({
+      name: "",
+      description: "",
+      ingredients: [],
+      image: ""
+    })
   const { name, description, ingredients, image } = addrecipe;
 
   const onInputChange = (e) => {
-    setAddrecipe({ ...addrecipe, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    // Update the ingredients array differently
+        if (name === 'ingredients') {
+          setAddrecipe({
+            ...addrecipe,
+            [name]: value.split('\n').map((ingredient) => ingredient.trim()),
+          });
+        } else {
+          // For other fields, update as usual
+          setAddrecipe({ ...addrecipe, [name]: value });
+        }
+
+        // Clear the associated error when the user starts typing
+        setErrors({ ...errors, [name]: '' });
+
+    // setAddrecipe({ ...addrecipe, [e.target.name]: e.target.value });
+    // // Clear the associated error when the user starts typing
+    // setErrors({ ...errors, [e.target.name]: "" });
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
+        //Basic client side validations
+        let newErrors ={};
+        if(!name.trim()){
+          newErrors = {...newErrors, name: "Please enter recipe title."}
+        }
+        if(!description.trim()){
+          newErrors = {...newErrors, description: "Please enter recipe description."}
+        }
+        if(!ingredients.length){
+          newErrors = {...newErrors, ingredients: "Please enter recipe ingredients."}
+        }
+        if(!image.trim()){
+          newErrors = {...newErrors, image: "Please enter recipe image url."}
+        }
+        // If there are errors, update the state and stop the submission
+        if(Object.keys(newErrors).length>0){
+          setErrors(newErrors);
+          return;
+        }
+
     try {
       const response = await fetch('http://localhost:8080/add-recipe/add', {
         method: 'POST',
@@ -28,7 +72,16 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      console.log('Recipe added successfully!');
+      setSuccessMessage("Recipe added successfully!!");
+
+      // Reset the form fields to an empty state
+      setAddrecipe({
+        name: '',
+        description: '',
+        ingredients: [],
+        image: '',
+    });
+
     } catch (error) {
       console.error('Error during form submission:', error);
     }
@@ -102,6 +155,8 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
   if (showAddRecipeForm === true) {
     return (
       <div className="currentRecipe">
+         {successMessage && <div className="success-message">{successMessage}</div>}
+
         <h1>Add Your Own Recipe!!!</h1>
         <form onSubmit={(e) => onSubmit(e)} className="form-group">
           <div>
@@ -114,6 +169,7 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
               onChange={(e) => onInputChange(e)}
               value={name}
             />
+            <div className="error-message">{errors.name}</div>
           </div>
           <br></br>
           <div>
@@ -126,6 +182,7 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
               onChange={(e) => onInputChange(e)}
               value={description}
             />
+            <div className="error-message">{errors.description}</div>
           </div>
           <br></br>
           <div>
@@ -136,20 +193,22 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
               name="ingredients"
               placeholder="Your recipe's ingredients"
               onChange={(e) => onInputChange(e)}
-              value={ingredients}
+              value={ingredients.join('\n')}
             />
           </div>
+          <div className="error-message">{errors.ingredients}</div>
           <br></br>
           <div>
-            <label htmlFor="recipe-image"> Upload Image : </label>
+            <label htmlFor="recipe-image"> Image URL : </label>
             <input
               type="text"
               id="recipe-image"
               name="image"
               placeholder="Upload your recipe's image"
               onChange={(e) => onInputChange(e)}
-              value={name}
+              value={image}
             />
+            <div className="error-message">{errors.image}</div>
           </div>
           <br></br>
           <button type="submit">Add Recipe</button>

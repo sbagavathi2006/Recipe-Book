@@ -190,6 +190,17 @@ span {
   margin-right: 5px;
 }
 /* Style Code for AddRecipeForm */
+.success-message{
+font-size: 25px;
+color: green;
+text-align:center;
+}
+
+.error-message{
+font-size: 15px;
+color: red;
+}
+
 .form-group {
   /* margin-bottom: 15px; */
   display: block;
