@@ -12,18 +12,13 @@ import java.util.List;
 @Entity
 public class Recipe extends AbstractEntity {
 
-    @NotBlank(message = "Name cannot be blank")
     @NotNull
-    @Size(min = 3, max = 50, message = "Recipe name must be between 3 and 50 characters")
     private String name;
-
-    @Column(length = 2000)
-    @Size(min = 10, max = 2000, message = "Description must be between 10 and 1000 characters")
+    @NotNull
     private String description;
-
+    @NotNull
     private String image;
-
-    @Column(length = 1000)
+    @NotNull
     private List<String> ingredients;
 
     @ManyToOne
