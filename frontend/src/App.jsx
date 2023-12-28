@@ -59,6 +59,7 @@ function App() {
           id="display-results-component"
           searchResults={searchResults}
           setRecipe={handleRecipe}
+          setShowAddRecipeForm={setShowAddRecipeForm}
         />
 
           <CurrentRecipeComponent
@@ -71,6 +72,7 @@ function App() {
           <FavoriteRecipesComponent
             id="favorite-recipes-component"
             handleRecipe={handleRecipe}
+            setShowAddRecipeForm={setShowAddRecipeForm}
           />
 
           <AddYourOwnRecipeComponent id="add-your-own-recipe-component"

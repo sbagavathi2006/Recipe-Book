@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export default function CurrentRecipeComponent({ recipe , showAddRecipeForm }) {
+  console.log(recipe);
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
 
   const handleClick = (recipeData) => {
@@ -21,6 +22,7 @@ export default function CurrentRecipeComponent({ recipe , showAddRecipeForm }) {
   };
 
   useEffect(() => {
+    console.log(recipe);
     if (
       recipe?.title &&
       recipe?.image &&
@@ -46,49 +48,73 @@ export default function CurrentRecipeComponent({ recipe , showAddRecipeForm }) {
     }
   }, [recipe]);
 
-  // if (!displayedRecipe) {
-  //   return <div className="currentRecipe"></div>;
-  // }
-// if(!displayedRecipe=== null){
-//   const { name, description, ingredients, image } = displayedRecipe;}
 
+useEffect(() => {
+    console.log(recipe);
+    if (
+      recipe?.name &&
+      recipe?.image &&
+      recipe?.ingredients &&
+      recipe?.description
+    ) {
+      let { name, image, ingredients, description } = recipe;
 
-    if(showAddRecipeForm === true){
-      return (
-      <p>Add recipe form</p>)
-    } else if(!displayedRecipe){
-      return (<div className="currentRecipe"></div>);
-      
-    } else {  
-        const { name, description, ingredients, image } = displayedRecipe;
-      return (
-    <div className="currentRecipe">
-      <div className="current-title-favorite">
-        <p>
-          {name && name + ' '}
-          <button
-            className="favorite-btn"
-            onClick={() => handleClick(displayedRecipe)}
-          >
-            <span className="star"></span> Add to Favorites
-          </button>
-        </p>
-      </div>
-      <div>
-        <div className="current-image-div">
-          <img src={image} alt={name} className="current-image" />
+      // Build out displayedRecipe object to update displayed content
+      const updatedDisplayedRecipe = {
+        name: name,
+        description: description,
+        ingredients: ingredients.map(
+          (ingredient) => ingredient
+        ),
+        image: image,
+      };
+
+      setDisplayedRecipe(updatedDisplayedRecipe);
+    }
+  }, [recipe]);
+
+  if(showAddRecipeForm === true){
+    return (
+      <div className="currentRecipe"><p>Add recipe form</p></div>
+    )
+  }
+
+  else if(!displayedRecipe){
+    return (
+      <div className="currentRecipe"><p>Select a recipe</p></div>
+    );
+  }
+
+  else {
+    const { name, description, ingredients, image } = displayedRecipe;
+    return (
+      <div className="currentRecipe">
+        <div className="current-title-favorite">
+          <p>
+            {name && name + ' '}
+            <button
+              className="favorite-btn"
+              onClick={() => handleClick(displayedRecipe)}
+            >
+              <span className="star"></span> Add to Favorites
+            </button>
+          </p>
         </div>
         <div>
-          <h3>Ingredients List:</h3>
-          <ul>
-            {ingredients.map((ingredient, index) => (
-              <li key={index}>{ingredient}</li>
-            ))}
-          </ul>
-          <p>{description}</p>
+          <div className="current-image-div">
+            <img src={image} alt={name} className="current-image" />
+          </div>
+          <div>
+            <h3>Ingredients List:</h3>
+            <ul>
+              {ingredients.map((ingredient, index) => (
+                <li key={index}>{ingredient}</li>
+              ))}
+            </ul>
+            <p>{description}</p>
+          </div>
         </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
 }

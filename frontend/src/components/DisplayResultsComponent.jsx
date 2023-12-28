@@ -1,6 +1,6 @@
 import config from '../../config';
 
-export default function DisplayResultsComponent({ searchResults, setRecipe }) {
+export default function DisplayResultsComponent({ searchResults, setRecipe, setShowAddRecipeForm }) {
 
   const apiKey = config.API_KEY;
 
@@ -44,7 +44,9 @@ export default function DisplayResultsComponent({ searchResults, setRecipe }) {
             {searchResults.results.map((result, index) => (
               <li key={index}>
                 <img src={result.image} alt={result.title} />
-                <h3><a href="#" onClick={() => handleClick(result.id)}>
+                <h3><a href="#" onClick={() => {
+                setShowAddRecipeForm(false);
+                handleClick(result.id)}}>
                 {result.title}</a></h3>
               </li>
             ))}
