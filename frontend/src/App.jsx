@@ -20,6 +20,10 @@ function App() {
     setRecipe(recipe);
   };
 
+  const handleShowAddRecipeForm = (bool) => {
+    setShowAddRecipeForm(bool);
+  };
+
   useEffect(() => {
     // Fetch current user when the component mounts
     fetch('http://localhost:8080/get-user', {
@@ -59,24 +63,28 @@ function App() {
           id="display-results-component"
           searchResults={searchResults}
           setRecipe={handleRecipe}
-          setShowAddRecipeForm={setShowAddRecipeForm}
+          setShowAddRecipeForm={handleShowAddRecipeForm}
         />
 
           <CurrentRecipeComponent
             id="current-recipe-component"
             recipe={recipe}
             showAddRecipeForm={showAddRecipeForm}
+            setRecipe={handleRecipe}
+            setShowAddRecipeForm={handleShowAddRecipeForm}
           />
 
         <div className="rightsideBody">
           <FavoriteRecipesComponent
             id="favorite-recipes-component"
-            handleRecipe={handleRecipe}
-            setShowAddRecipeForm={setShowAddRecipeForm}
+            setRecipe={handleRecipe}
+            setShowAddRecipeForm={handleShowAddRecipeForm}
+            recipe={recipe}
+            showAddRecipeForm={showAddRecipeForm}
           />
 
           <AddYourOwnRecipeComponent id="add-your-own-recipe-component"
-          setShowAddRecipeForm= {setShowAddRecipeForm}/>          
+          setShowAddRecipeForm= {handleShowAddRecipeForm}/>
         </div>
       </div>
     </>

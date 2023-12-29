@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export default function FavoriteRecipesComponent({ handleRecipe, setShowAddRecipeForm }) {
+export default function FavoriteRecipesComponent({ setRecipe, setShowAddRecipeForm, recipe, showAddRecipeForm }) {
   const [recipeList, setRecipeList] = useState(null);
 
   useEffect(() => {
@@ -26,8 +26,9 @@ export default function FavoriteRecipesComponent({ handleRecipe, setShowAddRecip
         });
     }
 
-    fetchData();
-  }, []);
+    fetchData(); // Initial call when the component mounts
+
+  }, [recipe, showAddRecipeForm]);
 
   return (
     <div className="favoriteRecipes">
@@ -41,7 +42,7 @@ export default function FavoriteRecipesComponent({ handleRecipe, setShowAddRecip
                   onClick={() => {
                   setShowAddRecipeForm(false);
                     console.log(recipe);
-                    handleRecipe(recipe);
+                    setRecipe(recipe);
                   }}
                 >
                   {recipe.name}
