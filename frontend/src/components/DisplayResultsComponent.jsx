@@ -53,7 +53,7 @@ export default function DisplayResultsComponent({ searchResults, setRecipe, setS
           </ul>
         </div>
       ) : (
-        <p>No results found</p>
+      <p>No results found</p>
       )}
     </div>
   );

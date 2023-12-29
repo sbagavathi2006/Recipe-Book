@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
+export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setRecipe, setShowAddRecipeForm }) {
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -97,10 +97,13 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
       body: JSON.stringify(recipeData),
     })
       .then((response) => {
-        console.log(response.text());
+      })
+      .then(() => {
+        setTimeout(() => {
+        setShowAddRecipeForm(false), 2000}); // Trying to force state change
       })
       .catch((error) => {
-        console.log(error);
+        console.error('Error adding the recipe: ', error);
       });
   };
 
