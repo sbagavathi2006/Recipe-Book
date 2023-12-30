@@ -8,11 +8,16 @@ import org.launchcode.recipebook.models.User;
 import org.launchcode.recipebook.models.data.RecipeRepository;
 import org.launchcode.recipebook.models.data.UserRepository;
 import org.launchcode.recipebook.models.dto.RecipeDTO;
+import org.launchcode.recipebook.util.RecipeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,18 +40,14 @@ public class AddRecipeController {
     @PostMapping("add")
     public ResponseEntity<String> processAddRecipe(@RequestBody @Valid RecipeDTO recipeDTO, Errors errors, HttpServletRequest request) {
 
-        System.out.println("Received Request");
-        System.out.println(recipeDTO.getDescription().length());
-
         if (errors.hasErrors()) {
             System.out.println(errors);
             return ResponseEntity.badRequest().body("Validation errors found");
-            }
+        }
 
         List<String> ingredients = recipeDTO.getIngredients();
         HttpSession session = request.getSession();
         User user = authenticationController.getUserFromSession(session);
-
 
 
         Recipe recipe = new Recipe(recipeDTO.getName(), recipeDTO.getDescription(), recipeDTO.getImage(), ingredients, user);
@@ -54,23 +55,36 @@ public class AddRecipeController {
         Recipe existingRecipe = recipeRepository.findByName(recipeDTO.getName());
 
         if (existingRecipe == null) {
-            recipeRepository.save(recipe);
+            // Save the new recipe
+            Recipe savedRecipe = recipeRepository.save(recipe);
+
+            // Convert the saved Recipe to DTO
+            RecipeDTO savedRecipeDTO = RecipeMapper.convertToRecipeDTO(savedRecipe);
+
+            // Convert DTO to JSON string
+            try {
+                ObjectMapper objectMapper = new ObjectMapper();
+                String savedRecipeJson = objectMapper.writeValueAsString(savedRecipeDTO);
+
+                return ResponseEntity.ok(savedRecipeJson);
+            } catch (JsonProcessingException e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error converting to JSON");
+            }
         }
-
-        return ResponseEntity.ok("Received data successfully");
+        return null;
     }
 
-    @GetMapping("get")
+        @GetMapping("get")
 
-    public ResponseEntity<List<Recipe>> getRecipeList() {
+        public ResponseEntity<List<Recipe>> getRecipeList () {
 
-        Iterable<Recipe> recipeIterable = recipeRepository.findAll();
-        List<Recipe> recipes = new ArrayList<>();
+            Iterable<Recipe> recipeIterable = recipeRepository.findAll();
+            List<Recipe> recipes = new ArrayList<>();
 
-        recipeIterable.forEach(recipes::add);
+            recipeIterable.forEach(recipes::add);
 
-        return ResponseEntity.ok().body(recipes);
-    }
+            return ResponseEntity.ok().body(recipes);
+        }
 
 //    @PostMapping("add")
 //    public String processAddRecipeForm(@ModelAttribute @Valid AddRecipe newAddRecipe,

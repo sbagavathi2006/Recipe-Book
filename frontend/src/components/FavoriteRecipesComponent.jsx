@@ -18,7 +18,6 @@ export default function FavoriteRecipesComponent({ setRecipe, setShowAddRecipeFo
           return response.json();
         })
         .then((data) => {
-          console.log(data);
           setRecipeList(data);
         })
         .catch((error) => {
@@ -41,7 +40,6 @@ export default function FavoriteRecipesComponent({ setRecipe, setShowAddRecipeFo
                 <span
                   onClick={() => {
                   setShowAddRecipeForm(false);
-                    console.log(recipe);
                     setRecipe(recipe);
                   }}
                 >
