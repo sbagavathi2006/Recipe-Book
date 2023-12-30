@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import PrintButton from './PrintButtonComponent.jsx';
 
 export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setRecipe, setShowAddRecipeForm }) {
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
@@ -243,7 +244,7 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setR
           <div className="current-image-div">
             <img src={image} alt={name} className="current-image" />
           </div>
-          <div>
+          <div id="recipeToPrint">
             <h3>Ingredients List:</h3>
             <ul>
               {ingredients.map((ingredient, index) => (
@@ -252,6 +253,7 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setR
             </ul>
             <p>{description}</p>
           </div>
+          <PrintButton currentRecipeId="recipeToPrint" />
         </div>
       </div>
     );
