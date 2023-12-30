@@ -44,13 +44,7 @@ function App() {
       .catch((error) => {
         console.error('There was a problem fetching the current user:', error);
       });
-  }, []); // Empty dependency array means this effect runs once (on mount)
-
-  useEffect(() => {
-    // This effect runs whenever `currentUser` changes
-    console.log('Current user changed:', currentUser);
-  }, [currentUser]);
-  // .
+  }, []);
 
   return (
     <>

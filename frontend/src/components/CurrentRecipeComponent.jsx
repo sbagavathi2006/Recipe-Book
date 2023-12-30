@@ -34,10 +34,6 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setR
 
         // Clear the associated error when the user starts typing
         setErrors({ ...errors, [name]: '' });
-
-    // setAddrecipe({ ...addrecipe, [e.target.name]: e.target.value });
-    // // Clear the associated error when the user starts typing
-    // setErrors({ ...errors, [e.target.name]: "" });
   };
 
   const onSubmit = async (e) => {
@@ -97,10 +93,13 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setR
       body: JSON.stringify(recipeData),
     })
       .then((response) => {
+      if (!response.ok) {
+      throw new error('Network response was not ok')}
+      return response.json();
       })
-      .then(() => {
-        setTimeout(() => {
-        setShowAddRecipeForm(false), 2000}); // Trying to force state change
+      .then((data) => {
+        console.log(data);
+        setRecipe(recipe);
       })
       .catch((error) => {
         console.error('Error adding the recipe: ', error);
