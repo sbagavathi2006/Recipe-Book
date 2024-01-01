@@ -38,17 +38,17 @@ public class Recipe extends AbstractEntity {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+//    public void setName(String name) {
+//        this.name = name;
+//    }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+//    public void setDescription(String description) {
+//        this.description = description;
+//    }
 
     public User getUser() {
         return user;
@@ -62,16 +62,16 @@ public class Recipe extends AbstractEntity {
         return image;
     }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
+//    public void setImage(String image) {
+//        this.image = image;
+//    }
 
     public List<String> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<String> ingredients) {
-        this.ingredients = ingredients;
-    }
+//    public void setIngredients(List<String> ingredients) {
+//        this.ingredients = ingredients;
+//    }
 
 }
