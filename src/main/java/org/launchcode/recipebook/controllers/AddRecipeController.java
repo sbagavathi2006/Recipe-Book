@@ -76,14 +76,14 @@ public class AddRecipeController {
 
         @GetMapping("get")
 
-        public ResponseEntity<List<Recipe>> getRecipeList () {
+        public ResponseEntity<List<Recipe>> getRecipeList (HttpServletRequest request) {
 
-            Iterable<Recipe> recipeIterable = recipeRepository.findAll();
-            List<Recipe> recipes = new ArrayList<>();
+            HttpSession session = request.getSession();
+            User user = authenticationController.getUserFromSession(session);
 
-            recipeIterable.forEach(recipes::add);
+            List<Recipe> recipesByUserId = recipeRepository.findByUserId(user.getId());
 
-            return ResponseEntity.ok().body(recipes);
+            return ResponseEntity.ok().body(recipesByUserId);
         }
 
 //    @PostMapping("add")

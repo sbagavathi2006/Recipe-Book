@@ -40,6 +40,7 @@ function App() {
       })
       .then((userData) => {
         setCurrentUser(userData); // Set the retrieved user data in state
+        console.log(currentUser);
       })
       .catch((error) => {
         console.error('There was a problem fetching the current user:', error);
