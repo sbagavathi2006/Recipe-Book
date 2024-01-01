@@ -100,7 +100,7 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setR
       })
       .then((data) => {
         console.log(data);
-        setRecipe(recipe);
+        setRecipe(data);
       })
       .catch((error) => {
         console.error('Error adding the recipe: ', error);
