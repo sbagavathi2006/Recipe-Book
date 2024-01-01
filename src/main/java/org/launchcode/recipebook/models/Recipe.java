@@ -15,10 +15,12 @@ public class Recipe extends AbstractEntity {
     @NotNull
     private String name;
     @NotNull
+    @Column(length = 1000)
     private String description;
     @NotNull
     private String image;
     @NotNull
+    @Column(length = 1000)
     private List<String> ingredients;
 
     @ManyToOne
