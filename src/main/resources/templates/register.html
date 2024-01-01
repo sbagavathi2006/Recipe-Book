@@ -10,19 +10,19 @@
 <form method="post" class="register-form">
     <div class="form-group">
         <label>Username
-            <input class="form-control" th:field="${registerFormDTO.username}" />
+            <input class="form-control" th:field="${registerFormDTO.username}"  autocomplete="username"/>
         </label>
         <p class="error" th:errors="${registerFormDTO.username}"></p>
     </div>
     <div class="form-group">
         <label>Password
-            <input class="form-control" th:field="${registerFormDTO.password}" type="password" />
+            <input class="form-control" th:field="${registerFormDTO.password}" type="password"  autocomplete="new-password"/>
         </label>
         <p class="error" th:errors="${registerFormDTO.password}"></p>
     </div>
     <div class="form-group">
         <label>Verify Password
-            <input class="form-control" th:field="${registerFormDTO.verifyPassword}" type="password" />
+            <input class="form-control" th:field="${registerFormDTO.verifyPassword}" type="password"  autocomplete="new-password"/>
         </label>
     </div>
 
