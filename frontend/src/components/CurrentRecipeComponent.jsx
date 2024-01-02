@@ -4,40 +4,47 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
 
-  // Code for Add form recipe -Baga
   const [addrecipe, setAddrecipe] = useState({
     name: '',
     description: '',
     ingredients: [],
-    image: '',
+    image: null, 
   });
     const[errors, setErrors] = useState({
       name: "",
       description: "",
       ingredients: [],
-      image: ""
+      image: null,
     })
   const { name, description, ingredients, image } = addrecipe;
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
-    // Update the ingredients array differently
         if (name === 'ingredients') {
           setAddrecipe({
             ...addrecipe,
             [name]: value.split('\n').map((ingredient) => ingredient.trim()),
           });
         } else {
-          // For other fields, update as usual
+// For other fields, update as usual
           setAddrecipe({ ...addrecipe, [name]: value });
         }
 
         // Clear the associated error when the user starts typing
         setErrors({ ...errors, [name]: '' });
-
-    // setAddrecipe({ ...addrecipe, [e.target.name]: e.target.value });
-    // // Clear the associated error when the user starts typing
-    // setErrors({ ...errors, [e.target.name]: "" });
+        
+  };
+//convert image file to url
+  const onFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+        reader.onloadend = () => {
+        setAddrecipe({ ...addrecipe, image: reader.result });
+        setErrors({ ...errors, image: null });
+      };
+        reader.readAsDataURL(file);
+    }
   };
 
   const onSubmit = async (e) => {
@@ -45,16 +52,16 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
         //Basic client side validations
         let newErrors ={};
         if(!name.trim()){
-          newErrors = {...newErrors, name: "Please enter recipe title."}
+          newErrors = {...newErrors, name: "Enter recipe title."}
         }
         if(!description.trim()){
-          newErrors = {...newErrors, description: "Please enter recipe description."}
+          newErrors = {...newErrors, description: "Enter recipe description."}
         }
         if(!ingredients.length){
-          newErrors = {...newErrors, ingredients: "Please enter recipe ingredients."}
+          newErrors = {...newErrors, ingredients: "Enter recipe ingredients."}
         }
-        if(!image.trim()){
-          newErrors = {...newErrors, image: "Please enter recipe image url."}
+        if(!image){
+          newErrors = {...newErrors, image: "Upload recipe image."}
         }
         // If there are errors, update the state and stop the submission
         if(Object.keys(newErrors).length>0){
@@ -63,11 +70,17 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
         }
 
     try {
-      const response = await fetch('http://localhost:8080/add-recipe/add', {
+       const response = await fetch('http://localhost:8080/add-recipe/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(addrecipe),
+        body: JSON.stringify({
+          name,
+          description,
+          ingredients,
+          image,
+        }),
       });
+     
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -79,7 +92,7 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
         name: '',
         description: '',
         ingredients: [],
-        image: '',
+        image: null,
     });
 
     } catch (error) {
@@ -199,14 +212,14 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
           <div className="error-message">{errors.ingredients}</div>
           <br></br>
           <div>
-            <label htmlFor="recipe-image"> Image URL : </label>
+            <label htmlFor="recipe-image-upload"> Image Upload : </label>
             <input
-              type="text"
-              id="recipe-image"
+              type="file"
+              id="recipe-image-upload"
               name="image"
-              placeholder="Upload your recipe's image"
-              onChange={(e) => onInputChange(e)}
-              value={image}
+              // placeholder="Upload recipe image"
+              onChange={(e) => onFileChange(e)}
+              // value={image}
             />
             <div className="error-message">{errors.image}</div>
           </div>
