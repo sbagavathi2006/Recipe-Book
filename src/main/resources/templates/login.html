@@ -2,11 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="~{fragments :: head}"></head>
 
-<body class="container">
+<body class="container-auth">
 
 <header th:replace="~{fragments :: header}"></header>
 <br>
 
+<div class="main">
 <form method="post" class="login-form">
     <div class="form-group">
         <label th:for="username">Username
@@ -24,7 +25,8 @@
     <input type="submit" class="btn btn-primary" value="Log In" />
 </form>
 <br>
-<p>Don't have an account? <a href="/register">Register for one.</a></p>
+<p class="login-p">Don't have an account? <a href="/register">Register for one.</a></p>
+</div>
 
 </body>
 </html>

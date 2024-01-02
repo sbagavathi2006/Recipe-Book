@@ -1,38 +1,49 @@
-
 body {
-    margin-top: 50px;
-    padding: 0;
-    overflow-x: hidden;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     position: relative;
-    color: black;
 }
 
 body::before {
     content: '';
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-image: url('../images/recipe-paper-background.jpg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    inset: 0;
     pointer-events: none;
     z-index: -1;
-    opacity: 0.2;
+    opacity: 0.5;
 }
 
 .navbar {
+  background-color: black;
   margin-bottom: 0px;
+  height: 80px;
 }
 
-.navbar-brand {
-    height: 70px;
+.navbar-header {
+  padding-left: 200px;
 }
+
+.login-form {
+  padding-left: 150px;
+}
+
+.register-form {
+  padding-left: 150px;
+}
+
+.login-p {
+   padding-left: 150px;
+ }
+
+.main {
+  width: 100vw;
+  height: 100vh;
+  padding: 50px;
+  background: url('../images/recipe-paper-background.jpg') center/cover no-repeat;
+}
+
 
 .rb-title {
     font-size: 45px;
@@ -49,10 +60,13 @@ body::before {
     padding-top: 50px;
 }
 
-.container {
+.container-auth {
+  padding-top: 0px;
   display: flex;
   justify-content: left;
-
+  margin: 0;
+  padding: 0;
+  width: 100vw;
 }
 
 .collapse {
@@ -60,3 +74,21 @@ body::before {
   padding-left:600px !important;
 }
 
+.bodyindex {
+  position: relative:
+}
+
+.bodyindex::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: url('../images/recipe-paper-background.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: -1;
+  opacity: 0.5;
+}

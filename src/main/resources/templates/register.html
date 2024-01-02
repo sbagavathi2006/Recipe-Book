@@ -2,11 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
 <head th:replace="~{fragments :: head}"></head>
 
-<body class="container">
+<body class="container-auth">
 
 <header th:replace="~{fragments :: header}"></header>
 <br>
 
+<div class="main">
 <form method="post" class="register-form">
     <div class="form-group">
         <label>Username
@@ -28,6 +29,7 @@
 
     <input type="submit" class="btn btn-primary" value="Register" />
 </form>
+</div>
 
 </body>
 </html>
