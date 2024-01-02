@@ -20,6 +20,10 @@ function App() {
     setRecipe(recipe);
   };
 
+  const handleShowAddRecipeForm = (bool) => {
+    setShowAddRecipeForm(bool);
+  };
+
   useEffect(() => {
     // Fetch current user when the component mounts
     fetch('http://localhost:8080/get-user', {
@@ -36,17 +40,12 @@ function App() {
       })
       .then((userData) => {
         setCurrentUser(userData); // Set the retrieved user data in state
+        console.log(currentUser);
       })
       .catch((error) => {
         console.error('There was a problem fetching the current user:', error);
       });
-  }, []); // Empty dependency array means this effect runs once (on mount)
-
-  useEffect(() => {
-    // This effect runs whenever `currentUser` changes
-    console.log('Current user changed:', currentUser);
-  }, [currentUser]);
-  // .
+  }, []);
 
   return (
     <>
@@ -59,24 +58,28 @@ function App() {
           id="display-results-component"
           searchResults={searchResults}
           setRecipe={handleRecipe}
-          setShowAddRecipeForm={setShowAddRecipeForm}
+          setShowAddRecipeForm={handleShowAddRecipeForm}
         />
 
           <CurrentRecipeComponent
             id="current-recipe-component"
             recipe={recipe}
             showAddRecipeForm={showAddRecipeForm}
+            setRecipe={handleRecipe}
+            setShowAddRecipeForm={handleShowAddRecipeForm}
           />
 
         <div className="rightsideBody">
           <FavoriteRecipesComponent
             id="favorite-recipes-component"
-            handleRecipe={handleRecipe}
-            setShowAddRecipeForm={setShowAddRecipeForm}
+            setRecipe={handleRecipe}
+            setShowAddRecipeForm={handleShowAddRecipeForm}
+            recipe={recipe}
+            showAddRecipeForm={showAddRecipeForm}
           />
 
           <AddYourOwnRecipeComponent id="add-your-own-recipe-component"
-          setShowAddRecipeForm= {setShowAddRecipeForm}/>          
+          setShowAddRecipeForm= {handleShowAddRecipeForm}/>
         </div>
       </div>
     </>

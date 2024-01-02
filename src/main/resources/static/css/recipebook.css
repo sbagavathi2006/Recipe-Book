@@ -27,12 +27,11 @@ body::before {
 }
 
 .navbar {
-    display: inline;
+  margin-bottom: 0px;
 }
 
 .navbar-brand {
     height: 70px;
-
 }
 
 .rb-title {
@@ -49,3 +48,15 @@ body::before {
 .register-form {
     padding-top: 50px;
 }
+
+.container {
+  display: flex;
+  justify-content: left;
+
+}
+
+.collapse {
+  margin-top: 10px;
+  padding-left:600px !important;
+}
+

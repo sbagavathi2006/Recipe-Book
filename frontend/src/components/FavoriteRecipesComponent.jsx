@@ -1,7 +1,18 @@
 import { useEffect, useState } from 'react';
 
-export default function FavoriteRecipesComponent({ handleRecipe, setShowAddRecipeForm }) {
+export default function FavoriteRecipesComponent({
+  setRecipe,
+  setShowAddRecipeForm,
+  recipe,
+  showAddRecipeForm,
+}) {
   const [recipeList, setRecipeList] = useState(null);
+  const [sortOrder, setSortOrder] = useState(0);
+
+  const handleSort = () => {
+    setSortOrder(sortOrder + 1);
+    sortRecipes(recipeList);
+  }
 
   useEffect(() => {
     function fetchData() {
@@ -18,7 +29,6 @@ export default function FavoriteRecipesComponent({ handleRecipe, setShowAddRecip
           return response.json();
         })
         .then((data) => {
-          console.log(data);
           setRecipeList(data);
         })
         .catch((error) => {
@@ -26,30 +36,60 @@ export default function FavoriteRecipesComponent({ handleRecipe, setShowAddRecip
         });
     }
 
-    fetchData();
-  }, []);
+    fetchData(); // Initial call when the component mounts
+  }, [recipe, showAddRecipeForm]);
+
+  function sortRecipes(recipeList) {
+    const sortedRecipeList = recipeList.slice().sort((a, b) => {
+      const nameA = a.name.toUpperCase();
+      const nameB = b.name.toUpperCase();
+
+      if (sortOrder%2 === 0) {
+        if (nameA < nameB) {
+        return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      } else {
+        if (nameA < nameB) {
+          return 1;
+          }
+          if (nameA > nameB) {
+            return -1;
+          }
+          return 0;
+      }
+    });
+    setRecipeList(sortedRecipeList);
+  }
 
   return (
     <div className="favoriteRecipes">
       <h2>Favorite Recipes</h2>
       {recipeList && recipeList.length > 0 ? (
-        <ul>
-          {recipeList.map((recipe, index) => (
-            <a>
-              <li key={index}>
-                <span
-                  onClick={() => {
-                  setShowAddRecipeForm(false);
-                    console.log(recipe);
-                    handleRecipe(recipe);
-                  }}
-                >
-                  {recipe.name}
-                </span>
-              </li>
-            </a>
-          ))}
-        </ul>
+        <div>
+          <ul>
+            {recipeList.map((recipe, index) => (
+              <a>
+                <li key={index}>
+                  <span
+                    onClick={() => {
+                      setShowAddRecipeForm(false);
+                      setRecipe(recipe);
+                    }}
+                  >
+                    {recipe.name}
+                  </span>
+                </li>
+              </a>
+            ))}
+          </ul>
+          <button onClick={handleSort}>
+            Sort
+          </button>
+        </div>
       ) : (
         <p>No favorite recipes found</p>
       )}

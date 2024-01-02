@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
+import PrintButton from './PrintButtonComponent.jsx';
 
-export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
+export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setRecipe, setShowAddRecipeForm }) {
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -8,7 +9,7 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
     name: '',
     description: '',
     ingredients: [],
-    image: null, 
+    image: null,
   });
     const[errors, setErrors] = useState({
       name: "",
@@ -26,13 +27,14 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
             [name]: value.split('\n').map((ingredient) => ingredient.trim()),
           });
         } else {
-// For other fields, update as usual
+          // For other fields, update as usual
           setAddrecipe({ ...addrecipe, [name]: value });
         }
 
         // Clear the associated error when the user starts typing
         setErrors({ ...errors, [name]: '' });
-        
+    };
+
   };
 //convert image file to url
   const onFileChange = (e) => {
@@ -45,7 +47,6 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
       };
         reader.readAsDataURL(file);
     }
-  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -80,7 +81,7 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
           image,
         }),
       });
-     
+
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
@@ -110,10 +111,16 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
       body: JSON.stringify(recipeData),
     })
       .then((response) => {
-        console.log(response.text());
+      if (!response.ok) {
+      throw new error('Network response was not ok')}
+      return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+        setRecipe(data);
       })
       .catch((error) => {
-        console.log(error);
+        console.error('Error adding the recipe: ', error);
       });
   };
 
@@ -254,7 +261,7 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
           <div className="current-image-div">
             <img src={image} alt={name} className="current-image" />
           </div>
-          <div>
+          <div id="recipeToPrint">
             <h3>Ingredients List:</h3>
             <ul>
               {ingredients.map((ingredient, index) => (
@@ -263,6 +270,7 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm }) {
             </ul>
             <p>{description}</p>
           </div>
+          <PrintButton currentRecipeId="recipeToPrint" />
         </div>
       </div>
     );

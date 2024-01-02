@@ -7,6 +7,7 @@
     <link th:href="@{/css/recipebook.css}" rel="stylesheet" />
     <link th:href="@{/dist/assets/index-aca281fb.css}" rel="stylesheet" />
     <title th:text="${title}">Recipe Book</title>
+    <script src="https://kit.fontawesome.com/6e03c0a490.js" crossorigin="anonymous"></script>
 
 </head>
 
@@ -20,20 +21,21 @@
     </div>
 </div>
 
-<div th:fragment="header-logout" class="navbar navbar-inverse navbar-fixed-top">
+<div th:fragment="header-logout" class="navbar navbar-inverse navbar-fixed-top navbar-logout">
+
     <div class="container">
         <div class="navbar-header">
             <a th:href="@{/}" class="navbar-brand rb-title" >Recipe Book</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a th:href="@{/logout}">Logout</a></li>
+                <li><a th:href="@{/logout}"><i class="fa-solid fa-arrow-right-from-bracket fa-3x"></i></a></li>
             </ul>
         </div>
     </div>
 
-
 </div>
+
 
 </body>
 </html>
