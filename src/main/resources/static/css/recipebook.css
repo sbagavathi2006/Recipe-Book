@@ -21,8 +21,23 @@ body::before {
   height: 80px;
 }
 
+.navbar-nav {
+  margin-left: 300px;
+}
+
+.container {
+  height: 80px;
+}
+
 .navbar-header {
-  padding-left: 200px;
+  height: 80px;
+  padding-left: 0px;
+}
+
+.navbar-collapse {
+  display: flex;
+  justify-content: flex-end;
+  height: 80px;
 }
 
 .login-form {
@@ -63,14 +78,16 @@ body::before {
 .container-auth {
   padding-top: 0px;
   display: flex;
-  justify-content: left;
+  justify-content: space-between;
   margin: 0;
   padding: 0;
   width: 100vw;
 }
 
 .collapse {
-  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
   padding-left:600px !important;
 }
 
