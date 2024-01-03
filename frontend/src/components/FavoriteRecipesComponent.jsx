@@ -12,7 +12,7 @@ export default function FavoriteRecipesComponent({
   const handleSort = () => {
     setSortOrder(sortOrder + 1);
     sortRecipes(recipeList);
-  }
+  };
 
   useEffect(() => {
     function fetchData() {
@@ -44,9 +44,9 @@ export default function FavoriteRecipesComponent({
       const nameA = a.name.toUpperCase();
       const nameB = b.name.toUpperCase();
 
-      if (sortOrder%2 === 0) {
+      if (sortOrder % 2 === 0) {
         if (nameA < nameB) {
-        return -1;
+          return -1;
         }
         if (nameA > nameB) {
           return 1;
@@ -55,11 +55,11 @@ export default function FavoriteRecipesComponent({
       } else {
         if (nameA < nameB) {
           return 1;
-          }
-          if (nameA > nameB) {
-            return -1;
-          }
-          return 0;
+        }
+        if (nameA > nameB) {
+          return -1;
+        }
+        return 0;
       }
     });
     setRecipeList(sortedRecipeList);
@@ -86,12 +86,10 @@ export default function FavoriteRecipesComponent({
               </a>
             ))}
           </ul>
-          <button onClick={handleSort}>
-            Sort
-          </button>
+          <button onClick={handleSort}>Sort</button>
         </div>
       ) : (
-        <p>No favorite recipes found</p>
+        <p>No favorite recipes yet...</p>
       )}
     </div>
   );

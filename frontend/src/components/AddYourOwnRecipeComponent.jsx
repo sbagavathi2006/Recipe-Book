@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useState } from 'react';
 
-export default function AddYourOwnRecipeComponent({setShowAddRecipeForm}) {
-
+export default function AddYourOwnRecipeComponent({ setShowAddRecipeForm }) {
   return (
-    <><div className="addYourOwnRecipe">
-      <button onClick={() => setShowAddRecipeForm(true)}>Add Your Own Recipe</button>
-    </div>
-
-      </>
+    <>
+      <div className="addYourOwnRecipe">
+        <p>Want to add your own recipe?</p>
+        <button onClick={() => setShowAddRecipeForm(true)}>Click here</button>
+      </div>
+    </>
   );
 }

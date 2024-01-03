@@ -277,16 +277,19 @@
 //   }
 // }
 
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 import { useState, useEffect } from 'react';
 import PrintButton from './PrintButtonComponent.jsx';
 
-export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setRecipe, setShowAddRecipeForm }) {
+export default function CurrentRecipeComponent({
+  recipe,
+  showAddRecipeForm,
+  setRecipe,
+  setShowAddRecipeForm,
+}) {
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
-  const [successMessage, setSuccessMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState('');
 
   // Code for Add form recipe -Baga
   const [addrecipe, setAddrecipe] = useState({
@@ -295,52 +298,58 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setR
     ingredients: [],
     image: '',
   });
-    const[errors, setErrors] = useState({
-      name: "",
-      description: "",
-      ingredients: [],
-      image: ""
-    })
+  const [errors, setErrors] = useState({
+    name: '',
+    description: '',
+    ingredients: [],
+    image: '',
+  });
   const { name, description, ingredients, image } = addrecipe;
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
     // Update the ingredients array differently
-        if (name === 'ingredients') {
-          setAddrecipe({
-            ...addrecipe,
-            [name]: value.split('\n').map((ingredient) => ingredient.trim()),
-          });
-        } else {
-          // For other fields, update as usual
-          setAddrecipe({ ...addrecipe, [name]: value });
-        }
+    if (name === 'ingredients') {
+      setAddrecipe({
+        ...addrecipe,
+        [name]: value.split('\n').map((ingredient) => ingredient.trim()),
+      });
+    } else {
+      // For other fields, update as usual
+      setAddrecipe({ ...addrecipe, [name]: value });
+    }
 
-        // Clear the associated error when the user starts typing
-        setErrors({ ...errors, [name]: '' });
+    // Clear the associated error when the user starts typing
+    setErrors({ ...errors, [name]: '' });
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-        //Basic client side validations
-        let newErrors ={};
-        if(!name.trim()){
-          newErrors = {...newErrors, name: "Please enter recipe title."}
-        }
-        if(!description.trim()){
-          newErrors = {...newErrors, description: "Please enter recipe description."}
-        }
-        if(!ingredients.length){
-          newErrors = {...newErrors, ingredients: "Please enter recipe ingredients."}
-        }
-        if(!image.trim()){
-          newErrors = {...newErrors, image: "Please enter recipe image url."}
-        }
-        // If there are errors, update the state and stop the submission
-        if(Object.keys(newErrors).length>0){
-          setErrors(newErrors);
-          return;
-        }
+    //Basic client side validations
+    let newErrors = {};
+    if (!name.trim()) {
+      newErrors = { ...newErrors, name: 'Please enter recipe title.' };
+    }
+    if (!description.trim()) {
+      newErrors = {
+        ...newErrors,
+        description: 'Please enter recipe description.',
+      };
+    }
+    if (!ingredients.length) {
+      newErrors = {
+        ...newErrors,
+        ingredients: 'Please enter recipe ingredients.',
+      };
+    }
+    if (!image.trim()) {
+      newErrors = { ...newErrors, image: 'Please enter recipe image url.' };
+    }
+    // If there are errors, update the state and stop the submission
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      return;
+    }
 
     try {
       const response = await fetch('http://localhost:8080/add-recipe/add', {
@@ -352,7 +361,7 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setR
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      setSuccessMessage("Recipe added successfully!!");
+      setSuccessMessage('Recipe added successfully!!');
 
       // Reset the form fields to an empty state
       setAddrecipe({
@@ -360,8 +369,7 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setR
         description: '',
         ingredients: [],
         image: '',
-    });
-
+      });
     } catch (error) {
       console.error('Error during form submission:', error);
     }
@@ -377,9 +385,10 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setR
       body: JSON.stringify(recipeData),
     })
       .then((response) => {
-      if (!response.ok) {
-      throw new error('Network response was not ok')}
-      return response.json();
+        if (!response.ok) {
+          throw new error('Network response was not ok');
+        }
+        return response.json();
       })
       .then((data) => {
         console.log(data);
@@ -441,7 +450,9 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setR
   if (showAddRecipeForm === true) {
     return (
       <div className="currentRecipe">
-         {successMessage && <div className="success-message">{successMessage}</div>}
+        {successMessage && (
+          <div className="success-message">{successMessage}</div>
+        )}
 
         <h1>Add Your Own Recipe!!!</h1>
         <form onSubmit={(e) => onSubmit(e)} className="form-group">
@@ -505,7 +516,7 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setR
   } else if (!displayedRecipe) {
     return (
       <div className="currentRecipe">
-        <p>Select a recipe</p>
+        <p>Select a recipe to see it here:</p>
       </div>
     );
   } else {
