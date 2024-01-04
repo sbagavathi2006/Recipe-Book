@@ -288,6 +288,8 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setR
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [base64Image, setBase64Image] = useState("");
+  const [newComment, setNewComment] = useState("");
+  // const [comments, setComments] = useState([]);
 
   // Code for Add form recipe -Baga
   const [addrecipe, setAddrecipe] = useState({
@@ -557,6 +559,21 @@ export default function CurrentRecipeComponent({ recipe, showAddRecipeForm, setR
             <p>{description}</p>
           </div>
           <PrintButton currentRecipeId="recipeToPrint" />
+          {/* comment section */}
+          <div className="comments-section">
+            <textarea
+              placeholder="Add your comment..."
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+            />
+            <button onClick={addComment}>Add Comment</button>
+            {/* <h3>Comments:</h3>
+            <ul>
+              {comments.map((comment, index) => (
+                <li key={index}>{comment}</li>
+              ))}
+            </ul> */}
+         </div>
         </div>
       </div>
     );
