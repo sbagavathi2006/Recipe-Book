@@ -21,16 +21,17 @@ public class Recipe extends AbstractEntity {
     @Column(columnDefinition = "VARBINARY(1000)")
     @NotNull
     private List<String> ingredients;
-
     @ManyToOne
     private User user;
+    private Boolean userCreated;
 
-    public Recipe(String name, String description, String image, List<String> ingredients, User user) {
+    public Recipe(String name, String description, String image, List<String> ingredients, User user, Boolean userCreated) {
         this.name = name;
         this.description = description;
         this.image = image;
         this.ingredients = ingredients;
         this.user = user;
+        this.userCreated = userCreated;
     }
 
     public Recipe () {}
@@ -75,4 +76,12 @@ public class Recipe extends AbstractEntity {
 //        this.ingredients = ingredients;
 //    }
 
+
+    public Boolean getUserCreated() {
+        return userCreated;
+    }
+
+    public void setUserCreated(Boolean userCreated) {
+        this.userCreated = userCreated;
+    }
 }

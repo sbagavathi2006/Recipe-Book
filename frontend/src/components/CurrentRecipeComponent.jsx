@@ -351,11 +351,16 @@ export default function CurrentRecipeComponent({
       return;
     }
 
+    const recipeToAdd = {
+      ...addrecipe,
+      userCreated: true
+    }
+
     try {
       const response = await fetch('http://localhost:8080/add-recipe/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(addrecipe),
+        body: JSON.stringify(recipeToAdd),
       });
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -377,12 +382,18 @@ export default function CurrentRecipeComponent({
 
   const handleClick = (recipeData) => {
     console.log(recipeData);
+
+    const recipeToAdd = {
+      ...recipeData,
+      userCreated: false
+    }
+
     fetch('http://localhost:8080/add-recipe/add', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(recipeData),
+      body: JSON.stringify(recipeToAdd),
     })
       .then((response) => {
         if (!response.ok) {
