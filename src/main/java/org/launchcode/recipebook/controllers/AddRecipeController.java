@@ -50,18 +50,15 @@ public class AddRecipeController {
         User user = authenticationController.getUserFromSession(session);
 
 
-        Recipe recipe = new Recipe(recipeDTO.getName(), recipeDTO.getDescription(), recipeDTO.getImage(), ingredients, user);
+        Recipe recipe = new Recipe(recipeDTO.getName(), recipeDTO.getDescription(), recipeDTO.getImage(), ingredients, user, recipeDTO.getUserCreated());
 
         Recipe existingRecipe = recipeRepository.findByName(recipeDTO.getName());
 
         if (existingRecipe == null) {
-            // Save the new recipe
             Recipe savedRecipe = recipeRepository.save(recipe);
 
-            // Convert the saved Recipe to DTO
             RecipeDTO savedRecipeDTO = RecipeMapper.convertToRecipeDTO(savedRecipe);
 
-            // Convert DTO to JSON string
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
                 String savedRecipeJson = objectMapper.writeValueAsString(savedRecipeDTO);

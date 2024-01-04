@@ -9,9 +9,13 @@ export default function FavoriteRecipesComponent({
   const [recipeList, setRecipeList] = useState(null);
   const [sortOrder, setSortOrder] = useState(0);
 
-  const handleSort = () => {
+  const handleSortAlpha = () => {
     setSortOrder(sortOrder + 1);
-    sortRecipes(recipeList);
+    sortRecipesAlpha(recipeList, sortOrder + 1);
+  };
+
+  const handleSortUser = () => {
+    sortRecipesUser(recipeList);
   };
 
   useEffect(() => {
@@ -39,12 +43,12 @@ export default function FavoriteRecipesComponent({
     fetchData(); // Initial call when the component mounts
   }, [recipe, showAddRecipeForm]);
 
-  function sortRecipes(recipeList) {
+  function sortRecipesAlpha(recipeList, order) {
     const sortedRecipeList = recipeList.slice().sort((a, b) => {
       const nameA = a.name.toUpperCase();
       const nameB = b.name.toUpperCase();
 
-      if (sortOrder % 2 === 0) {
+      if (order % 2 === 0) {
         if (nameA < nameB) {
           return -1;
         }
@@ -65,15 +69,27 @@ export default function FavoriteRecipesComponent({
     setRecipeList(sortedRecipeList);
   }
 
+  function sortRecipesUser(recipeList) {
+    const sortedRecipeList = recipeList.slice().sort((a, b) => {
+
+    if (a.userCreated === true) {
+      return 1;
+      } else {
+      return -1;
+      }
+    });
+    setRecipeList(sortedRecipeList);
+  }
+
   return (
     <div className="favoriteRecipes">
       {recipeList && recipeList.length > 0 ? (
         <div>
           <h2>Favorite Recipes</h2>
-          <ul class="favoritesList">
+          <ul className="favoritesList">
             {recipeList.map((recipe, index) => (
-              <li key={index} class="favoriteItem">
-                <img src={recipe.image} />
+              <li key={index} className="favoriteItem">
+                <img src={recipe.image} alt={recipe.name} />
                 <span
                   onClick={() => {
                     setShowAddRecipeForm(false);
@@ -85,12 +101,15 @@ export default function FavoriteRecipesComponent({
               </li>
             ))}
           </ul>
-          {recipeList.length > 1 ? (
-            <button class="sort-button" onClick={handleSort}>
-              Sort Alphabetically
-            </button>
-          ) : (
-            ''
+          {recipeList.length > 1 && (
+            <>
+              <button className="sort-button" onClick={handleSortAlpha}>
+                Sort Alphabetically
+              </button>
+              <button className="sort-button" onClick={handleSortUser}>
+                Sort By User
+              </button>
+            </>
           )}
         </div>
       ) : (

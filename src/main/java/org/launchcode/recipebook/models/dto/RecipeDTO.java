@@ -19,6 +19,8 @@ public class RecipeDTO {
     @NotNull
     private List<String> ingredients;
 
+    private Boolean userCreated;
+
     public String getName() {
         return name;
     }
@@ -51,4 +53,11 @@ public class RecipeDTO {
         this.ingredients = ingredients;
     }
 
+    public Boolean getUserCreated() {
+        return userCreated;
+    }
+
+    public void setUserCreated(Boolean userCreated) {
+        this.userCreated = userCreated;
+    }
 }
