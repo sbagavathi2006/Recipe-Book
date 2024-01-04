@@ -14,14 +14,12 @@ public class Recipe extends AbstractEntity {
     private String name;
     @Column(columnDefinition = "LONGTEXT")
     @NotNull
-//    @Column(length = 1000)
     private String description;
     @Column(columnDefinition = "LONGTEXT")
     @NotNull
     private String image;
-    @Column(columnDefinition = "VARBINARY(500)")
+    @Column(columnDefinition = "VARBINARY(1000)")
     @NotNull
-//    @Column(length = 1000)
     private List<String> ingredients;
 
     @ManyToOne

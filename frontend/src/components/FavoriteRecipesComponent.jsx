@@ -12,7 +12,7 @@ export default function FavoriteRecipesComponent({
   const handleSort = () => {
     setSortOrder(sortOrder + 1);
     sortRecipes(recipeList);
-  }
+  };
 
   useEffect(() => {
     function fetchData() {
@@ -44,9 +44,9 @@ export default function FavoriteRecipesComponent({
       const nameA = a.name.toUpperCase();
       const nameB = b.name.toUpperCase();
 
-      if (sortOrder%2 === 0) {
+      if (sortOrder % 2 === 0) {
         if (nameA < nameB) {
-        return -1;
+          return -1;
         }
         if (nameA > nameB) {
           return 1;
@@ -55,11 +55,11 @@ export default function FavoriteRecipesComponent({
       } else {
         if (nameA < nameB) {
           return 1;
-          }
-          if (nameA > nameB) {
-            return -1;
-          }
-          return 0;
+        }
+        if (nameA > nameB) {
+          return -1;
+        }
+        return 0;
       }
     });
     setRecipeList(sortedRecipeList);
@@ -67,31 +67,34 @@ export default function FavoriteRecipesComponent({
 
   return (
     <div className="favoriteRecipes">
-      <h2>Favorite Recipes</h2>
       {recipeList && recipeList.length > 0 ? (
         <div>
-          <ul>
+          <h2>Favorite Recipes</h2>
+          <ul class="favoritesList">
             {recipeList.map((recipe, index) => (
-              <a>
-                <li key={index}>
-                  <span
-                    onClick={() => {
-                      setShowAddRecipeForm(false);
-                      setRecipe(recipe);
-                    }}
-                  >
-                    {recipe.name}
-                  </span>
-                </li>
-              </a>
+              <li key={index} class="favoriteItem">
+                <img src={recipe.image} />
+                <span
+                  onClick={() => {
+                    setShowAddRecipeForm(false);
+                    setRecipe(recipe);
+                  }}
+                >
+                  {recipe.name}
+                </span>
+              </li>
             ))}
           </ul>
-          <button onClick={handleSort}>
-            Sort
-          </button>
+          {recipeList.length > 1 ? (
+            <button class="sort-button" onClick={handleSort}>
+              Sort Alphabetically
+            </button>
+          ) : (
+            ''
+          )}
         </div>
       ) : (
-        <p>No favorite recipes found</p>
+        <p>No favorite recipes yet...</p>
       )}
     </div>
   );

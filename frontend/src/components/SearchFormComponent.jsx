@@ -4,7 +4,7 @@ import config from '../../config';
 export default function SearchFormComponent({ setSearchResults }) {
   const [searchTerm, setSearchTerm] = useState('');
   const apiKey = config.API_KEY;
-  const maxResults = 1;
+  const maxResults = 3;
 
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
