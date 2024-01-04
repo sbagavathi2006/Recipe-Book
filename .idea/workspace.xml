@@ -4,7 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="558fd9f8-43d8-4b82-b5b6-6083f19b5ab1" name="Changes" comment="merge conflicts resolved" />
+    <list default="true" id="558fd9f8-43d8-4b82-b5b6-6083f19b5ab1" name="Changes" comment="merge conflicts resolved">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/dist/assets/index-7b0d28a8.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/dist/assets/index-9c10e0b9.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/CurrentRecipeComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CurrentRecipeComponent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/DisplayResultsComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DisplayResultsComponent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/FavoriteRecipesComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/FavoriteRecipesComponent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/SearchFormComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/SearchFormComponent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/launchcode/recipebook/models/Recipe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/launchcode/recipebook/models/Recipe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/recipebook.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/recipebook.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/assets/index-3faab797.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/assets/index-a6e8349b.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/dist/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -133,13 +154,6 @@
         <item itemvalue="Gradle.ctrl-alt-defeat [bootRun]" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="jdk-17.0.9-corretto-17.0.9-249ae16d76d6-98297cd8" />
-      </set>
-    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

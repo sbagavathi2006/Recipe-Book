@@ -28,13 +28,12 @@ a {
 
 p {
   color: rgb(30, 30, 30);
+  margin: 10px;
 }
 
 form {
   display: flex;
   align-items: center;
-  border: 1px solid #919191;
-  border-radius: 4px;
 }
 
 input#searchInput {
@@ -63,6 +62,9 @@ body {
 
 li {
   list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
 }
 
 ul {
@@ -70,7 +72,17 @@ ul {
 }
 
 h3 {
+  margin: 2px;
   font-size: 20px;
+}
+
+#recipeToPrint ul {
+  margin: 8px;
+  color: rgb(155, 0, 0);
+}
+
+#recipeToPrint p {
+  margin: 8px;
 }
 
 .mainBody {
@@ -122,12 +134,11 @@ span {
 .resultsDisplay li {
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 10px 10px 10px 20px;
 }
 
 .resultsDisplay h2 {
-  padding-left: 45px;
-  text-align: left;
+  text-align: center;
 }
 
 .resultsDisplay h3 {
@@ -143,6 +154,7 @@ span {
   border-radius: 5px;
   border-right: 3px groove;
   border-left: 3px groove;
+  overflow: auto;
 }
 
 .rightsideBody {
@@ -156,15 +168,19 @@ span {
 }
 
 .favoriteRecipes {
+  align-items: flex-start;
   width: 100%;
-  height: 80%;
-  /* border: 1px dashed; */
+  height: 83%;
+}
+
+.favoriteRecipes ul {
+  align-items: flex-start;
 }
 
 .addYourOwnRecipe {
+  border-top: 5px groove;
   width: 100%;
-  height: 20%;
-  /* border: 1px dashed; */
+  height: 17%;
 }
 
 .current-image {
@@ -178,7 +194,7 @@ span {
 }
 
 .current-title-favorite p {
-  margin: 8px;
+  margin: 10px;
 }
 
 .favorite-btn {
@@ -226,11 +242,9 @@ button:hover {
 }
 
 .form-group {
-  /* margin-bottom: 15px; */
   display: block;
   font-size: 20px;
-  margin: 8px;
-  margin-left: 75px;
+  margin: 50px 75px 10px 75px;
   text-align: left;
 }
 
@@ -273,4 +287,57 @@ button {
   padding-right: 30px;
   padding-left: 30px;
   font-size: 18px;
+  margin-bottom: 15px;
+  margin-top: 6px;
+}
+
+.favoritesList {
+  padding: 0;
+  list-style: none;
+}
+
+.favoriteItem {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.sort-button {
+  padding: 5px 10px;
+  margin-top: 10px;
+}
+
+.resultsList {
+  list-style: none;
+  padding: 0;
+}
+
+.resultItem {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.resultItem h3 {
+  margin: 0;
+}
+
+span {
+  margin-left: 10px;
+  color: rgb(94, 94, 14);
+}
+
+span:hover {
+  text-decoration: underline;
+  color: rgb(153, 12, 12);
+}
+
+.buttoncontainer button {
+  margin-left: 0px;
+}
+
+.favoriteRecipes li {
+  align-items: center;
 }

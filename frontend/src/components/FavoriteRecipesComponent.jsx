@@ -67,26 +67,31 @@ export default function FavoriteRecipesComponent({
 
   return (
     <div className="favoriteRecipes">
-      <h2>Favorite Recipes</h2>
       {recipeList && recipeList.length > 0 ? (
         <div>
-          <ul>
+          <h2>Favorite Recipes</h2>
+          <ul class="favoritesList">
             {recipeList.map((recipe, index) => (
-              <a>
-                <li key={index}>
-                  <span
-                    onClick={() => {
-                      setShowAddRecipeForm(false);
-                      setRecipe(recipe);
-                    }}
-                  >
-                    {recipe.name}
-                  </span>
-                </li>
-              </a>
+              <li key={index} class="favoriteItem">
+                <img src={recipe.image} />
+                <span
+                  onClick={() => {
+                    setShowAddRecipeForm(false);
+                    setRecipe(recipe);
+                  }}
+                >
+                  {recipe.name}
+                </span>
+              </li>
             ))}
           </ul>
-          <button onClick={handleSort}>Sort</button>
+          {recipeList.length > 1 ? (
+            <button class="sort-button" onClick={handleSort}>
+              Sort Alphabetically
+            </button>
+          ) : (
+            ''
+          )}
         </div>
       ) : (
         <p>No favorite recipes yet...</p>

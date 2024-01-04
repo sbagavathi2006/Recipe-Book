@@ -508,15 +508,16 @@ export default function CurrentRecipeComponent({
             <div className="error-message">{errors.image}</div>
           </div>
           <br></br>
-          <button type="submit">Add Recipe</button>
-          {/* <button type="reset"> Reset Form</button> */}
+          <div className="button-container">
+            <button type="submit">Add Recipe</button>
+          </div>
         </form>
       </div>
     );
   } else if (!displayedRecipe) {
     return (
       <div className="currentRecipe">
-        <p>Select a recipe to see it here:</p>
+        <p>Select a recipe to see it here</p>
       </div>
     );
   } else {

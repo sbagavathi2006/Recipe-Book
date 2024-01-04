@@ -44,21 +44,17 @@ export default function DisplayResultsComponent({
       searchResults.results.length > 0 ? (
         <div>
           <h2>Search Results</h2>
-          <ul>
+          <ul class="resultsList">
             {searchResults.results.map((result, index) => (
-              <li key={index}>
-                <img src={result.image} alt={result.title} />
-                <h3>
-                  <a
-                    href="#"
-                    onClick={() => {
-                      setShowAddRecipeForm(false);
-                      handleClick(result.id);
-                    }}
-                  >
-                    {result.title}
-                  </a>
-                </h3>
+              <li key={index} class="resultItem">
+                <img src={result.image} />
+                <span
+                  onClick={() => {
+                    setShowAddRecipeForm(false);
+                    handleClick(result.id);
+                  }}
+                >{result.title}
+                </span>
               </li>
             ))}
           </ul>
