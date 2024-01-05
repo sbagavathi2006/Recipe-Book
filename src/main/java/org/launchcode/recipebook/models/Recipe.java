@@ -6,6 +6,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Recipe extends AbstractEntity {
@@ -83,5 +84,19 @@ public class Recipe extends AbstractEntity {
 
     public void setUserCreated(Boolean userCreated) {
         this.userCreated = userCreated;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Recipe recipe = (Recipe) o;
+        return Objects.equals(name, recipe.name) && Objects.equals(description, recipe.description) && Objects.equals(ingredients, recipe.ingredients);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, description, ingredients);
     }
 }

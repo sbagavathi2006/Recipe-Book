@@ -1,14 +1,14 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-//   build: {
-//      rollupOptions: {
-//        output: {
-//          entryFileNames: 'index-npm-build.js', // Set the desired file name pattern
-//        },
-//      },
-//    },
+  build: {
+    rollupOptions: {
+      output: {
+        entryFileNames: 'index-[hash].js', // Set the desired JS file name with hashing
+        assetFileNames: 'index-[hash].css', // Set the desired CSS file name with hashing
+      },
+    },
+  },
 });
