@@ -75,7 +75,7 @@ export default function CurrentRecipeComponent({
       };
     }
     if (!image) {
-      newErrors = { ...newErrors, image: 'Please enter recipe image url.' };
+      newErrors = { ...newErrors, image: 'Please upload recipe image.' };
     }
     // If there are errors, update the state and stop the submission
     if (Object.keys(newErrors).length > 0) {
@@ -245,7 +245,7 @@ export default function CurrentRecipeComponent({
           <div className="error-message">{errors.ingredients}</div>
           <br></br>
           <div>
-            <label htmlFor="recipe-image"> Image URL : </label>
+            <label htmlFor="recipe-image"> Upload Image : </label>
             <input
               type="file"
               id="recipe-image"
