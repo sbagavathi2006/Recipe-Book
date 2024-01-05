@@ -3,6 +3,7 @@
   --hover-color: rgb(48, 182, 0);
   --text-color: rgb(48, 48, 48);
   --white-color: #f0f0f0;
+  --error-color: rgb(237, 0, 0);
 }
 
 table {
@@ -318,7 +319,7 @@ input#searchInput {
 
 .error-message {
   font-size: 15px;
-  color: rgb(237, 0, 0);
+  color: var(--error-color);
 }
 
 .form-group {
@@ -337,4 +338,13 @@ input#searchInput {
 .sort-button {
   padding: 5px 10px;
   margin-top: 10px;
+}
+
+.fa-xmark {
+  margin-left: 10px;
+  color: var(--error-color);
+}
+
+.fa-xmark:hover {
+  cursor: pointer;
 }
