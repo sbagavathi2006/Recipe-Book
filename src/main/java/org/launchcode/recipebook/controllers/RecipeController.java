@@ -81,8 +81,10 @@ public class RecipeController {
         return ResponseEntity.ok().body(recipesByUserId);
     }
 
-    @DeleteMapping
-    public ResponseEntity<List<Recipe>> deleteRecipe(RecipeDTO recipeDTO, HttpServletRequest request) {
+    @DeleteMapping("delete")
+    public ResponseEntity<List<Recipe>> deleteRecipe(@RequestBody RecipeDTO recipeDTO, HttpServletRequest request) {
+        System.out.println(recipeDTO.getName());
+        System.out.println(recipeDTO.getDescription());
 
         HttpSession session = request.getSession();
         User user = authenticationController.getUserFromSession(session);
