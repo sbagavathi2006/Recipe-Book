@@ -87,6 +87,10 @@ ul {
   padding-left: 10px;
 }
 
+h2 {
+  text-align: center;
+}
+
 h3 {
   margin: 2px;
   font-size: 20px;
@@ -171,6 +175,30 @@ input#searchInput {
   border: 2px solid #626262;
 }
 
+.resultsList {
+  list-style: none;
+  padding: 0;
+}
+
+.favoritesList {
+  padding: 0;
+  list-style: none;
+}
+
+.resultItem {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.favoriteItem {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
 .resultsDisplay {
   height: 100%;
   width: 25%;
@@ -181,14 +209,16 @@ input#searchInput {
   padding-right: 10px;
 }
 
-.resultsDisplay li {
+.favoriteRecipes li {
   display: flex;
   align-items: center;
   padding: 10px 10px 10px 20px;
 }
 
-.resultsDisplay h2 {
-  text-align: center;
+.resultsDisplay li {
+  display: flex;
+  align-items: center;
+  padding: 10px 10px 10px 20px;
 }
 
 .resultsDisplay h3 {
@@ -304,31 +334,7 @@ input#searchInput {
   margin-top: 6px;
 }
 
-.favoritesList {
-  padding: 0;
-  list-style: none;
-}
-
-.favoriteItem {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  margin-bottom: 10px;
-}
-
 .sort-button {
   padding: 5px 10px;
   margin-top: 10px;
-}
-
-.resultsList {
-  list-style: none;
-  padding: 0;
-}
-
-.resultItem {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  margin-bottom: 10px;
 }
