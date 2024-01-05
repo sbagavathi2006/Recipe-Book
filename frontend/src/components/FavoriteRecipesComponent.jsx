@@ -21,7 +21,7 @@ export default function FavoriteRecipesComponent({
   };
 
   const handleDeleteRecipe = () => {
-    fetch('http://localhost:8080/add-recipe/get', {
+    fetch('http://localhost:8080/recipe/delete', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ export default function FavoriteRecipesComponent({
 
   useEffect(() => {
     function fetchData() {
-      fetch('http://localhost:8080/add-recipe/get', {
+      fetch('http://localhost:8080/recipe/get', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
