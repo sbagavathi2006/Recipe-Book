@@ -9,25 +9,23 @@ export default function FavoriteRecipesComponent({
   showAddRecipeForm,
 }) {
   const [recipeList, setRecipeList] = useState(null);
-  const [sortOrder, setSortOrder] = useState(0);
+  const [sortOrderAlpha, setSortOrderAlpha] = useState(0);
+  const [sortOrderUser, setSortOrderUser] = useState(0);
+  const [currentRecipeList, setCurrentRecipeList] = useState(null);
 
   const handleSortAlpha = () => {
-    setSortOrder(sortOrder + 1);
-    sortRecipesAlpha(recipeList, sortOrder + 1);
+    const updatedOrder = sortOrderAlpha + 1;
+    sortRecipesAlpha(recipeList, updatedOrder);
+    setSortOrderAlpha(updatedOrder);
   };
 
   const handleSortUser = () => {
-    sortRecipesUser(recipeList);
+    const updatedOrder = sortOrderUser + 1;
+    sortRecipesUser(recipeList, updatedOrder);
+    setSortOrderUser(updatedOrder);
   };
 
   const handleDeleteRecipe = (recipeToDelete) => {
-    console.log(recipeToDelete.name);
-    console.log(recipeToDelete.description);
-    console.log(recipeToDelete.image);
-    console.log(recipeToDelete.ingredients);
-    console.log(recipeToDelete.user);
-    console.log(recipeToDelete.userCreated);
-
     fetch('http://localhost:8080/recipe/delete', {
       method: 'DELETE',
       headers: {
@@ -65,6 +63,7 @@ export default function FavoriteRecipesComponent({
         })
         .then((data) => {
           setRecipeList(data);
+          setCurrentRecipeList(data);
         })
         .catch((error) => {
           console.error('There was a problem fetching the data: ', error);
@@ -81,18 +80,18 @@ export default function FavoriteRecipesComponent({
 
       if (order % 2 === 0) {
         if (nameA < nameB) {
-          return -1;
+          return 1;
         }
         if (nameA > nameB) {
-          return 1;
+          return -1;
         }
         return 0;
       } else {
         if (nameA < nameB) {
-          return 1;
+          return -1;
         }
         if (nameA > nameB) {
-          return -1;
+          return 1;
         }
         return 0;
       }
@@ -100,15 +99,19 @@ export default function FavoriteRecipesComponent({
     setRecipeList(sortedRecipeList);
   }
 
-  function sortRecipesUser(recipeList) {
-    const sortedRecipeList = recipeList.slice().sort((a, b) => {
-      if (a.userCreated === true) {
-        return 1;
+  function sortRecipesUser(recipeList, order) {
+    if (order % 2 === 0) {
+      setRecipeList(currentRecipeList);
+    } else {
+      const sortedRecipeList = recipeList.filter(
+        (recipe) => recipe.userCreated === true
+      );
+      if (sortedRecipeList.length < 1) {
+        setRecipeList(recipeList);
       } else {
-        return -1;
+        setRecipeList(sortedRecipeList);
       }
-    });
-    setRecipeList(sortedRecipeList);
+    }
   }
 
   return (
@@ -141,14 +144,21 @@ export default function FavoriteRecipesComponent({
               </li>
             ))}
           </ul>
-          {recipeList.length > 1 && (
+          {recipeList.length >= 0 && (
             <>
               <button className="sort-button" onClick={handleSortAlpha}>
-                Sort Alphabetically
+                {sortOrderAlpha % 2
+                  ? 'Reverse Alphabetically'
+                  : 'Sort Alphabetically'}
               </button>
-              <button className="sort-button" onClick={handleSortUser}>
-                Sort By User
-              </button>
+              {recipeList.filter((recipe) => recipe.userCreated === true)
+                .length > 0 && (
+                <button className="sort-button" onClick={handleSortUser}>
+                  {sortOrderUser % 2
+                    ? 'All Favorite Recipes'
+                    : 'User Created Only'}
+                </button>
+              )}
             </>
           )}
         </div>
