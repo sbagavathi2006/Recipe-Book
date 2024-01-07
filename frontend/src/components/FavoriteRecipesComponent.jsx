@@ -7,6 +7,7 @@ export default function FavoriteRecipesComponent({
   setShowAddRecipeForm,
   recipe,
   showAddRecipeForm,
+  update
 }) {
   const [recipeList, setRecipeList] = useState(null);
   const [sortOrderAlpha, setSortOrderAlpha] = useState(0);
@@ -71,7 +72,7 @@ export default function FavoriteRecipesComponent({
     }
 
     fetchData(); // Initial call when the component mounts
-  }, [recipe, showAddRecipeForm]);
+  }, [recipe, showAddRecipeForm, update]);
 
   function sortRecipesAlpha(recipeList, order) {
     const sortedRecipeList = recipeList.slice().sort((a, b) => {

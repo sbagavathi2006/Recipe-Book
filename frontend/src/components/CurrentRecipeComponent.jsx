@@ -6,6 +6,7 @@ export default function CurrentRecipeComponent({
   showAddRecipeForm,
   setRecipe,
   setShowAddRecipeForm,
+  setUpdate
 }) {
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
@@ -104,6 +105,7 @@ export default function CurrentRecipeComponent({
       }
 
       setSuccessMessage('Recipe added successfully!!');
+      setUpdate(1);
 
       // Reset the form fields to an empty state
       setAddrecipe({
