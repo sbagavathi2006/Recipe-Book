@@ -6,6 +6,7 @@ export default function CurrentRecipeComponent({
   showAddRecipeForm,
   setRecipe,
   setShowAddRecipeForm,
+  setUpdate
 }) {
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
@@ -46,14 +47,13 @@ export default function CurrentRecipeComponent({
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-        reader.onloadend = () => {
+      reader.onloadend = () => {
         setAddrecipe({ ...addrecipe, image: reader.result });
         setErrors({ ...errors, image: null });
       };
-        reader.readAsDataURL(file);
+      reader.readAsDataURL(file);
     }
   };
-
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -85,11 +85,11 @@ export default function CurrentRecipeComponent({
 
     const recipeToAdd = {
       ...addrecipe,
-      userCreated: true
-    }
+      userCreated: true,
+    };
 
     try {
-      const response = await fetch('http://localhost:8080/add-recipe/add', {
+      const response = await fetch('http://localhost:8080/recipe/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         // body: JSON.stringify({
@@ -105,6 +105,7 @@ export default function CurrentRecipeComponent({
       }
 
       setSuccessMessage('Recipe added successfully!!');
+      setUpdate(1);
 
       // Reset the form fields to an empty state
       setAddrecipe({
@@ -123,10 +124,10 @@ export default function CurrentRecipeComponent({
 
     const recipeToAdd = {
       ...recipeData,
-      userCreated: false
-    }
+      userCreated: false,
+    };
 
-    fetch('http://localhost:8080/add-recipe/add', {
+    fetch('http://localhost:8080/recipe/add', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

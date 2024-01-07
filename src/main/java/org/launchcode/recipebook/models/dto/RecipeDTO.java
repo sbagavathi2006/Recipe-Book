@@ -21,6 +21,8 @@ public class RecipeDTO {
 
     private Boolean userCreated;
 
+    private User user;
+
     public String getName() {
         return name;
     }
@@ -59,5 +61,13 @@ public class RecipeDTO {
 
     public void setUserCreated(Boolean userCreated) {
         this.userCreated = userCreated;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

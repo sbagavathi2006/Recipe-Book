@@ -19,12 +19,11 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("add-recipe")
-public class AddRecipeController {
+@RequestMapping("recipe")
+public class RecipeController {
 
     @Autowired
     private RecipeRepository recipeRepository;
@@ -34,7 +33,6 @@ public class AddRecipeController {
 
     @Autowired
     private AuthenticationController authenticationController;
-
 
 
     @PostMapping("add")
@@ -71,50 +69,34 @@ public class AddRecipeController {
         return null;
     }
 
-        @GetMapping("get")
+    @GetMapping("get")
 
-        public ResponseEntity<List<Recipe>> getRecipeList (HttpServletRequest request) {
+    public ResponseEntity<List<Recipe>> getRecipeList(HttpServletRequest request) {
 
-            HttpSession session = request.getSession();
-            User user = authenticationController.getUserFromSession(session);
+        HttpSession session = request.getSession();
+        User user = authenticationController.getUserFromSession(session);
 
+        List<Recipe> recipesByUserId = recipeRepository.findByUserId(user.getId());
+
+        return ResponseEntity.ok().body(recipesByUserId);
+    }
+
+    @DeleteMapping("delete")
+    public ResponseEntity<List<Recipe>> deleteRecipe(@RequestBody RecipeDTO recipeDTO, HttpServletRequest request) {
+        System.out.println(recipeDTO.getName());
+        System.out.println(recipeDTO.getDescription());
+
+        HttpSession session = request.getSession();
+        User user = authenticationController.getUserFromSession(session);
+        Recipe existingRecipe = recipeRepository.findByName(recipeDTO.getName());
+
+        if (existingRecipe != null && existingRecipe.getUser().getId() == user.getId()) {
+            recipeRepository.delete(existingRecipe);
             List<Recipe> recipesByUserId = recipeRepository.findByUserId(user.getId());
-
             return ResponseEntity.ok().body(recipesByUserId);
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
+    }
 
-//    @PostMapping("add")
-//    public String processAddRecipeForm(@ModelAttribute @Valid AddRecipe newAddRecipe,
-//                                       @RequestParam("imageFile") MultipartFile imageFile,
-//                                       Errors errors, Model model) {
-//        if (errors.hasErrors()) {
-//            return "add-recipe/add";
-//        }
-//
-//        if (!imageFile.isEmpty()) {
-//            try {
-//                byte[] imageData = imageFile.getBytes();
-//                newAddRecipe.setImageData(imageData);
-//            } catch (IOException e) {
-//                // Handle the exception (e.g., log it or show an error message)
-//            }
-//        }
-//        newAddRecipe.setUploadImage(newAddRecipe.getUploadImage());
-//        addRecipeRepository.save(newAddRecipe);
-//        System.out.println("Recipe added successfully!");
-//        return "redirect:";
-//    }
-//    @GetMapping("view/{recipeId}")
-//    public String displayViewSkill(Model model, @PathVariable int recipeId) {
-//        Optional optSkill = addRecipeRepository.findById(recipeId);
-//        if (optSkill.isPresent()) {
-//            AddRecipe addRecipe = (AddRecipe) optSkill.get();
-//            String base64Image = Base64.getEncoder().encodeToString(addRecipe.getImageData());
-//            model.addAttribute("base64Image", base64Image);
-//            model.addAttribute("addRecipe", addRecipe);
-//            return "add-recipe/view";
-//        } else {
-//            return "redirect:../";
-//        }
-//    }
 }

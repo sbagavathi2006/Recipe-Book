@@ -24,7 +24,7 @@ public class WebApplicationConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/get-user")
-                .allowedOrigins("http://localhost:5173") // Replace with your allowed origin
+                .allowedOrigins("http://localhost:5173")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("Content-Type", "Authorization")
                 .exposedHeaders("Authorization");

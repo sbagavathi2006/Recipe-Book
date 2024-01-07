@@ -10,7 +10,8 @@ function App() {
   const [searchResults, setSearchResults] = useState([]);
   const [recipe, setRecipe] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
-  const[showAddRecipeForm, setShowAddRecipeForm] = useState(false);
+  const [showAddRecipeForm, setShowAddRecipeForm] = useState(false);
+  const [update, setUpdate] = useState(0);
 
   const handleSearchResults = (results) => {
     setSearchResults(results);
@@ -24,8 +25,11 @@ function App() {
     setShowAddRecipeForm(bool);
   };
 
+  const handleUpdate = (number) => {
+    setUpdate(number);
+  }
+
   useEffect(() => {
-    // Fetch current user when the component mounts
     fetch('http://localhost:8080/get-user', {
       method: 'GET',
       headers: {
@@ -39,7 +43,7 @@ function App() {
         return response.json();
       })
       .then((userData) => {
-        setCurrentUser(userData); // Set the retrieved user data in state
+        setCurrentUser(userData);
         console.log(currentUser);
       })
       .catch((error) => {
@@ -61,13 +65,14 @@ function App() {
           setShowAddRecipeForm={handleShowAddRecipeForm}
         />
 
-          <CurrentRecipeComponent
-            id="current-recipe-component"
-            recipe={recipe}
-            showAddRecipeForm={showAddRecipeForm}
-            setRecipe={handleRecipe}
-            setShowAddRecipeForm={handleShowAddRecipeForm}
-          />
+        <CurrentRecipeComponent
+          id="current-recipe-component"
+          recipe={recipe}
+          showAddRecipeForm={showAddRecipeForm}
+          setRecipe={handleRecipe}
+          setShowAddRecipeForm={handleShowAddRecipeForm}
+          setUpdate={handleUpdate}
+        />
 
         <div className="rightsideBody">
           <FavoriteRecipesComponent
@@ -76,10 +81,13 @@ function App() {
             setShowAddRecipeForm={handleShowAddRecipeForm}
             recipe={recipe}
             showAddRecipeForm={showAddRecipeForm}
+            update={update}
           />
 
-          <AddYourOwnRecipeComponent id="add-your-own-recipe-component"
-          setShowAddRecipeForm= {handleShowAddRecipeForm}/>
+          <AddYourOwnRecipeComponent
+            id="add-your-own-recipe-component"
+            setShowAddRecipeForm={handleShowAddRecipeForm}
+          />
         </div>
       </div>
     </>
