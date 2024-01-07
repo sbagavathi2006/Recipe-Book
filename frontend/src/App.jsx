@@ -11,6 +11,7 @@ function App() {
   const [recipe, setRecipe] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [showAddRecipeForm, setShowAddRecipeForm] = useState(false);
+  const [update, setUpdate] = useState(0);
 
   const handleSearchResults = (results) => {
     setSearchResults(results);
@@ -23,6 +24,10 @@ function App() {
   const handleShowAddRecipeForm = (bool) => {
     setShowAddRecipeForm(bool);
   };
+
+  const handleUpdate = (number) => {
+    setUpdate(number);
+  }
 
   useEffect(() => {
     fetch('http://localhost:8080/get-user', {
@@ -66,6 +71,7 @@ function App() {
           showAddRecipeForm={showAddRecipeForm}
           setRecipe={handleRecipe}
           setShowAddRecipeForm={handleShowAddRecipeForm}
+          setUpdate={handleUpdate}
         />
 
         <div className="rightsideBody">
@@ -75,6 +81,7 @@ function App() {
             setShowAddRecipeForm={handleShowAddRecipeForm}
             recipe={recipe}
             showAddRecipeForm={showAddRecipeForm}
+            update={update}
           />
 
           <AddYourOwnRecipeComponent
