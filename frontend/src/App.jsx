@@ -12,6 +12,8 @@ function App() {
   const [currentUser, setCurrentUser] = useState(null);
   const [showAddRecipeForm, setShowAddRecipeForm] = useState(false);
   const [update, setUpdate] = useState(0);
+  const [loadingSearch, setLoadingSearch] = useState(false);
+  const [loadingRecipe, setLoadingRecipe] = useState(false);
 
   const handleSearchResults = (results) => {
     setSearchResults(results);
@@ -27,7 +29,15 @@ function App() {
 
   const handleUpdate = (number) => {
     setUpdate(number);
-  }
+  };
+
+  const handleLoadingSearch = (bool) => {
+    setLoadingSearch(bool);
+  };
+
+  const handleLoadingRecipe = (bool) => {
+    setLoadingRecipe(bool);
+  };
 
   useEffect(() => {
     fetch('http://localhost:8080/get-user', {
@@ -54,7 +64,10 @@ function App() {
   return (
     <>
       <div id="recipe-search-component">
-        <SearchFormComponent setSearchResults={handleSearchResults} />
+        <SearchFormComponent
+          setSearchResults={handleSearchResults}
+          setLoadingSearch={handleLoadingSearch}
+        />
       </div>
 
       <div className="mainBody">
@@ -63,6 +76,8 @@ function App() {
           searchResults={searchResults}
           setRecipe={handleRecipe}
           setShowAddRecipeForm={handleShowAddRecipeForm}
+          loadingSearch={loadingSearch}
+          setLoadingRecipe={handleLoadingRecipe}
         />
 
         <CurrentRecipeComponent
@@ -72,6 +87,7 @@ function App() {
           setRecipe={handleRecipe}
           setShowAddRecipeForm={handleShowAddRecipeForm}
           setUpdate={handleUpdate}
+          loadingRecipe={loadingRecipe}
         />
 
         <div className="rightsideBody">
