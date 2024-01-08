@@ -6,7 +6,8 @@ export default function CurrentRecipeComponent({
   showAddRecipeForm,
   setRecipe,
   setShowAddRecipeForm,
-  setUpdate
+  setUpdate,
+  loadingRecipe,
 }) {
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
@@ -197,7 +198,15 @@ export default function CurrentRecipeComponent({
     }
   }, [recipe]);
 
-  if (showAddRecipeForm === true) {
+  if (loadingRecipe) {
+    return (
+      <div className="currentRecipe">
+        <div className="spinnerContainer">
+          <div className="spinner"></div>
+        </div>
+      </div>
+    );
+  } else if (showAddRecipeForm === true && loadingRecipe === false) {
     return (
       <div className="currentRecipe">
         {successMessage && (
@@ -266,9 +275,11 @@ export default function CurrentRecipeComponent({
     );
   } else if (!displayedRecipe) {
     return (
-      <div className="currentRecipe">
-        <p>Select a recipe to see it here</p>
-      </div>
+      <>
+        <div className="currentRecipe">
+          <p>Select a recipe to see it here</p>
+        </div>
+      </>
     );
   } else {
     const { name, description, ingredients, image } = displayedRecipe;

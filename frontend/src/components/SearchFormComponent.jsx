@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import config from '../../config';
 
-export default function SearchFormComponent({ setSearchResults }) {
+export default function SearchFormComponent({
+  setSearchResults,
+  setLoadingSearch,
+}) {
   const [searchTerm, setSearchTerm] = useState('');
   const apiKey = config.API_KEY;
   const maxResults = 3;
@@ -14,6 +17,7 @@ export default function SearchFormComponent({ setSearchResults }) {
     event.preventDefault();
 
     try {
+      setLoadingSearch(true);
       const apiUrl = `https://api.spoonacular.com/recipes/complexSearch?apiKey=${apiKey}&query=${encodeURIComponent(
         searchTerm
       )}&number=${maxResults}`;
@@ -28,6 +32,8 @@ export default function SearchFormComponent({ setSearchResults }) {
       setSearchResults(data);
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
+    } finally {
+      setLoadingSearch(false);
     }
   };
 

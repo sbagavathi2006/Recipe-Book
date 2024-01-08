@@ -4,10 +4,13 @@ export default function DisplayResultsComponent({
   searchResults,
   setRecipe,
   setShowAddRecipeForm,
+  loadingSearch,
+  setLoadingRecipe,
 }) {
   const apiKey = config.API_KEY;
 
   const handleClick = async (recipeId) => {
+    setLoadingRecipe(true);
     try {
       const recipeApiUrl = `https://api.spoonacular.com/recipes/${recipeId}/information?apiKey=${apiKey}`;
       const recipeResponse = await fetch(recipeApiUrl);
@@ -17,7 +20,6 @@ export default function DisplayResultsComponent({
       }
 
       const recipeData = await recipeResponse.json();
-
       const htmlInstructionsResponse = recipeData.instructions;
       const plainTextInstructions = extractPlainText(htmlInstructionsResponse);
 
@@ -28,6 +30,8 @@ export default function DisplayResultsComponent({
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
       setRecipe(null);
+    } finally {
+      setLoadingRecipe(false);
     }
   };
 
@@ -41,7 +45,8 @@ export default function DisplayResultsComponent({
     <div className="resultsDisplay">
       {searchResults &&
       searchResults.results &&
-      searchResults.results.length > 0 ? (
+      searchResults.results.length > 0 &&
+      loadingSearch != true ? (
         <div>
           <h2>Search Results</h2>
           <ul class="resultsList">
@@ -53,14 +58,22 @@ export default function DisplayResultsComponent({
                     setShowAddRecipeForm(false);
                     handleClick(result.id);
                   }}
-                >{result.title}
+                >
+                  {result.title}
                 </span>
               </li>
             ))}
           </ul>
         </div>
       ) : (
-        <p>No recipes found yet</p>
+        <>
+          {!loadingSearch && <p>No recipes found yet</p>}
+          {loadingSearch && (
+            <div className="spinnerContainer">
+              <div className="spinner"></div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
