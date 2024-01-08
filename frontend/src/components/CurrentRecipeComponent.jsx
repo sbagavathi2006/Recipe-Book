@@ -19,6 +19,10 @@ export default function CurrentRecipeComponent({
     }
   }
 
+  const handleShoppingClick = (shoppingList) => {
+    console.log(shoppingList);
+  }
+
   const clearShoppingList = () => {
     setShoppingList([]);
   }
@@ -293,6 +297,11 @@ export default function CurrentRecipeComponent({
               onClick={() => handleClick(displayedRecipe)}
             >
               <span className="star"></span> Add to Favorites
+            </button>
+            <button
+              className="shopping-btn"
+              onClick={() => handleShoppingClick(shoppingList)}>
+                Shopping List
             </button>
           </p>
         </div>
