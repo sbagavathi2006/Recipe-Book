@@ -34,6 +34,33 @@ export default function DisplayResultsComponent({
   const extractPlainText = (htmlContent) => {
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = htmlContent;
+
+    //get all the <ol> elements within the tempDiv
+    const orderedList = tempDiv.querySelectorAll('ol');
+
+    //iterate through each <ol> and its <li> elements
+    orderedList.forEach((ol) => {
+
+      //get all the <li> elements within the tempDiv above
+      const listItems = ol.querySelectorAll('li');
+
+      //iterate through each <li> and add a step number
+      listItems.forEach((li, index) => {
+         //add a line break after the text node
+        if(index < listItems.length - 1) {
+          const lineBreak = document.createElement('br');
+          ol.insertBefore(lineBreak, li.nextSibling);
+        }
+        const stepNumber = index + 1;
+        const textNode = document.createTextNode(`${stepNumber}. ${li.textContent}\n`);
+
+        //replace the original <li> with the new text node
+        li.replaceWith(textNode);
+      });
+    });
+
+    // console.log(tempDiv);
+
     return tempDiv.textContent || tempDiv.innerText;
   };
 
