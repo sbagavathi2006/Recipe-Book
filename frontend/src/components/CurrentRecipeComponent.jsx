@@ -6,10 +6,28 @@ export default function CurrentRecipeComponent({
   showAddRecipeForm,
   setRecipe,
   setShowAddRecipeForm,
-  setUpdate
+  setUpdate,
+  loadingRecipe,
 }) {
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
+  const [shoppingList, setShoppingList] = useState([]);
+
+  //Shopping Cart List for adding Ingredients
+  const handleAddToShoppingList = (ingredient) => {
+    if (!shoppingList.includes(ingredient)) {
+      setShoppingList([...shoppingList, ingredient]);
+      console.log(shoppingList);
+    }
+  }
+
+  const handleShoppingClick = (shoppingList) => {
+    console.log(shoppingList);
+  }
+
+  const clearShoppingList = () => {
+    setShoppingList([]);
+  }
 
   // Code for Add form recipe -Baga
   const [addrecipe, setAddrecipe] = useState({
@@ -197,7 +215,15 @@ export default function CurrentRecipeComponent({
     }
   }, [recipe]);
 
-  if (showAddRecipeForm === true) {
+  if (loadingRecipe) {
+    return (
+      <div className="currentRecipe">
+        <div className="spinnerContainer">
+          <div className="spinner"></div>
+        </div>
+      </div>
+    );
+  } else if (showAddRecipeForm === true && loadingRecipe === false) {
     return (
       <div className="currentRecipe">
         {successMessage && (
@@ -266,9 +292,11 @@ export default function CurrentRecipeComponent({
     );
   } else if (!displayedRecipe) {
     return (
-      <div className="currentRecipe">
-        <p>Select a recipe to see it here</p>
-      </div>
+      <>
+        <div className="currentRecipe">
+          <p>Select a recipe to see it here</p>
+        </div>
+      </>
     );
   } else {
     const { name, description, ingredients, image } = displayedRecipe;
@@ -283,6 +311,11 @@ export default function CurrentRecipeComponent({
             >
               <span className="star"></span> Add to Favorites
             </button>
+            <button
+              className="shopping-btn"
+              onClick={() => handleShoppingClick(shoppingList)}>
+                Shopping List
+            </button>
           </p>
         </div>
         <div>
@@ -290,12 +323,17 @@ export default function CurrentRecipeComponent({
             <img src={image} alt={name} className="current-image" />
           </div>
           <div id="recipeToPrint">
-            <h3>Ingredients List:</h3>
+            <h2>{name}</h2>
+            <h3>Ingredients:</h3>
             <ul>
               {ingredients.map((ingredient, index) => (
-                <li key={index}>{ingredient}</li>
+                <li key={index}
+                onClick={() => handleAddToShoppingList(ingredient)}
+                >{ingredient}</li>
               ))}
             </ul>
+            <br></br>
+            <h3>Directions:</h3>
             <p>{description}</p>
           </div>
           <PrintButton currentRecipeId="recipeToPrint" />
