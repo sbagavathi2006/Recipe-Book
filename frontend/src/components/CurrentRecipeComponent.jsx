@@ -291,7 +291,6 @@ export default function CurrentRecipeComponent({
       <div className="currentRecipe">
         <div className="current-title-favorite">
           <p>
-            {name && name + ' '}
             <button
               className="favorite-btn"
               onClick={() => handleClick(displayedRecipe)}
