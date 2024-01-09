@@ -163,7 +163,7 @@ input#searchInput {
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
-  height: 75vh;
+  height: 81vh;
   overflow: hidden;
   font-size: 20px;
 }
@@ -187,6 +187,10 @@ input#searchInput {
 }
 
 .favoritesList {
+  overflow-y: auto;
+  align-items: flex-start;
+  width: 100%;
+  height: 62vh;
   padding: 0;
   list-style: none;
 }
@@ -234,14 +238,6 @@ input#searchInput {
   margin-right: 10px;
 }
 
-.sortButtons {
-  width: 100%;
-  height: 9vh;
-  position: absolute;
-  top: 520px;
-  left: 0px;
-  }
-
 .currentRecipe {
   height: 100%;
   width: 50%;
@@ -257,25 +253,29 @@ input#searchInput {
   position: relative;
   color: var(--primary-color);
   width: 25%;
+  height: 100%;
   border-left: 3px groove;
   border-radius: 3px;
-  padding-right: 10px;
-  padding-left: 10px;
+  margin-right: 2px;
 }
 
 .favoriteRecipes {
   overflow-y: auto;
   align-items: flex-start;
   width: 100%;
-  height: 55vh;
+  height: 75%;
+}
+
+.sortButtons {
+  width: 100%;
+  height: 6vh;
 }
 
 .addYourOwnRecipe {
-  position: absolute;
-  top: 570px;
+  margin: 0 10px;
   border-top: 5px groove;
-  width: 100%;
-  height: 12vh;
+  width: auto;
+  height: 11%;
 }
 
 .favoriteRecipes ul {

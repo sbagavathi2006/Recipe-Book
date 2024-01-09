@@ -28,8 +28,8 @@ public class RecipeController {
     @Autowired
     private RecipeRepository recipeRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+    // @Autowired
+    // private UserRepository userRepository;
 
     @Autowired
     private AuthenticationController authenticationController;
