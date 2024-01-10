@@ -206,6 +206,9 @@ export default function CurrentRecipeComponent({
           (ingredient) => ingredient.original
         ),
         image: image,
+        wholeIngredient: extendedIngredients.map(
+          (ingredientName) => ingredientName.nameClean
+        ),
       };
 
       setDisplayedRecipe(updatedDisplayedRecipe);
@@ -356,7 +359,6 @@ export default function CurrentRecipeComponent({
       <div className="currentRecipe">
         <div className="current-title-favorite">
           <p>
-            {name && name + ' '}
             <button
               className="favorite-btn"
               onClick={() => handleClick(displayedRecipe)}
@@ -379,9 +381,14 @@ export default function CurrentRecipeComponent({
             <h3>Ingredients:</h3>
             <ul>
               {ingredients.map((ingredient, index) => (
-                <li key={index}
-                onClick={() => handleAddToShoppingList(ingredient)}
-                >{ingredient}</li>
+                <li key={index}>
+                  <label htmlFor='{`ingredientCheckbox${index}`}'>{ingredient}</label>
+                  <input
+                    type = "checkbox"
+                    id = {`ingredientCheckbox${index}`}
+                    onChange={() => handleAddToShoppingList(ingredient)}
+                    />
+                    </li>
               ))}
             </ul>
             <br></br>
