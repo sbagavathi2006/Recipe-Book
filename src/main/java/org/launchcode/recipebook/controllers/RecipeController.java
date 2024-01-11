@@ -3,9 +3,13 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpServletRequest;
 
 import jakarta.validation.Valid;
+import org.launchcode.recipebook.models.Comment;
 import org.launchcode.recipebook.models.Recipe;
 import org.launchcode.recipebook.models.User;
+import org.launchcode.recipebook.models.data.CommentRepository;
 import org.launchcode.recipebook.models.data.RecipeRepository;
+import org.launchcode.recipebook.models.data.UserRepository;
+import org.launchcode.recipebook.models.dto.CommentDTO;
 import org.launchcode.recipebook.models.dto.RecipeDTO;
 import org.launchcode.recipebook.util.RecipeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +22,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static org.springframework.data.jpa.domain.AbstractAuditable_.createdDate;
 
 @Controller
 @RequestMapping("recipe")
@@ -27,8 +34,8 @@ public class RecipeController {
     @Autowired
     private RecipeRepository recipeRepository;
 
-    // @Autowired
-    // private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private AuthenticationController authenticationController;

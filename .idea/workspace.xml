@@ -4,18 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="558fd9f8-43d8-4b82-b5b6-6083f19b5ab1" name="Changes" comment="merge conflicts resolved">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/dist/index-7dedd2fb.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/dist/index-caa9ea6b.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/CurrentRecipeComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CurrentRecipeComponent.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/launchcode/recipebook/controllers/RecipeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/launchcode/recipebook/controllers/RecipeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index-16b7bcab.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index-d8940ea5.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/dist/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
+    <list default="true" id="558fd9f8-43d8-4b82-b5b6-6083f19b5ab1" name="Changes" comment="merge conflicts resolved- Comment">
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/8.4/dependencies-accessors/dependencies-accessors.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/8.4/dependencies-accessors/dependencies-accessors.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +88,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;android.gradle.sync.needed&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;Mark&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;newbaga&quot;,
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;D:/Test/ctrl-alt-defeat/src/main/resources/static/css&quot;,
@@ -149,7 +140,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-17.0.9-corretto-17.0.9-249ae16d76d6-98297cd8" />
+        <option value="jdk-17.0.9-corretto-17.0.9-f644763e9732-ebaef533" />
       </set>
     </attachedChunks>
   </component>
@@ -170,13 +161,22 @@
       <option name="project" value="LOCAL" />
       <updated>1704474784276</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="merge conflicts resolved- Comment">
+      <option name="closed" value="true" />
+      <created>1704934656993</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1704934656993</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="styling changes and cleaned up css" />
     <MESSAGE value="merge conflicts resolved" />
-    <option name="LAST_COMMIT_MESSAGE" value="merge conflicts resolved" />
+    <MESSAGE value="merge conflicts resolved- Comment" />
+    <option name="LAST_COMMIT_MESSAGE" value="merge conflicts resolved- Comment" />
   </component>
 </project>

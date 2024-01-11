@@ -31,7 +31,7 @@ export default function CurrentRecipeComponent({
     setShoppingList([]);
   }
 
-  // Code for Add form recipe -Baga
+  // Add form recipe
   const [addrecipe, setAddrecipe] = useState({
     name: '',
     description: '',
@@ -237,6 +237,64 @@ export default function CurrentRecipeComponent({
     }
   }, [recipe]);
 
+  const [comment,setComment] = useState({text:'',recipeId: '', username: '',});
+  const [comments, setComments] = useState([]);
+
+  useEffect(() => {
+    // Fetch comments when the recipe changes
+    const fetchComments = async () => {
+        if (recipe?.id) {
+            try {
+                const response = await fetch(`http://localhost:8080/comment/recipe/${recipe.id}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                setComments(data); // Update the state with fetched comments
+            } catch (error) {
+                console.error('Error fetching comments:', error);
+            }
+        }
+    };
+
+    fetchComments();
+}, [recipe]);
+
+const submitComment = async (e) => {
+  e.preventDefault();
+
+  const { text } = comment;
+
+  try {
+      const response = await fetch('http://localhost:8080/comment/add', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({text,
+            recipeId: recipe.id, // Include the recipeId in the comment
+            username: comment.username,}),
+      });
+      if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+       // Assuming the response contains the newly added comment
+    const newComment = await response.json();
+
+      // Fetch comments again after submitting a new comment
+      setComments([...comments, newComment]);
+
+      // Reset the form fields to an empty state
+      setComment({
+        text: '',
+        recipeId: '',
+        username: '',
+      });
+  } catch (error) {
+      console.error('Error during form submission:', error);
+  }
+}
+
   if (loadingRecipe) {
     return (
       <div className="currentRecipe">
@@ -327,14 +385,12 @@ export default function CurrentRecipeComponent({
           <div className="error-message">{errors.ingredients}</div>
           <br></br>
           <div className="image-div">
-            <label htmlFor="recipe-image"> Image URL : </label>
+            <label htmlFor="recipe-image"> Upload Image : </label>
             <input
               type="file"
               id="recipe-image"
               name="image"
-              // placeholder="Upload your recipe's image"
               onChange={(e) => onFileChange(e)}
-              // value={image}
             />
             <div className="error-message">{errors.image}</div>
           </div>
@@ -397,7 +453,31 @@ export default function CurrentRecipeComponent({
           </div>
           <PrintButton currentRecipeId="recipeToPrint" />
         </div>
-      </div>
+
+        <div className="CommentSection">
+            <textarea
+              name="text"
+              placeholder="Add your comments here..."
+              value={comment.text}
+              onChange={(e) => setComment({
+                text: e.target.value,
+                recipeId: comment.recipeId, // Preserve the recipeId
+                username: comment.username, // Preserve the username
+              })}
+            />
+            <button onClick={submitComment}>Post Comment</button>
+            {comments
+          .slice()
+          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+          .map((comment) => (
+              <div key={comment.id} className="comment">
+                  <small>{comment.username} - {new Date(comment.createdAt).toLocaleString()}</small>
+                  <p>{comment.text}</p>
+              </div>
+          ))}
+        </div>
+
+        </div>
     );
   }
 }
