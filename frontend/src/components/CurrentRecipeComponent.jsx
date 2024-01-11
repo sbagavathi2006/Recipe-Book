@@ -11,8 +11,10 @@ export default function CurrentRecipeComponent({
 }) {
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
+  const [ingredientQuantity, setIngredientQuantity] = useState('');
+  const [ingredientName, setIngredientName] = useState('');
   const [shoppingList, setShoppingList] = useState([]);
-  
+
   //Shopping Cart List for adding Ingredients
   const handleAddToShoppingList = (ingredient) => {
     if (!shoppingList.includes(ingredient)) {
@@ -29,7 +31,7 @@ export default function CurrentRecipeComponent({
     setShoppingList([]);
   }
 
-  // Code for Add form recipe -Baga
+  // Add form recipe
   const [addrecipe, setAddrecipe] = useState({
     name: '',
     description: '',
@@ -42,21 +44,38 @@ export default function CurrentRecipeComponent({
     ingredients: [],
     image: null,
   });
+
+  const addIngredient = () => {
+    // Add a new ingredient object to the list
+    setAddrecipe({
+      ...addrecipe,
+      ingredients: [
+        ...addrecipe.ingredients,
+        { quantity: ingredientQuantity, name: ingredientName },
+      ],
+    });
+
+    // Clear the input fields after adding an ingredient
+    setIngredientQuantity('');
+    setIngredientName('');
+  };
+
   const { name, description, ingredients, image } = addrecipe;
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
-    // Update the ingredients array differently
-    if (name === 'ingredients') {
-      setAddrecipe({
-        ...addrecipe,
-        [name]: value.split('\n').map((ingredient) => ingredient.trim()),
-      });
-    } else {
-      // For other fields, update as usual
-      setAddrecipe({ ...addrecipe, [name]: value });
-    }
 
+    if (name === 'name' || name === 'description') {
+      setAddrecipe({ ...addrecipe, [name]: value });
+    } else if (name === 'ingredient-quantity') {
+      setIngredientQuantity(value);
+      // Update the specific property in the addrecipe object
+      setAddrecipe({ ...addrecipe, ingredientQuantity: value });
+    } else if (name === 'ingredient-name') {
+      setIngredientName(value);
+      // Update the specific property in the addrecipe object
+      setAddrecipe({ ...addrecipe, ingredientName: value });
+    }
     // Clear the associated error when the user starts typing
     setErrors({ ...errors, [name]: '' });
   };
@@ -93,7 +112,7 @@ export default function CurrentRecipeComponent({
       };
     }
     if (!image) {
-      newErrors = { ...newErrors, image: 'Please upload recipe image.' };
+      newErrors = { ...newErrors, image: 'Please enter recipe image url.' };
     }
     // If there are errors, update the state and stop the submission
     if (Object.keys(newErrors).length > 0) {
@@ -101,8 +120,14 @@ export default function CurrentRecipeComponent({
       return;
     }
 
+    // concatenate the quantity and name together to match the recipe format in the database
+    const ingredientsToSend = addrecipe.ingredients.map(
+      (ingredient) => `${ingredient.quantity} ${ingredient.name}`
+    );
+
     const recipeToAdd = {
       ...addrecipe,
+      ingredients: ingredientsToSend,
       userCreated: true,
     };
 
@@ -110,12 +135,6 @@ export default function CurrentRecipeComponent({
       const response = await fetch('http://localhost:8080/recipe/add', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        // body: JSON.stringify({
-        //   name,
-        //   description,
-        //   ingredients,
-        //   image,
-        // }),
         body: JSON.stringify(recipeToAdd),
       });
       if (!response.ok) {
@@ -123,7 +142,7 @@ export default function CurrentRecipeComponent({
       }
 
       setSuccessMessage('Recipe added successfully!!');
-      setUpdate(1);
+      setUpdate(1); // Change update state to re-render favorites recipe list
 
       // Reset the form fields to an empty state
       setAddrecipe({
@@ -154,7 +173,7 @@ export default function CurrentRecipeComponent({
     })
       .then((response) => {
         if (!response.ok) {
-          throw new errors('Network response was not ok');
+          throw new error('Network response was not ok');
         }
         return response.json();
       })
@@ -187,6 +206,9 @@ export default function CurrentRecipeComponent({
           (ingredient) => ingredient.original
         ),
         image: image,
+        wholeIngredient: extendedIngredients.map(
+          (ingredientName) => ingredientName.nameClean
+        ),
       };
 
       setDisplayedRecipe(updatedDisplayedRecipe);
@@ -217,7 +239,7 @@ export default function CurrentRecipeComponent({
 
   const [comment,setComment] = useState({text:'',recipeId: '', username: '',});
   const [comments, setComments] = useState([]);
-  
+
   useEffect(() => {
     // Fetch comments when the recipe changes
     const fetchComments = async () => {
@@ -243,7 +265,7 @@ const submitComment = async (e) => {
   e.preventDefault();
 
   const { text } = comment;
-  
+
   try {
       const response = await fetch('http://localhost:8080/comment/add', {
           method: 'POST',
@@ -265,7 +287,7 @@ const submitComment = async (e) => {
       // Reset the form fields to an empty state
       setComment({
         text: '',
-        recipeId: '', 
+        recipeId: '',
         username: '',
       });
   } catch (error) {
@@ -316,20 +338,53 @@ const submitComment = async (e) => {
             <div className="error-message">{errors.description}</div>
           </div>
           <br></br>
-          <div>
+          <div className="ingredients-input">
             <label htmlFor="recipe-ingredients"> Ingredients : </label>
-            <textarea
-              type="text"
-              id="recipe-ingredients"
-              name="ingredients"
-              placeholder="Your recipe's ingredients"
-              onChange={(e) => onInputChange(e)}
-              value={ingredients.join('\n')}
-            />
+            {addrecipe.ingredients.map((ingredient, index) => (
+              <div key={index} className="input-container">
+                <input
+                  type="text"
+                  className="ingredient-quantity"
+                  placeholder="Ingredient Quantity"
+                  value={ingredient.quantity}
+                  disabled
+                />
+                <input
+                  type="text"
+                  className="ingredient-name"
+                  placeholder="Ingredient Name"
+                  value={ingredient.name}
+                  disabled
+                />
+              </div>
+            ))}
+            <div className="input-container">
+              <input
+                className="ingredient-quantity"
+                type="text"
+                id="recipe-ingredient-quantity"
+                name="ingredient-quantity"
+                placeholder="Ingredient Quantity"
+                onChange={(e) => setIngredientQuantity(e.target.value)}
+                value={ingredientQuantity}
+              />
+              <input
+                className="ingredient-name"
+                type="text"
+                id="recipe-ingredient-name"
+                name="ingredient-name"
+                placeholder="Ingredient Name"
+                onChange={(e) => setIngredientName(e.target.value)}
+                value={ingredientName}
+              />
+              <button type="button" onClick={addIngredient}>
+                Add
+              </button>
+            </div>
           </div>
           <div className="error-message">{errors.ingredients}</div>
           <br></br>
-          <div>
+          <div className="image-div">
             <label htmlFor="recipe-image"> Upload Image : </label>
             <input
               type="file"
@@ -360,7 +415,6 @@ const submitComment = async (e) => {
       <div className="currentRecipe">
         <div className="current-title-favorite">
           <p>
-            {name && name + ' '}
             <button
               className="favorite-btn"
               onClick={() => handleClick(displayedRecipe)}
@@ -383,9 +437,14 @@ const submitComment = async (e) => {
             <h3>Ingredients:</h3>
             <ul>
               {ingredients.map((ingredient, index) => (
-                <li key={index}
-                onClick={() => handleAddToShoppingList(ingredient)}
-                >{ingredient}</li>
+                <li key={index}>
+                  <label htmlFor='{`ingredientCheckbox${index}`}'>{ingredient}</label>
+                  <input
+                    type = "checkbox"
+                    id = {`ingredientCheckbox${index}`}
+                    onChange={() => handleAddToShoppingList(ingredient)}
+                    />
+                    </li>
               ))}
             </ul>
             <br></br>
@@ -394,7 +453,7 @@ const submitComment = async (e) => {
           </div>
           <PrintButton currentRecipeId="recipeToPrint" />
         </div>
-       
+
         <div className="CommentSection">
             <textarea
               name="text"
@@ -417,7 +476,7 @@ const submitComment = async (e) => {
               </div>
           ))}
         </div>
-       
+
         </div>
     );
   }

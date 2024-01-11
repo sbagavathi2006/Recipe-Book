@@ -49,9 +49,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Kotlin Class" />
         <option value="Thymeleaf" />
-        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
