@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org/">
+  <head th:replace="~{fragments :: head}"></head>
 
-<head th:replace="~{fragments :: head}"></head>
+  <body class="bodyindex">
+    <div th:replace="~{fragments :: header-logout}"></div>
 
-<body class="bodyindex">
+    <div id="root"></div>
 
-<div th:replace="~{fragments :: header-logout}"></div>
-
-<div id="root"></div>
-
-<!-- need to update this with the proper JS file name after building out the frontend-->
-<!-- also need to update the css file in the fragments file -->
-<script th:src="@{/dist/index-53dc14e9.js}" defer></script>
-
-</body>
+    <!-- need to update this with the proper JS file name after building out the frontend-->
+    <!-- also need to update the css file in the fragments file -->
+    <script th:src="@{/dist/index-a91e7602.js}" defer></script>
+  </body>
 </html>

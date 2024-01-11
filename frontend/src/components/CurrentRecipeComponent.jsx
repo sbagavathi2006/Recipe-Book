@@ -21,15 +21,15 @@ export default function CurrentRecipeComponent({
       setShoppingList([...shoppingList, ingredient]);
       console.log(shoppingList);
     }
-  }
+  };
 
   const handleShoppingClick = (shoppingList) => {
     console.log(shoppingList);
-  }
+  };
 
   const clearShoppingList = () => {
     setShoppingList([]);
-  }
+  };
 
   // Add form recipe
   const [addrecipe, setAddrecipe] = useState({
@@ -237,49 +237,57 @@ export default function CurrentRecipeComponent({
     }
   }, [recipe]);
 
-  const [comment,setComment] = useState({text:'',recipeId: '', username: '',});
+  const [comment, setComment] = useState({
+    text: '',
+    recipeId: '',
+    username: '',
+  });
   const [comments, setComments] = useState([]);
 
   useEffect(() => {
     // Fetch comments when the recipe changes
     const fetchComments = async () => {
-        if (recipe?.id) {
-            try {
-                const response = await fetch(`http://localhost:8080/comment/recipe/${recipe.id}`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
+      if (recipe?.id) {
+        try {
+          const response = await fetch(
+            `http://localhost:8080/comment/recipe/${recipe.id}`
+          );
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
 
-                const data = await response.json();
-                setComments(data); // Update the state with fetched comments
-            } catch (error) {
-                console.error('Error fetching comments:', error);
-            }
+          const data = await response.json();
+          setComments(data); // Update the state with fetched comments
+        } catch (error) {
+          console.error('Error fetching comments:', error);
         }
+      }
     };
 
     fetchComments();
-}, [recipe]);
+  }, [recipe]);
 
-const submitComment = async (e) => {
-  e.preventDefault();
+  const submitComment = async (e) => {
+    e.preventDefault();
 
-  const { text } = comment;
+    const { text } = comment;
 
-  try {
+    try {
       const response = await fetch('http://localhost:8080/comment/add', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({text,
-            recipeId: recipe.id, // Include the recipeId in the comment
-            username: comment.username,}),
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text,
+          recipeId: recipe.id, // Include the recipeId in the comment
+          username: comment.username,
+        }),
       });
       if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-       // Assuming the response contains the newly added comment
-    const newComment = await response.json();
+      // Assuming the response contains the newly added comment
+      const newComment = await response.json();
 
       // Fetch comments again after submitting a new comment
       setComments([...comments, newComment]);
@@ -290,10 +298,10 @@ const submitComment = async (e) => {
         recipeId: '',
         username: '',
       });
-  } catch (error) {
+    } catch (error) {
       console.error('Error during form submission:', error);
-  }
-}
+    }
+  };
 
   if (loadingRecipe) {
     return (
@@ -423,8 +431,9 @@ const submitComment = async (e) => {
             </button>
             <button
               className="shopping-btn"
-              onClick={() => handleShoppingClick(shoppingList)}>
-                Shopping List
+              onClick={() => handleShoppingClick(shoppingList)}
+            >
+              Shopping List
             </button>
           </p>
         </div>
@@ -438,13 +447,17 @@ const submitComment = async (e) => {
             <ul>
               {ingredients.map((ingredient, index) => (
                 <li key={index}>
-                  <label htmlFor='{`ingredientCheckbox${index}`}'>{ingredient}</label>
-                  <input
-                    type = "checkbox"
-                    id = {`ingredientCheckbox${index}`}
-                    onChange={() => handleAddToShoppingList(ingredient)}
+                  <div className="ingredientList">
+                    <input
+                      type="checkbox"
+                      id={`ingredientCheckbox${index}`}
+                      onChange={() => handleAddToShoppingList(ingredient)}
                     />
-                    </li>
+                    <label htmlFor="{`ingredientCheckbox${index}`}">
+                      {ingredient}
+                    </label>
+                  </div>
+                </li>
               ))}
             </ul>
             <br></br>
@@ -455,29 +468,33 @@ const submitComment = async (e) => {
         </div>
 
         <div className="CommentSection">
-            <textarea
-              name="text"
-              placeholder="Add your comments here..."
-              value={comment.text}
-              onChange={(e) => setComment({
+          <textarea
+            name="text"
+            placeholder="Add your comments here..."
+            value={comment.text}
+            onChange={(e) =>
+              setComment({
                 text: e.target.value,
                 recipeId: comment.recipeId, // Preserve the recipeId
                 username: comment.username, // Preserve the username
-              })}
-            />
-            <button onClick={submitComment}>Post Comment</button>
-            {comments
-          .slice()
-          .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-          .map((comment) => (
+              })
+            }
+          />
+          <button onClick={submitComment}>Post Comment</button>
+          {comments
+            .slice()
+            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+            .map((comment) => (
               <div key={comment.id} className="comment">
-                  <small>{comment.username} - {new Date(comment.createdAt).toLocaleString()}</small>
-                  <p>{comment.text}</p>
+                <small>
+                  {comment.username} -{' '}
+                  {new Date(comment.createdAt).toLocaleString()}
+                </small>
+                <p>{comment.text}</p>
               </div>
-          ))}
+            ))}
         </div>
-
-        </div>
+      </div>
     );
   }
 }
