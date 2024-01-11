@@ -419,6 +419,10 @@ export default function CurrentRecipeComponent({
     );
   } else {
     const { name, description, ingredients, image } = displayedRecipe;
+
+    // Split the description at periods not preceded by a number
+    const segments = description.split(/(?<!\d)\.\s*/);
+
     return (
       <div className="currentRecipe">
         <div className="current-title-favorite">
@@ -462,7 +466,14 @@ export default function CurrentRecipeComponent({
             </ul>
             <br></br>
             <h3>Directions:</h3>
-            <p>{description}</p>
+            <p>
+              {segments.map((segment, index) => (
+                <span key={index}>
+                  {segment}
+                  <br />
+                </span>
+              ))}
+            </p>
           </div>
           <PrintButton currentRecipeId="recipeToPrint" />
         </div>

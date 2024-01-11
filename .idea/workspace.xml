@@ -5,14 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="558fd9f8-43d8-4b82-b5b6-6083f19b5ab1" name="Changes" comment="merge conflicts resolved- Comment">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/dist/index-8d061ccc.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/dist/index-ccaa875d.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/CurrentRecipeComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CurrentRecipeComponent.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/FavoriteRecipesComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/FavoriteRecipesComponent.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index-53dc14e9.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index-7d1c9f7c.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index-cfc0eb61.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index-dc6f5f82.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index-a91e7602.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index-ac107903.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/dist/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
