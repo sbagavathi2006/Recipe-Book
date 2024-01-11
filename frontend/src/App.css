@@ -391,3 +391,7 @@ input#searchInput {
     transform: rotate(360deg);
   }
 }
+
+.comment{
+  text-align: left;
+}
