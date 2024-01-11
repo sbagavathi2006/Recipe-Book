@@ -146,7 +146,20 @@ input#searchInput {
 }
 
 #recipeToPrint p {
-  margin: 8px;
+  margin: 13px 8px 8px 20px;
+  text-align: left;
+}
+
+#recipeToPrint h3 {
+  margin-top: 30px;
+  font-size: 22px;
+  text-align: left;
+  margin-left: 20px;
+}
+
+#recipeToPrint li {
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
 #root {
@@ -207,7 +220,6 @@ input#searchInput {
 .favoriteItem {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
   margin-bottom: 10px;
 }
 
@@ -284,6 +296,12 @@ input#searchInput {
   align-items: flex-start;
 }
 
+.favoritesNameX {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .addYourOwnRecipe button {
   padding: 7px 10px;
 }
@@ -305,7 +323,7 @@ input#searchInput {
 .favorite-btn {
   display: inline-block;
   padding: 4px 15px 4px 3px;
-  font-size: 14px;
+  font-size: 16px;
   border: none;
   background-color: var(--white-color);
   color: #333;
@@ -360,8 +378,27 @@ input#searchInput {
   margin-top: 10px;
 }
 
+.ingredientList label {
+  margin-left: 10px;
+  margin-bottom: 0;
+}
+
+input[type='checkbox'] {
+  margin-top: 0px;
+}
+
 label {
   width: 100%;
+}
+
+.ingredientList {
+  display: flex;
+  flex-direction: row;
+}
+
+.ingredientList input {
+  width: auto;
+  height: auto;
 }
 
 .ingredients-input {
@@ -436,6 +473,6 @@ label {
   }
 }
 
-.comment{
+.comment {
   text-align: left;
 }

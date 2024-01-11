@@ -1,41 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org/">
-
-<head th:fragment="head">
-
+  <head th:fragment="head">
     <link th:href="@{/css/bootstrap.css}" rel="stylesheet" />
     <link th:href="@{/css/recipebook.css}" rel="stylesheet" />
-    <link th:href="@{/dist/index-dc6f5f82.css}" rel="stylesheet" />
+    <link th:href="@{/dist/index-ccaa875d.css}" rel="stylesheet" />
     <title th:text="${title}">Recipe Book</title>
-    <script src="https://kit.fontawesome.com/6e03c0a490.js" crossorigin="anonymous"></script>
+    <script
+      src="https://kit.fontawesome.com/6e03c0a490.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
 
-</head>
-
-<body>
-
-<div th:fragment="header" class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
+  <body>
+    <div th:fragment="header" class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
         <div class="navbar-header">
-            <a th:href="@{/}" class="navbar-brand rb-title" >Recipe Book</a>
+          <a th:href="@{/}" class="navbar-brand rb-title">Recipe Book</a>
         </div>
+      </div>
     </div>
-</div>
 
-<div th:fragment="header-logout" class="navbar navbar-inverse navbar-fixed-top navbar-logout">
-
-    <div class="container">
+    <div
+      th:fragment="header-logout"
+      class="navbar navbar-inverse navbar-fixed-top navbar-logout"
+    >
+      <div class="container">
         <div class="navbar-header">
-            <a th:href="@{/}" class="navbar-brand rb-title" >Recipe Book</a>
+          <a th:href="@{/}" class="navbar-brand rb-title">Recipe Book</a>
         </div>
         <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li><a th:href="@{/logout}"><i class="fa-solid fa-arrow-right-from-bracket fa-3x"></i></a></li>
-            </ul>
+          <ul class="nav navbar-nav">
+            <li>
+              <a th:href="@{/logout}"
+                ><i class="fa-solid fa-arrow-right-from-bracket fa-3x"></i
+              ></a>
+            </li>
+          </ul>
         </div>
+      </div>
     </div>
-
-</div>
-
-
-</body>
+  </body>
 </html>

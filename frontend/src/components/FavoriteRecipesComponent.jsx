@@ -125,23 +125,25 @@ export default function FavoriteRecipesComponent({
               {recipeList.map((recipe, index) => (
                 <li key={index} className="favoriteItem">
                   <img src={recipe.image} alt={recipe.name} />
-                  <span
-                    onClick={() => {
-                      setShowAddRecipeForm(false);
-                      setRecipe(recipe);
-                    }}
-                  >
-                    {recipe.name}
-                  </span>
-                  <div>
-                    <FontAwesomeIcon
-                      icon={faTimes}
-                      alt="Delete"
+                  <div className="favoritesNameX">
+                    <span
                       onClick={() => {
-                        handleDeleteRecipe(recipe);
-                        console.log('Just clicked: ' + recipe);
+                        setShowAddRecipeForm(false);
+                        setRecipe(recipe);
                       }}
-                    />
+                    >
+                      {recipe.name}
+                    </span>
+                    <div>
+                      <FontAwesomeIcon
+                        icon={faTimes}
+                        alt="Delete"
+                        onClick={() => {
+                          handleDeleteRecipe(recipe);
+                          console.log('Just clicked: ' + recipe);
+                        }}
+                      />
+                    </div>
                   </div>
                 </li>
               ))}
