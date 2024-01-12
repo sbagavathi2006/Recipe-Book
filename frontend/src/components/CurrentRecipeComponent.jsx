@@ -14,17 +14,34 @@ export default function CurrentRecipeComponent({
   const [ingredientQuantity, setIngredientQuantity] = useState('');
   const [ingredientName, setIngredientName] = useState('');
   const [shoppingList, setShoppingList] = useState([]);
+  const [shoppingListCount, setShoppingListCount] = useState(0);
 
   //Shopping Cart List for adding Ingredients
   const handleAddToShoppingList = (ingredient) => {
     if (!shoppingList.includes(ingredient)) {
       setShoppingList([...shoppingList, ingredient]);
+      setShoppingListCount((prevCount) => prevCount + 1);
       console.log(shoppingList);
     }
   };
 
-  const handleShoppingClick = (shoppingList) => {
-    console.log(shoppingList);
+  const handleOpenShoppingList = () => {
+    const shoppingListWindow = window.open('', '_blank');
+    if (shoppingListWindow) {
+      shoppingListWindow.document.write('<html><head><title>Shopping List</title></head><body>');
+
+      shoppingListWindow.document.write('<h2>Shopping List</h2>');
+
+      // Render shopping list content in the new window
+      shoppingList.forEach((ingredient) => {
+        shoppingListWindow.document.write(`<p>${ingredient}</p>`);
+      });
+
+      shoppingListWindow.document.write('<button onclick = "window.print()">Print</button>');
+
+      shoppingListWindow.document.write('</body></html>');
+      shoppingListWindow.document.close();
+    }
   };
 
   const clearShoppingList = () => {
@@ -202,12 +219,12 @@ export default function CurrentRecipeComponent({
       const updatedDisplayedRecipe = {
         name: title,
         description: plainTextInstructions,
-        ingredients: extendedIngredients.map(
-          (ingredient) => ingredient.original
-        ),
         image: image,
-        wholeIngredient: extendedIngredients.map(
-          (ingredientName) => ingredientName.nameClean
+        ingredients: extendedIngredients.map(
+          ((ingredient) => ({
+            original: ingredient.original,
+            name: ingredient.name,
+          })),
         ),
       };
 
@@ -435,9 +452,10 @@ export default function CurrentRecipeComponent({
             </button>
             <button
               className="shopping-btn"
-              onClick={() => handleShoppingClick(shoppingList)}
+              onClick={() => {
+                handleOpenShoppingList()}}
             >
-              Shopping List
+              Shopping List ({shoppingListCount})
             </button>
           </p>
         </div>
@@ -448,6 +466,7 @@ export default function CurrentRecipeComponent({
           <div id="recipeToPrint">
             <h2>{name}</h2>
             <h3>Ingredients:</h3>
+            <p style={{fontSize: '12px'}}>Check to add to shopping list</p>
             <ul>
               {ingredients.map((ingredient, index) => (
                 <li key={index}>
@@ -455,10 +474,10 @@ export default function CurrentRecipeComponent({
                     <input
                       type="checkbox"
                       id={`ingredientCheckbox${index}`}
-                      onChange={() => handleAddToShoppingList(ingredient)}
+                      onChange={() => handleAddToShoppingList(ingredient.name)}
                     />
                     <label htmlFor="{`ingredientCheckbox${index}`}">
-                      {ingredient}
+                      {ingredient.original}
                     </label>
                   </div>
                 </li>
