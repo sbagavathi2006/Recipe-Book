@@ -14,11 +14,13 @@ export default function CurrentRecipeComponent({
   const [ingredientQuantity, setIngredientQuantity] = useState('');
   const [ingredientName, setIngredientName] = useState('');
   const [shoppingList, setShoppingList] = useState([]);
+  const [shoppingListCount, setShoppingListCount] = useState(0);
 
   //Shopping Cart List for adding Ingredients
   const handleAddToShoppingList = (ingredient) => {
     if (!shoppingList.includes(ingredient)) {
       setShoppingList([...shoppingList, ingredient]);
+      setShoppingListCount((prevCount) => prevCount + 1);
       console.log(shoppingList);
     }
   };
@@ -437,7 +439,7 @@ export default function CurrentRecipeComponent({
               className="shopping-btn"
               onClick={() => handleShoppingClick(shoppingList)}
             >
-              Shopping List
+              Shopping List ({shoppingListCount})
             </button>
           </p>
         </div>
