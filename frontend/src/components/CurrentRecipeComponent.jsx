@@ -467,18 +467,20 @@ export default function CurrentRecipeComponent({
             <br></br>
             <h3>Directions:</h3>
             <p>
-              {segments.map((segment, index) => (
-                <span key={index}>
-                  {segment}
-                  <br />
-                </span>
-              ))}
+              <p>
+                {segments.map((segment, index) => (
+                  <span key={index}>
+                    {segment}
+                    <br />
+                  </span>
+                ))}
+              </p>
             </p>
           </div>
           <PrintButton currentRecipeId="recipeToPrint" />
         </div>
 
-        <div className="CommentSection">
+        <div className="commentSection">
           <textarea
             name="text"
             placeholder="Add your comments here..."
