@@ -202,12 +202,12 @@ export default function CurrentRecipeComponent({
       const updatedDisplayedRecipe = {
         name: title,
         description: plainTextInstructions,
-        ingredients: extendedIngredients.map(
-          (ingredient) => ingredient.original
-        ),
         image: image,
-        wholeIngredient: extendedIngredients.map(
-          (ingredientName) => ingredientName.nameClean
+        ingredients: extendedIngredients.map(
+          ((ingredient) => ({
+            original: ingredient.original,
+            name: ingredient.name,
+          })),
         ),
       };
 
@@ -455,10 +455,10 @@ export default function CurrentRecipeComponent({
                     <input
                       type="checkbox"
                       id={`ingredientCheckbox${index}`}
-                      onChange={() => handleAddToShoppingList(ingredient)}
+                      onChange={() => handleAddToShoppingList(ingredient.name)}
                     />
                     <label htmlFor="{`ingredientCheckbox${index}`}">
-                      {ingredient}
+                      {ingredient.original}
                     </label>
                   </div>
                 </li>
