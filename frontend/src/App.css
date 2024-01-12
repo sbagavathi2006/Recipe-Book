@@ -162,6 +162,17 @@ input#searchInput {
   justify-content: flex-start;
 }
 
+#recipeToPrint p span {
+  display: block;
+  margin-left: 0px;
+  margin-top: 10px;
+}
+
+#recipeToPrint span:hover {
+  text-decoration: none;
+  color: rgb(94, 94, 14);
+}
+
 #root {
   margin: 0;
   margin-top: 80px;
@@ -320,6 +331,17 @@ input#searchInput {
   margin: 10px;
 }
 
+.shopping-btn {
+  background-color: var(--white-color);
+  color: #333;
+  border: 1px solid;
+  border-radius: 4px;
+}
+
+.shopping-btn:hover {
+  background-color: #e0ffe2;
+}
+
 .favorite-btn {
   display: inline-block;
   padding: 4px 15px 4px 3px;
@@ -370,7 +392,7 @@ input#searchInput {
 .print-button {
   padding: 6px 10px;
   margin-bottom: 15px;
-  margin-top: 6px;
+  margin-top: -5px;
 }
 
 .sort-button {
@@ -475,4 +497,12 @@ label {
 
 .comment {
   text-align: left;
+}
+
+.commentSection {
+  display: flex;
+  flex-direction: row;
+  margin: 25px 0;
+  justify-content: center;
+  align-items: center;
 }
