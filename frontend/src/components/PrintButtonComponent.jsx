@@ -2,13 +2,18 @@ import React from 'react';
 
 export default function PrintButton({ currentRecipeId }) {
   const handlePrint = () => {
-    // window.print();
+
     const printWindow = window.open('', '_blank');
     const recipeToPrint = document.getElementById(currentRecipeId);
 
     if (printWindow && recipeToPrint) {
       const printDocument = printWindow.document;
       const contentToPrint = recipeToPrint.cloneNode(true);
+
+      const checkboxesToRemove = contentToPrint.querySelectorAll('input[type="checkbox"]');
+      checkboxesToRemove.forEach((checkbox) => {
+        checkbox.remove();
+      });
 
       printDocument.body.appendChild(contentToPrint);
       printWindow.print();
