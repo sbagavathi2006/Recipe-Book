@@ -52,21 +52,16 @@ public class RecipeController {
         List<String> ingredients = recipeDTO.getIngredients();
         HttpSession session = request.getSession();
         User user = authenticationController.getUserFromSession(session);
-
-
         Recipe recipe = new Recipe(recipeDTO.getName(), recipeDTO.getDescription(), recipeDTO.getImage(), ingredients, user, recipeDTO.getUserCreated());
-
         Recipe existingRecipe = recipeRepository.findByName(recipeDTO.getName());
 
         if (existingRecipe == null) {
             Recipe savedRecipe = recipeRepository.save(recipe);
-
             RecipeDTO savedRecipeDTO = RecipeMapper.convertToRecipeDTO(savedRecipe);
 
             try {
                 ObjectMapper objectMapper = new ObjectMapper();
                 String savedRecipeJson = objectMapper.writeValueAsString(savedRecipeDTO);
-
                 return ResponseEntity.ok(savedRecipeJson);
             } catch (JsonProcessingException e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error converting to JSON");
@@ -76,21 +71,16 @@ public class RecipeController {
     }
 
     @GetMapping("get")
-
     public ResponseEntity<List<Recipe>> getRecipeList(HttpServletRequest request) {
 
         HttpSession session = request.getSession();
         User user = authenticationController.getUserFromSession(session);
-
         List<Recipe> recipesByUserId = recipeRepository.findByUserId(user.getId());
-
         return ResponseEntity.ok().body(recipesByUserId);
     }
 
     @DeleteMapping("delete")
     public ResponseEntity<List<Recipe>> deleteRecipe(@RequestBody RecipeDTO recipeDTO, HttpServletRequest request) {
-        System.out.println(recipeDTO.getName());
-        System.out.println(recipeDTO.getDescription());
 
         HttpSession session = request.getSession();
         User user = authenticationController.getUserFromSession(session);
@@ -105,4 +95,21 @@ public class RecipeController {
         }
     }
 
+    @PutMapping("update")
+    public ResponseEntity<List<Recipe>> updateRecipe(@RequestBody RecipeDTO recipeDTO, HttpServletRequest request) {
+
+        HttpSession session = request.getSession();
+        List<String> ingredients = recipeDTO.getIngredients();
+        User user = authenticationController.getUserFromSession(session);
+        Recipe existingRecipe = recipeRepository.findByName(recipeDTO.getName());
+        Recipe recipe = new Recipe(recipeDTO.getName(), recipeDTO.getDescription(), recipeDTO.getImage(), ingredients, user, recipeDTO.getUserCreated());
+        List<Recipe> recipesByUserId = recipeRepository.findByUserId(user.getId());
+
+        if(existingRecipe != null && existingRecipe.getUser() == user) {
+            recipeRepository.save(recipe);
+            return ResponseEntity.ok().body(recipesByUserId);
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
 }

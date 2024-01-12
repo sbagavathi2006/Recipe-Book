@@ -14,6 +14,7 @@ function App() {
   const [update, setUpdate] = useState(0);
   const [loadingSearch, setLoadingSearch] = useState(false);
   const [loadingRecipe, setLoadingRecipe] = useState(false);
+  const [updateStatus, setUpdateStatus] = useState(false);
 
   const handleSearchResults = (results) => {
     setSearchResults(results);
@@ -37,6 +38,10 @@ function App() {
 
   const handleLoadingRecipe = (bool) => {
     setLoadingRecipe(bool);
+  };
+
+  const handleUpdateStatus = (bool) => {
+    setUpdateStatus(bool);
   };
 
   useEffect(() => {
@@ -88,6 +93,7 @@ function App() {
           setShowAddRecipeForm={handleShowAddRecipeForm}
           setUpdate={handleUpdate}
           loadingRecipe={loadingRecipe}
+          updateStatus={updateStatus}
         />
 
         <div className="rightsideBody">
@@ -98,6 +104,7 @@ function App() {
             recipe={recipe}
             showAddRecipeForm={showAddRecipeForm}
             update={update}
+            setUpdateStatus={handleUpdateStatus}
           />
 
           <AddYourOwnRecipeComponent

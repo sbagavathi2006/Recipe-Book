@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 export default function FavoriteRecipesComponent({
   setRecipe,
@@ -8,6 +9,7 @@ export default function FavoriteRecipesComponent({
   recipe,
   showAddRecipeForm,
   update,
+  setUpdateStatus,
 }) {
   const [recipeList, setRecipeList] = useState(null);
   const [sortOrderAlpha, setSortOrderAlpha] = useState(0);
@@ -140,10 +142,18 @@ export default function FavoriteRecipesComponent({
                         alt="Delete"
                         onClick={() => {
                           handleDeleteRecipe(recipe);
-                          console.log('Just clicked: ' + recipe);
                         }}
                       />
                     </div>
+                    {recipe.userCreated && (
+                      <div>
+                        <FontAwesomeIcon
+                          icon={faEdit}
+                          alt="update"
+                          onClick={() => setUpdateStatus(true)}
+                        />
+                      </div>
+                    )}
                   </div>
                 </li>
               ))}
@@ -175,60 +185,3 @@ export default function FavoriteRecipesComponent({
     </>
   );
 }
-//  return (
-//   <>
-//     {recipeList && recipeList.length > 0 ? (
-//       // <div className="favoriteRecipes">
-//       <div className="favoritesList">
-//         <h2>Favorite Recipes</h2>
-//         <ul>
-//           {recipeList.map((recipe, index) => (
-//             <li key={index} className="favoriteItem">
-//               <img src={recipe.image} alt={recipe.name} />
-//               <span
-//                 onClick={() => {
-//                   setShowAddRecipeForm(false);
-//                   setRecipe(recipe);
-//                 }}
-//               >
-//                 {recipe.name}
-//               </span>
-//               <div>
-//                 <FontAwesomeIcon
-//                   icon={faTimes}
-//                   alt="Delete"
-//                   onClick={() => {
-//                     handleDeleteRecipe(recipe);
-//                     console.log('Just clicked: ' + recipe);
-//                   }}
-//                 />
-//               </div>
-//             </li>
-//           ))}
-//         </ul>
-//       </div>
-//       {recipeList.length > 0 && (
-//         <div className="sortButtons">
-//           <button className="sort-button" onClick={handleSortAlpha}>
-//             {sortOrderAlpha % 2
-//               ? 'Reverse Alphabetically'
-//               : 'Sort Alphabetically'}
-//           </button>
-//           {recipeList.filter((recipe) => recipe.userCreated === true).length > 0 && (
-//             <button className="sort-button" onClick={handleSortUser}>
-//               {sortOrderUser % 2 ? 'All Favorite Recipes' : 'User Created Only'}
-//             </button>
-//           )}
-//         </div>
-//       )}
-//     ) : (
-//       <>
-//         <div className="favoritesList">
-//           <p>No favorite recipes yet...</p>
-//         </div>
-//         <div className="sortButtons"></div>
-//       </>
-//     )}
-//   </>
-//   );
-// }
