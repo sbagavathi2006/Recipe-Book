@@ -450,6 +450,7 @@ export default function CurrentRecipeComponent({
           <div id="recipeToPrint">
             <h2>{name}</h2>
             <h3>Ingredients:</h3>
+            <p style={{fontSize: '12px'}}>Check to add to shopping list</p>
             <ul>
               {ingredients.map((ingredient, index) => (
                 <li key={index}>
