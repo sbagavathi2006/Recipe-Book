@@ -5,9 +5,9 @@ export default function CurrentRecipeComponent({
   recipe,
   showAddRecipeForm,
   setRecipe,
-  setShowAddRecipeForm,
   setUpdate,
   loadingRecipe,
+  updateStatus,
 }) {
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
@@ -28,7 +28,9 @@ export default function CurrentRecipeComponent({
   const handleOpenShoppingList = () => {
     const shoppingListWindow = window.open('', '_blank');
     if (shoppingListWindow) {
-      shoppingListWindow.document.write('<html><head><title>Shopping List</title></head><body>');
+      shoppingListWindow.document.write(
+        '<html><head><title>Shopping List</title></head><body>'
+      );
 
       shoppingListWindow.document.write('<h2>Shopping List</h2>');
 
@@ -37,7 +39,9 @@ export default function CurrentRecipeComponent({
         shoppingListWindow.document.write(`<p>${ingredient}</p>`);
       });
 
-      shoppingListWindow.document.write('<button onclick = "window.print()">Print</button>');
+      shoppingListWindow.document.write(
+        '<button onclick = "window.print()">Print</button>'
+      );
 
       shoppingListWindow.document.write('</body></html>');
       shoppingListWindow.document.close();
@@ -64,12 +68,11 @@ export default function CurrentRecipeComponent({
 
   const addIngredient = () => {
     // Add a new ingredient object to the list
+    const newIngredient = `${ingredientQuantity} ${ingredientName}`;
+
     setAddrecipe({
       ...addrecipe,
-      ingredients: [
-        ...addrecipe.ingredients,
-        { quantity: ingredientQuantity, name: ingredientName },
-      ],
+      ingredients: [...addrecipe.ingredients, newIngredient],
     });
 
     // Clear the input fields after adding an ingredient
@@ -113,6 +116,12 @@ export default function CurrentRecipeComponent({
     e.preventDefault();
     //Basic client side validations
     let newErrors = {};
+
+    // concatenate the quantity and name together to match the recipe format in the database
+    const ingredientsToSend = addrecipe.ingredients.map(
+      (ingredient) => `${ingredient.quantity} ${ingredient.name}`
+    );
+
     if (!name.trim()) {
       newErrors = { ...newErrors, name: 'Please enter recipe title.' };
     }
@@ -122,7 +131,7 @@ export default function CurrentRecipeComponent({
         description: 'Please enter recipe description.',
       };
     }
-    if (!ingredients.length) {
+    if (!ingredientsToSend.length) {
       newErrors = {
         ...newErrors,
         ingredients: 'Please enter recipe ingredients.',
@@ -138,9 +147,6 @@ export default function CurrentRecipeComponent({
     }
 
     // concatenate the quantity and name together to match the recipe format in the database
-    const ingredientsToSend = addrecipe.ingredients.map(
-      (ingredient) => `${ingredient.quantity} ${ingredient.name}`
-    );
 
     const recipeToAdd = {
       ...addrecipe,
@@ -149,17 +155,27 @@ export default function CurrentRecipeComponent({
     };
 
     try {
-      const response = await fetch('http://localhost:8080/recipe/add', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(recipeToAdd),
-      });
+      const response = await fetch(
+        `http://localhost:8080/recipe/${updateStatus ? 'update' : 'add'}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(recipeToAdd),
+        }
+      );
       if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
+        console.error(
+          `Failed to ${updateStatus ? 'update' : 'add'} recipe. Status: ${
+            response.status
+          }`
+        );
       }
 
+      // Set success message after a successful request
       setSuccessMessage('Recipe added successfully!!');
-      setUpdate(1); // Change update state to re-render favorites recipe list
+
+      // Change update state to re-render favorites recipe list
+      setUpdate(1);
 
       // Reset the form fields to an empty state
       setAddrecipe({
@@ -176,10 +192,19 @@ export default function CurrentRecipeComponent({
   const handleClick = (recipeData) => {
     console.log(recipeData);
 
+    if (recipeData.ingredients && recipeData.ingredients.length > 0) {
+      const ingredientNames = recipeData.ingredients
+        .filter((ingredient) => ingredient.original)
+        .map((ingredient) => ingredient.original);
+
+      recipeData.ingredients = ingredientNames;
+    }
+
     const recipeToAdd = {
       ...recipeData,
       userCreated: false,
     };
+    console.log(recipeToAdd);
 
     fetch('http://localhost:8080/recipe/add', {
       method: 'POST',
@@ -220,12 +245,10 @@ export default function CurrentRecipeComponent({
         name: title,
         description: plainTextInstructions,
         image: image,
-        ingredients: extendedIngredients.map(
-          ((ingredient) => ({
-            original: ingredient.original,
-            name: ingredient.name,
-          })),
-        ),
+        ingredients: extendedIngredients.map((ingredient) => ({
+          original: ingredient.original,
+          name: ingredient.name,
+        })),
       };
 
       setDisplayedRecipe(updatedDisplayedRecipe);
@@ -335,7 +358,9 @@ export default function CurrentRecipeComponent({
           <div className="success-message">{successMessage}</div>
         )}
 
-        <h1>Add Your Own Recipe!!!</h1>
+        <h1>
+          {updateStatus ? 'Update Your Recipe!!!' : 'Add Your Own Recipe!!!'}
+        </h1>
         <form onSubmit={(e) => onSubmit(e)} className="form-group">
           <div>
             <label htmlFor="recipe-name"> Title : </label>
@@ -453,7 +478,8 @@ export default function CurrentRecipeComponent({
             <button
               className="shopping-btn"
               onClick={() => {
-                handleOpenShoppingList()}}
+                handleOpenShoppingList();
+              }}
             >
               Shopping List ({shoppingListCount})
             </button>
@@ -466,7 +492,7 @@ export default function CurrentRecipeComponent({
           <div id="recipeToPrint">
             <h2>{name}</h2>
             <h3>Ingredients:</h3>
-            <p style={{fontSize: '12px'}}>Check to add to shopping list</p>
+            <p style={{ fontSize: '12px' }}>Check to add to shopping list</p>
             <ul>
               {ingredients.map((ingredient, index) => (
                 <li key={index}>
