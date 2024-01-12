@@ -25,8 +25,23 @@ export default function CurrentRecipeComponent({
     }
   };
 
-  const handleShoppingClick = (shoppingList) => {
-    console.log(shoppingList);
+  const handleOpenShoppingList = () => {
+    const shoppingListWindow = window.open('', '_blank');
+    if (shoppingListWindow) {
+      shoppingListWindow.document.write('<html><head><title>Shopping List</title></head><body>');
+
+      shoppingListWindow.document.write('<h2>Shopping List</h2>');
+
+      // Render shopping list content in the new window
+      shoppingList.forEach((ingredient) => {
+        shoppingListWindow.document.write(`<p>${ingredient}</p>`);
+      });
+
+      shoppingListWindow.document.write('<button onclick = "window.print()">Print</button>');
+
+      shoppingListWindow.document.write('</body></html>');
+      shoppingListWindow.document.close();
+    }
   };
 
   const clearShoppingList = () => {
@@ -437,7 +452,8 @@ export default function CurrentRecipeComponent({
             </button>
             <button
               className="shopping-btn"
-              onClick={() => handleShoppingClick(shoppingList)}
+              onClick={() => {
+                handleOpenShoppingList()}}
             >
               Shopping List ({shoppingListCount})
             </button>
