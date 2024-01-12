@@ -187,7 +187,7 @@ input#searchInput {
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
-  height: 81vh;
+  height: 82vh;
   overflow: hidden;
   font-size: 20px;
 }
@@ -465,6 +465,10 @@ label {
   cursor: pointer;
 }
 
+.editIcon:hover {
+  cursor: pointer;
+}
+
 .spinnerContainer {
   display: flex;
   justify-content: center;
@@ -505,4 +509,8 @@ label {
   margin: 25px 0;
   justify-content: center;
   align-items: center;
+}
+
+.editIcon {
+  margin-left: 10px;
 }

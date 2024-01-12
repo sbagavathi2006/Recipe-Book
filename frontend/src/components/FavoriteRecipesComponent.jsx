@@ -150,7 +150,11 @@ export default function FavoriteRecipesComponent({
                         <FontAwesomeIcon
                           icon={faEdit}
                           alt="update"
-                          onClick={() => setUpdateStatus(true)}
+                          className="editIcon"
+                          onClick={() => {
+                            setUpdateStatus(true);
+                            setShowAddRecipeForm(true);
+                          }}
                         />
                       </div>
                     )}

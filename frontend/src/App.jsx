@@ -41,6 +41,7 @@ function App() {
   };
 
   const handleUpdateStatus = (bool) => {
+    console.log('click');
     setUpdateStatus(bool);
   };
 
