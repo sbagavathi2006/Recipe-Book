@@ -1,6 +1,7 @@
 package org.launchcode.recipebook.models.dto;
 
 import jakarta.validation.constraints.NotNull;
+import org.launchcode.recipebook.models.Ingredient;
 import org.launchcode.recipebook.models.User;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class RecipeDTO {
     private String image;
 
     @NotNull
-    private List<String> ingredients;
+    private List<Ingredient> ingredients;
 
     private Boolean userCreated;
 
@@ -47,11 +48,11 @@ public class RecipeDTO {
         this.image = image;
     }
 
-    public List<String> getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<String> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 

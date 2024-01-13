@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import PrintButton from './PrintButtonComponent.jsx';
+import PrintButton from './PrintButtonComponent';
 
 export default function CurrentRecipeComponent({
   recipe,
@@ -11,16 +11,41 @@ export default function CurrentRecipeComponent({
 }) {
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
-  const [ingredientQuantity, setIngredientQuantity] = useState('');
-  const [ingredientName, setIngredientName] = useState('');
+  const [ingredient, setIngredient] = useState('');
   const [shoppingList, setShoppingList] = useState([]);
   const [shoppingListCount, setShoppingListCount] = useState(0);
+  const [addrecipe, setAddrecipe] = useState({
+    name: '',
+    description: '',
+    ingredients: [],
+    image: null,
+  });
+  const [errors, setErrors] = useState({
+    name: '',
+    description: '',
+    ingredients: [],
+    image: null,
+  });
+  const [comment, setComment] = useState({
+    text: '',
+    recipeId: '',
+    username: '',
+  });
+  const [comments, setComments] = useState([]);
 
   //Shopping Cart List for adding Ingredients
   const handleAddToShoppingList = (ingredient) => {
     if (!shoppingList.includes(ingredient)) {
       setShoppingList([...shoppingList, ingredient]);
       setShoppingListCount((prevCount) => prevCount + 1);
+      console.log(shoppingList);
+    } else {
+      let index = shoppingList.indexOf(ingredient);
+      let newShoppingList = shoppingList.filter(
+        (ingredient) => shoppingList.indexOf(ingredient) !== index
+      );
+      setShoppingListCount((prevCount) => prevCount - 1);
+      setShoppingList(newShoppingList);
       console.log(shoppingList);
     }
   };
@@ -52,32 +77,14 @@ export default function CurrentRecipeComponent({
     setShoppingList([]);
   };
 
-  // Add form recipe
-  const [addrecipe, setAddrecipe] = useState({
-    name: '',
-    description: '',
-    ingredients: [],
-    image: null,
-  });
-  const [errors, setErrors] = useState({
-    name: '',
-    description: '',
-    ingredients: [],
-    image: null,
-  });
-
   const addIngredient = () => {
-    // Add a new ingredient object to the list
-    const newIngredient = `${ingredientQuantity} ${ingredientName}`;
-
     setAddrecipe({
       ...addrecipe,
-      ingredients: [...addrecipe.ingredients, newIngredient],
+      ingredients: [...addrecipe.ingredients, ingredient],
     });
 
     // Clear the input fields after adding an ingredient
-    setIngredientQuantity('');
-    setIngredientName('');
+    setIngredient('');
   };
 
   const { name, description, ingredients, image } = addrecipe;
@@ -87,14 +94,8 @@ export default function CurrentRecipeComponent({
 
     if (name === 'name' || name === 'description') {
       setAddrecipe({ ...addrecipe, [name]: value });
-    } else if (name === 'ingredient-quantity') {
-      setIngredientQuantity(value);
-      // Update the specific property in the addrecipe object
-      setAddrecipe({ ...addrecipe, ingredientQuantity: value });
-    } else if (name === 'ingredient-name') {
-      setIngredientName(value);
-      // Update the specific property in the addrecipe object
-      setAddrecipe({ ...addrecipe, ingredientName: value });
+    } else if (name === 'ingredient') {
+      setIngredient(value);
     }
     // Clear the associated error when the user starts typing
     setErrors({ ...errors, [name]: '' });
@@ -113,14 +114,11 @@ export default function CurrentRecipeComponent({
   };
 
   const onSubmit = async (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     //Basic client side validations
     let newErrors = {};
-
-    // concatenate the quantity and name together to match the recipe format in the database
-    const ingredientsToSend = addrecipe.ingredients.map(
-      (ingredient) => `${ingredient.quantity} ${ingredient.name}`
-    );
 
     if (!name.trim()) {
       newErrors = { ...newErrors, name: 'Please enter recipe title.' };
@@ -131,7 +129,7 @@ export default function CurrentRecipeComponent({
         description: 'Please enter recipe description.',
       };
     }
-    if (!ingredientsToSend.length) {
+    if (!ingredients.length === 0) {
       newErrors = {
         ...newErrors,
         ingredients: 'Please enter recipe ingredients.',
@@ -150,7 +148,6 @@ export default function CurrentRecipeComponent({
 
     const recipeToAdd = {
       ...addrecipe,
-      ingredients: ingredientsToSend,
       userCreated: true,
     };
 
@@ -158,7 +155,7 @@ export default function CurrentRecipeComponent({
       const response = await fetch(
         `http://localhost:8080/recipe/${updateStatus ? 'update' : 'add'}`,
         {
-          method: 'POST',
+          method: `${updateStatus ? 'PUT' : 'POST'}`,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(recipeToAdd),
         }
@@ -169,10 +166,17 @@ export default function CurrentRecipeComponent({
             response.status
           }`
         );
+        return;
       }
+      console.log(response);
 
       // Set success message after a successful request
-      setSuccessMessage('Recipe added successfully!!');
+      setSuccessMessage(
+        `Recipe ${updateStatus ? 'updated' : 'added'} successfully!!`
+      );
+      setTimeout(() => {
+        setSuccessMessage('');
+      }, 4000);
 
       // Change update state to re-render favorites recipe list
       setUpdate(1);
@@ -189,16 +193,8 @@ export default function CurrentRecipeComponent({
     }
   };
 
-  const handleClick = (recipeData) => {
+  const handleAddFavoritesClick = (recipeData) => {
     console.log(recipeData);
-
-    if (recipeData.ingredients && recipeData.ingredients.length > 0) {
-      const ingredientNames = recipeData.ingredients
-        .filter((ingredient) => ingredient.original)
-        .map((ingredient) => ingredient.original);
-
-      recipeData.ingredients = ingredientNames;
-    }
 
     const recipeToAdd = {
       ...recipeData,
@@ -215,7 +211,7 @@ export default function CurrentRecipeComponent({
     })
       .then((response) => {
         if (!response.ok) {
-          throw new error('Network response was not ok');
+          throw new Error('Network response was not ok');
         }
         return response.json();
       })
@@ -246,7 +242,7 @@ export default function CurrentRecipeComponent({
         description: plainTextInstructions,
         image: image,
         ingredients: extendedIngredients.map((ingredient) => ({
-          original: ingredient.original,
+          originalName: ingredient.original,
           name: ingredient.name,
         })),
       };
@@ -254,35 +250,6 @@ export default function CurrentRecipeComponent({
       setDisplayedRecipe(updatedDisplayedRecipe);
     }
   }, [recipe]);
-
-  useEffect(() => {
-    console.log(recipe);
-    if (
-      recipe?.name &&
-      recipe?.image &&
-      recipe?.ingredients &&
-      recipe?.description
-    ) {
-      let { name, image, ingredients, description } = recipe;
-
-      // Build out displayedRecipe object to update displayed content
-      const updatedDisplayedRecipe = {
-        name: name,
-        description: description,
-        ingredients: ingredients.map((ingredient) => ingredient),
-        image: image,
-      };
-
-      setDisplayedRecipe(updatedDisplayedRecipe);
-    }
-  }, [recipe]);
-
-  const [comment, setComment] = useState({
-    text: '',
-    recipeId: '',
-    username: '',
-  });
-  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     // Fetch comments when the recipe changes
@@ -351,16 +318,13 @@ export default function CurrentRecipeComponent({
         </div>
       </div>
     );
-  } else if (showAddRecipeForm === true && loadingRecipe === false) {
+  } else if (showAddRecipeForm === true && updateStatus === true) {
     return (
       <div className="currentRecipe">
         {successMessage && (
           <div className="success-message">{successMessage}</div>
         )}
-
-        <h1>
-          {updateStatus ? 'Update Your Recipe!!!' : 'Add Your Own Recipe!!!'}
-        </h1>
+        <h1>Update Your Recipe!!!</h1>
         <form onSubmit={(e) => onSubmit(e)} className="form-group">
           <div>
             <label htmlFor="recipe-name"> Title : </label>
@@ -394,38 +358,103 @@ export default function CurrentRecipeComponent({
               <div key={index} className="input-container">
                 <input
                   type="text"
-                  className="ingredient-quantity"
-                  placeholder="Ingredient Quantity"
-                  value={ingredient.quantity}
-                  disabled
-                />
-                <input
-                  type="text"
-                  className="ingredient-name"
-                  placeholder="Ingredient Name"
-                  value={ingredient.name}
+                  className="ingredient"
+                  placeholder="Ingredient"
+                  value={ingredient}
                   disabled
                 />
               </div>
             ))}
             <div className="input-container">
               <input
-                className="ingredient-quantity"
                 type="text"
-                id="recipe-ingredient-quantity"
-                name="ingredient-quantity"
-                placeholder="Ingredient Quantity"
-                onChange={(e) => setIngredientQuantity(e.target.value)}
-                value={ingredientQuantity}
-              />
-              <input
-                className="ingredient-name"
-                type="text"
+                className="ingredient"
                 id="recipe-ingredient-name"
                 name="ingredient-name"
                 placeholder="Ingredient Name"
-                onChange={(e) => setIngredientName(e.target.value)}
-                value={ingredientName}
+                onChange={(e) => setIngredient(e.target.value)}
+                value={ingredient}
+              />
+              <button type="button" onClick={addIngredient}>
+                Add
+              </button>
+            </div>
+          </div>
+          <div className="error-message">{errors.ingredients}</div>
+          <br></br>
+          <div className="image-div">
+            <label htmlFor="recipe-image"> Upload Image : </label>
+            <input
+              type="file"
+              id="recipe-image"
+              name="image"
+              onChange={(e) => onFileChange(e)}
+            />
+            <div className="error-message">{errors.image}</div>
+          </div>
+          <br></br>
+          <div className="button-container">
+            <button type="submit">Update Recipe</button>
+          </div>
+        </form>
+      </div>
+    );
+  } else if (showAddRecipeForm === true && loadingRecipe === false) {
+    return (
+      <div className="currentRecipe">
+        {successMessage && (
+          <div className="success-message">{successMessage}</div>
+        )}
+        <h1>Add Your Own Recipe!!!</h1>
+        <form onSubmit={(e) => onSubmit(e)} className="form-group">
+          <div>
+            <label htmlFor="recipe-name"> Title : </label>
+            <input
+              type="text"
+              id="recipe-name"
+              name="name"
+              placeholder="Your recipe's title"
+              onChange={(e) => onInputChange(e)}
+              value={name}
+            />
+            <div className="error-message">{errors.name}</div>
+          </div>
+          <br></br>
+          <div>
+            <label htmlFor="recipe-description"> Description : </label>
+            <textarea
+              type="text"
+              id="recipe-description"
+              name="description"
+              placeholder="Your recipe's instructions"
+              onChange={(e) => onInputChange(e)}
+              value={description}
+            />
+            <div className="error-message">{errors.description}</div>
+          </div>
+          <br></br>
+          <div className="ingredients-input">
+            <label htmlFor="recipe-ingredients"> Ingredients : </label>
+            {addrecipe.ingredients.map((ingredient, index) => (
+              <div key={index} className="input-container">
+                <input
+                  type="text"
+                  className="ingredient"
+                  placeholder="Ingredient"
+                  value={ingredient}
+                  disabled
+                />
+              </div>
+            ))}
+            <div className="input-container">
+              <input
+                type="text"
+                className="ingredient"
+                id="recipe-ingredient-name"
+                name="ingredient-name"
+                placeholder="Ingredient Name"
+                onChange={(e) => setIngredient(e.target.value)}
+                value={ingredient}
               />
               <button type="button" onClick={addIngredient}>
                 Add
@@ -461,7 +490,6 @@ export default function CurrentRecipeComponent({
     );
   } else {
     const { name, description, ingredients, image } = displayedRecipe;
-
     // Split the description at periods not preceded by a number
     const segments = description.split(/(?<!\d)\.\s*/);
 
@@ -471,7 +499,7 @@ export default function CurrentRecipeComponent({
           <p>
             <button
               className="favorite-btn"
-              onClick={() => handleClick(displayedRecipe)}
+              onClick={() => handleAddFavoritesClick(displayedRecipe)}
             >
               <span className="star"></span> Add to Favorites
             </button>
@@ -492,7 +520,7 @@ export default function CurrentRecipeComponent({
           <div id="recipeToPrint">
             <h2>{name}</h2>
             <h3>Ingredients:</h3>
-            <p style={{ fontSize: '12px' }}>Check to add to shopping list</p>
+            <p className="shoppingListP">(Check to add to shopping list)</p>
             <ul>
               {ingredients.map((ingredient, index) => (
                 <li key={index}>
@@ -500,10 +528,13 @@ export default function CurrentRecipeComponent({
                     <input
                       type="checkbox"
                       id={`ingredientCheckbox${index}`}
-                      onChange={() => handleAddToShoppingList(ingredient.name)}
+                      onChange={() => {
+                        handleAddToShoppingList(ingredient.name);
+                        console.log(ingredients);
+                      }}
                     />
                     <label htmlFor="{`ingredientCheckbox${index}`}">
-                      {ingredient.original}
+                      {ingredient.originalName}
                     </label>
                   </div>
                 </li>
@@ -538,7 +569,14 @@ export default function CurrentRecipeComponent({
               })
             }
           />
-          <button onClick={submitComment}>Post Comment</button>
+          <button
+            onClick={() => {
+              submitComment();
+              setUpdate(1);
+            }}
+          >
+            Post Comment
+          </button>
           {comments
             .slice()
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))

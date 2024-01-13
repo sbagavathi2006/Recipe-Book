@@ -111,6 +111,7 @@ function App() {
           <AddYourOwnRecipeComponent
             id="add-your-own-recipe-component"
             setShowAddRecipeForm={handleShowAddRecipeForm}
+            setUpdateStatus={handleUpdateStatus}
           />
         </div>
       </div>

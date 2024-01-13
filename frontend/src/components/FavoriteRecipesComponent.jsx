@@ -29,6 +29,7 @@ export default function FavoriteRecipesComponent({
   };
 
   const handleDeleteRecipe = (recipeToDelete) => {
+    console.log(recipeToDelete);
     fetch('http://localhost:8080/recipe/delete', {
       method: 'DELETE',
       headers: {
@@ -132,6 +133,7 @@ export default function FavoriteRecipesComponent({
                       onClick={() => {
                         setShowAddRecipeForm(false);
                         setRecipe(recipe);
+                        console.log(recipe);
                       }}
                     >
                       {recipe.name}

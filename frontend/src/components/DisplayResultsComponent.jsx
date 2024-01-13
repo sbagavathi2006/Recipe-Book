@@ -27,6 +27,7 @@ export default function DisplayResultsComponent({
         ...recipeData,
         plainTextInstructions: plainTextInstructions,
       });
+      console.log(recipeData);
     } catch (error) {
       console.error('There was a problem with the fetch operation:', error);
       setRecipe(null);
@@ -44,19 +45,20 @@ export default function DisplayResultsComponent({
 
     //iterate through each <ol> and its <li> elements
     orderedList.forEach((ol) => {
-
       //get all the <li> elements within the tempDiv above
       const listItems = ol.querySelectorAll('li');
 
       //iterate through each <li> and add a step number
       listItems.forEach((li, index) => {
-         //add a line break after the text node
-        if(index < listItems.length - 1) {
+        //add a line break after the text node
+        if (index < listItems.length - 1) {
           const lineBreak = document.createElement('br');
           ol.insertBefore(lineBreak, li.nextSibling);
         }
         const stepNumber = index + 1;
-        const textNode = document.createTextNode(`${stepNumber}. ${li.textContent}\n`);
+        const textNode = document.createTextNode(
+          `${stepNumber}. ${li.textContent}\n`
+        );
 
         //replace the original <li> with the new text node
         li.replaceWith(textNode);

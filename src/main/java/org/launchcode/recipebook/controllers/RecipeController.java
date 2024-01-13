@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import jakarta.validation.Valid;
 import org.launchcode.recipebook.models.Comment;
+import org.launchcode.recipebook.models.Ingredient;
 import org.launchcode.recipebook.models.Recipe;
 import org.launchcode.recipebook.models.User;
 import org.launchcode.recipebook.models.data.CommentRepository;
@@ -49,7 +50,7 @@ public class RecipeController {
             return ResponseEntity.badRequest().body("Validation errors found");
         }
 
-        List<String> ingredients = recipeDTO.getIngredients();
+        List<Ingredient> ingredients = recipeDTO.getIngredients();
         HttpSession session = request.getSession();
         User user = authenticationController.getUserFromSession(session);
         Recipe recipe = new Recipe(recipeDTO.getName(), recipeDTO.getDescription(), recipeDTO.getImage(), ingredients, user, recipeDTO.getUserCreated());
@@ -99,7 +100,7 @@ public class RecipeController {
     public ResponseEntity<List<Recipe>> updateRecipe(@RequestBody RecipeDTO recipeDTO, HttpServletRequest request) {
 
         HttpSession session = request.getSession();
-        List<String> ingredients = recipeDTO.getIngredients();
+        List<Ingredient> ingredients = recipeDTO.getIngredients();
         User user = authenticationController.getUserFromSession(session);
         Recipe existingRecipe = recipeRepository.findByName(recipeDTO.getName());
         Recipe recipe = new Recipe(recipeDTO.getName(), recipeDTO.getDescription(), recipeDTO.getImage(), ingredients, user, recipeDTO.getUserCreated());

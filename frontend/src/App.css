@@ -216,7 +216,7 @@ input#searchInput {
   overflow-y: auto;
   align-items: flex-start;
   width: 100%;
-  height: 62vh;
+  height: 60vh;
   padding: 0;
   list-style: none;
 }
@@ -292,15 +292,14 @@ input#searchInput {
 }
 
 .sortButtons {
-  width: 100%;
-  height: 6vh;
+  display: flex;
+  justify-content: center;
 }
 
 .addYourOwnRecipe {
   margin: 0 10px;
   border-top: 5px groove;
-  width: auto;
-  height: 11%;
+  height: 15vh;
 }
 
 .favoriteRecipes ul {
@@ -424,7 +423,7 @@ label {
 }
 
 .ingredients-input {
-  width: 75%;
+  width: 84%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -513,4 +512,9 @@ label {
 
 .editIcon {
   margin-left: 10px;
+}
+
+.shoppingListP {
+  color: rgb(158, 103, 0);
+  font-size: 16px;
 }

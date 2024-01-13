@@ -5,15 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="558fd9f8-43d8-4b82-b5b6-6083f19b5ab1" name="Changes" comment="merge conflicts resolved- Comment">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/dist/index-43ec74d4.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/dist/index-93e3b744.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/launchcode/recipebook/models/Ingredient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/dist/index-b51ee732.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/dist/index-ba5d16d8.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/AddYourOwnRecipeComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AddYourOwnRecipeComponent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/CurrentRecipeComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CurrentRecipeComponent.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/DisplayResultsComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/DisplayResultsComponent.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/FavoriteRecipesComponent.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/FavoriteRecipesComponent.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index-98a60c3a.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index-a7975c83.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index-d7d46558.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/launchcode/recipebook/controllers/RecipeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/launchcode/recipebook/controllers/RecipeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/launchcode/recipebook/models/Recipe.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/launchcode/recipebook/models/Recipe.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/launchcode/recipebook/models/dto/RecipeDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/launchcode/recipebook/models/dto/RecipeDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index-43ec74d4.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index-93e3b744.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/dist/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/dist/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/fragments.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/fragments.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/index.html" afterDir="false" />
