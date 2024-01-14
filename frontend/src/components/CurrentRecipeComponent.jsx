@@ -141,13 +141,13 @@ export default function CurrentRecipeComponent({
         description: 'Please enter recipe description.',
       };
     }
-    if (ingredients.length === 0) {
+    if (addrecipe.ingredients.length === 0) {
       newErrors = {
         ...newErrors,
         ingredients: 'Please enter recipe ingredients.',
       };
     }
-    if (!image) {
+    if (!addrecipe.image) {
       newErrors = { ...newErrors, image: 'Please enter recipe image url.' };
     }
     // If there are errors, update the state and stop the submission
