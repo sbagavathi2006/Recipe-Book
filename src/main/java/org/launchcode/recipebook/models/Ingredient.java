@@ -1,5 +1,7 @@
 package org.launchcode.recipebook.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -13,13 +15,17 @@ public class Ingredient extends AbstractEntity {
 
     @ManyToOne
     @JoinColumn(name = "recipe_id")
+    @JsonIgnoreProperties("ingredients")
     private Recipe recipe;
+
 
     public Ingredient(String name, String originalName, Recipe recipe) {
       this.name = name;
       this.originalName = originalName;
       this.recipe = recipe;
     }
+
+    public Ingredient() {}
 
 
     public String getName() {

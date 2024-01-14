@@ -46,7 +46,7 @@ function App() {
   };
 
   useEffect(() => {
-    fetch('http://localhost:8080/get-user', {
+    fetch('http://localhost:8080/getUser', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -60,7 +60,7 @@ function App() {
       })
       .then((userData) => {
         setCurrentUser(userData);
-        console.log(currentUser);
+        console.log('Current User:', currentUser);
       })
       .catch((error) => {
         console.error('There was a problem fetching the current user:', error);

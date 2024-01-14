@@ -2,15 +2,14 @@ package org.launchcode.recipebook.controllers;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpServletRequest;
 
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
-import org.launchcode.recipebook.models.Comment;
 import org.launchcode.recipebook.models.Ingredient;
 import org.launchcode.recipebook.models.Recipe;
 import org.launchcode.recipebook.models.User;
-import org.launchcode.recipebook.models.data.CommentRepository;
 import org.launchcode.recipebook.models.data.RecipeRepository;
 import org.launchcode.recipebook.models.data.UserRepository;
-import org.launchcode.recipebook.models.dto.CommentDTO;
+import org.launchcode.recipebook.models.dto.IngredientDTO;
 import org.launchcode.recipebook.models.dto.RecipeDTO;
 import org.launchcode.recipebook.util.RecipeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.springframework.data.jpa.domain.AbstractAuditable_.createdDate;
 
 @Controller
 @RequestMapping("recipe")
@@ -43,6 +40,7 @@ public class RecipeController {
 
 
     @PostMapping("add")
+    @Transactional  // Ensures entire method runs within a single transaction
     public ResponseEntity<String> processAddRecipe(@RequestBody @Valid RecipeDTO recipeDTO, Errors errors, HttpServletRequest request) {
 
         if (errors.hasErrors()) {
@@ -50,32 +48,40 @@ public class RecipeController {
             return ResponseEntity.badRequest().body("Validation errors found");
         }
 
-        List<Ingredient> ingredients = recipeDTO.getIngredients();
         HttpSession session = request.getSession();
         User user = authenticationController.getUserFromSession(session);
-        Recipe recipe = new Recipe(recipeDTO.getName(), recipeDTO.getDescription(), recipeDTO.getImage(), ingredients, user, recipeDTO.getUserCreated());
         Recipe existingRecipe = recipeRepository.findByName(recipeDTO.getName());
 
-        if (existingRecipe == null) {
+        if (existingRecipe != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Recipe with the same name already exists");
+        }
+
+        Recipe recipe = new Recipe(recipeDTO.getName(), recipeDTO.getDescription(), recipeDTO.getImage(), new ArrayList<>(), user, recipeDTO.getUserCreated());
+
+        // Add Ingredients to the Recipe
+        for (IngredientDTO ingredientDTO : recipeDTO.getIngredients()) {
+            recipe.addIngredient(new Ingredient(ingredientDTO.getName(), ingredientDTO.getOriginalName(), recipe));
+        }
+
+        try {
             Recipe savedRecipe = recipeRepository.save(recipe);
             RecipeDTO savedRecipeDTO = RecipeMapper.convertToRecipeDTO(savedRecipe);
 
-            try {
-                ObjectMapper objectMapper = new ObjectMapper();
-                String savedRecipeJson = objectMapper.writeValueAsString(savedRecipeDTO);
-                return ResponseEntity.ok(savedRecipeJson);
-            } catch (JsonProcessingException e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error converting to JSON");
-            }
+            ObjectMapper objectMapper = new ObjectMapper();
+            String savedRecipeJson = objectMapper.writeValueAsString(savedRecipeDTO);
+
+            return ResponseEntity.ok(savedRecipeJson);
+        } catch (JsonProcessingException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error converting to JSON");
         }
-        return null;
     }
 
     @GetMapping("get")
+    @Transactional
     public ResponseEntity<List<Recipe>> getRecipeList(HttpServletRequest request) {
-
         HttpSession session = request.getSession();
         User user = authenticationController.getUserFromSession(session);
+        System.out.println("\n" + "Current User:" + user.getId() + "\n");
         List<Recipe> recipesByUserId = recipeRepository.findByUserId(user.getId());
         return ResponseEntity.ok().body(recipesByUserId);
     }
@@ -98,16 +104,24 @@ public class RecipeController {
 
     @PutMapping("update")
     public ResponseEntity<List<Recipe>> updateRecipe(@RequestBody RecipeDTO recipeDTO, HttpServletRequest request) {
-
         HttpSession session = request.getSession();
-        List<Ingredient> ingredients = recipeDTO.getIngredients();
         User user = authenticationController.getUserFromSession(session);
         Recipe existingRecipe = recipeRepository.findByName(recipeDTO.getName());
-        Recipe recipe = new Recipe(recipeDTO.getName(), recipeDTO.getDescription(), recipeDTO.getImage(), ingredients, user, recipeDTO.getUserCreated());
-        List<Recipe> recipesByUserId = recipeRepository.findByUserId(user.getId());
 
-        if(existingRecipe != null && existingRecipe.getUser() == user) {
-            recipeRepository.save(recipe);
+        if (existingRecipe != null && existingRecipe.getUser() != null && existingRecipe.getUser().equals(user)) {
+            // Create Ingredients and associate them with the Recipe
+            List<Ingredient> ingredients = new ArrayList<>();
+            for (IngredientDTO ingredientDTO : recipeDTO.getIngredients()) {
+                Ingredient ingredient = new Ingredient(ingredientDTO.getName(), ingredientDTO.getOriginalName(), existingRecipe);
+                ingredient.setRecipe(existingRecipe);
+                ingredients.add(ingredient);
+            }
+
+            // Set the list of ingredients in the Recipe
+            existingRecipe.setIngredients(ingredients);
+
+            recipeRepository.save(existingRecipe);
+            List<Recipe> recipesByUserId = recipeRepository.findByUserId(user.getId());
             return ResponseEntity.ok().body(recipesByUserId);
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();

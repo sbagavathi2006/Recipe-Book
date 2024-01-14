@@ -18,7 +18,7 @@ public class RecipeDTO {
     private String image;
 
     @NotNull
-    private List<Ingredient> ingredients;
+    private List<IngredientDTO> ingredients;
 
     private Boolean userCreated;
 
@@ -48,11 +48,11 @@ public class RecipeDTO {
         this.image = image;
     }
 
-    public List<Ingredient> getIngredients() {
+    public List<IngredientDTO> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(List<IngredientDTO> ingredients) {
         this.ingredients = ingredients;
     }
 

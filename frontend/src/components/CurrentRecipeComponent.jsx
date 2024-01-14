@@ -14,6 +14,10 @@ export default function CurrentRecipeComponent({
   const [ingredient, setIngredient] = useState('');
   const [shoppingList, setShoppingList] = useState([]);
   const [shoppingListCount, setShoppingListCount] = useState(0);
+  const [ingredientName, setIngredientName] = useState('');
+  const [originalName, setOriginalName] = useState('');
+  const [description, setDescription] = useState('');
+  const [name, setName] = useState('');
   const [addrecipe, setAddrecipe] = useState({
     name: '',
     description: '',
@@ -80,29 +84,37 @@ export default function CurrentRecipeComponent({
   const addIngredient = () => {
     setAddrecipe({
       ...addrecipe,
-      ingredients: [...addrecipe.ingredients, ingredient],
+      ingredients: [
+        ...addrecipe.ingredients,
+        { originalName: originalName, name: ingredientName },
+      ],
     });
 
     // Clear the input fields after adding an ingredient
-    setIngredient('');
+    setIngredientName('');
+    setOriginalName('');
   };
-
-  const { name, description, ingredients, image } = addrecipe;
 
   const onInputChange = (e) => {
     const { name, value } = e.target;
 
-    if (name === 'name' || name === 'description') {
+    if (name === 'name') {
+      setName(value);
       setAddrecipe({ ...addrecipe, [name]: value });
-    } else if (name === 'ingredient') {
-      setIngredient(value);
+    } else if (name === 'description') {
+      setDescription(value);
+      setAddrecipe({ ...addrecipe, [name]: value });
+    } else if (name === 'original-name') {
+      setOriginalName(value);
+    } else if (name === 'ingredient-name') {
+      setIngredientName(value);
     }
     // Clear the associated error when the user starts typing
     setErrors({ ...errors, [name]: '' });
   };
 
   const onFileChange = (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -129,7 +141,7 @@ export default function CurrentRecipeComponent({
         description: 'Please enter recipe description.',
       };
     }
-    if (!ingredients.length === 0) {
+    if (ingredients.length === 0) {
       newErrors = {
         ...newErrors,
         ingredients: 'Please enter recipe ingredients.',
@@ -225,28 +237,36 @@ export default function CurrentRecipeComponent({
   };
 
   useEffect(() => {
-    if (
-      recipe?.title &&
-      recipe?.image &&
-      recipe?.extendedIngredients &&
-      recipe?.plainTextInstructions
-    ) {
-      let { title, image, extendedIngredients, plainTextInstructions } = recipe;
+    console.log('Recipe in useEffect', recipe);
+    if (recipe?.title && recipe?.image) {
+      let {
+        title,
+        image,
+        extendedIngredients,
+        ingredients,
+        plainTextInstructions,
+        description,
+      } = recipe;
+
+      // Choose the appropriate property based on availability
+      const actualIngredients = extendedIngredients || ingredients;
+      const actualDescription = plainTextInstructions || description;
 
       // Shortens instructions to fit screen/not throw an error saving to database
-      plainTextInstructions = plainTextInstructions.slice(0, 900);
+      const truncatedDescription = actualDescription.slice(0, 900);
 
       // Build out displayedRecipe object to update displayed content
       const updatedDisplayedRecipe = {
         name: title,
-        description: plainTextInstructions,
+        description: truncatedDescription,
         image: image,
-        ingredients: extendedIngredients.map((ingredient) => ({
-          originalName: ingredient.original,
+        ingredients: actualIngredients.map((ingredient) => ({
+          originalName: ingredient.original || ingredient.originalName,
           name: ingredient.name,
         })),
       };
 
+      console.log('Updated displayed recipe:', updatedDisplayedRecipe);
       setDisplayedRecipe(updatedDisplayedRecipe);
     }
   }, [recipe]);
@@ -310,6 +330,10 @@ export default function CurrentRecipeComponent({
     }
   };
 
+  console.log(
+    `showAddRecipeForm:${showAddRecipeForm}\nupdateStatus:${updateStatus}\nloadingRecipe:${loadingRecipe}`
+  );
+
   if (loadingRecipe) {
     return (
       <div className="currentRecipe">
@@ -318,7 +342,7 @@ export default function CurrentRecipeComponent({
         </div>
       </div>
     );
-  } else if (showAddRecipeForm === true && updateStatus === true) {
+  } else if (updateStatus) {
     return (
       <div className="currentRecipe">
         {successMessage && (
@@ -399,7 +423,7 @@ export default function CurrentRecipeComponent({
         </form>
       </div>
     );
-  } else if (showAddRecipeForm === true && loadingRecipe === false) {
+  } else if (showAddRecipeForm) {
     return (
       <div className="currentRecipe">
         {successMessage && (
@@ -439,22 +463,39 @@ export default function CurrentRecipeComponent({
               <div key={index} className="input-container">
                 <input
                   type="text"
-                  className="ingredient"
-                  placeholder="Ingredient"
-                  value={ingredient}
+                  className="ingredient-quantity"
+                  placeholder="Ingredient Quantity"
+                  value={ingredient.originalName}
+                  disabled
+                />
+                <input
+                  type="text"
+                  className="ingredient-name"
+                  placeholder="Ingredient Name"
+                  value={ingredient.name}
                   disabled
                 />
               </div>
             ))}
+            <p>Example: 1 cup of carrots ----------------- carrots</p>
             <div className="input-container">
               <input
+                className="ingredient-original"
                 type="text"
-                className="ingredient"
+                id="recipe-ingredient-original"
+                name="original-name"
+                placeholder="Original Name"
+                onChange={(e) => setOriginalName(e.target.value)}
+                value={originalName}
+              />
+              <input
+                className="ingredient-name"
+                type="text"
                 id="recipe-ingredient-name"
                 name="ingredient-name"
                 placeholder="Ingredient Name"
-                onChange={(e) => setIngredient(e.target.value)}
-                value={ingredient}
+                onChange={(e) => setIngredientName(e.target.value)}
+                value={ingredientName}
               />
               <button type="button" onClick={addIngredient}>
                 Add
