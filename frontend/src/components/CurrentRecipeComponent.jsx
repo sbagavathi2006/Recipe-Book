@@ -118,10 +118,20 @@ export default function CurrentRecipeComponent({
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setAddrecipe({ ...addrecipe, image: reader.result });
-        setErrors({ ...errors, image: null });
+        if (reader.result) {
+          setAddrecipe({ ...addrecipe, image: reader.result });
+          setErrors({ ...errors, image: null });
+          console.log(addrecipe.image.length);
+        } else {
+          // Handle the case where the file couldn't be read
+          setErrors({ ...errors, image: 'Error reading the selected file' });
+        }
       };
       reader.readAsDataURL(file);
+    } else {
+      // Handle the case where no file is selected
+      setAddrecipe({ ...addrecipe, image: null }); // Set image to null or some default value
+      setErrors({ ...errors, image: 'Please select an image' });
     }
   };
 
@@ -156,14 +166,15 @@ export default function CurrentRecipeComponent({
       return;
     }
 
-    // concatenate the quantity and name together to match the recipe format in the database
-
     const recipeToAdd = {
       ...addrecipe,
       userCreated: true,
     };
 
     try {
+      console.log(
+        `Inside the update/add request: ${JSON.stringify(recipeToAdd)}`
+      );
       const response = await fetch(
         `http://localhost:8080/recipe/${updateStatus ? 'update' : 'add'}`,
         {
