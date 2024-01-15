@@ -93,6 +93,7 @@ export default function CurrentRecipeComponent({
     // Clear the input fields after adding an ingredient
     setIngredientName('');
     setOriginalName('');
+    setErrors({ ...errors, ingredients: '' });
   };
 
   const onInputChange = (e) => {
@@ -148,7 +149,7 @@ export default function CurrentRecipeComponent({
       };
     }
     if (!addrecipe.image) {
-      newErrors = { ...newErrors, image: 'Please enter recipe image url.' };
+      newErrors = { ...newErrors, image: 'Please upload recipe image.' };
     }
     // If there are errors, update the state and stop the submission
     if (Object.keys(newErrors).length > 0) {
@@ -186,23 +187,25 @@ export default function CurrentRecipeComponent({
       setSuccessMessage(
         `Recipe ${updateStatus ? 'updated' : 'added'} successfully!!`
       );
+
       setTimeout(() => {
         setSuccessMessage('');
       }, 4000);
 
       // Change update state to re-render favorites recipe list
       setUpdate(1);
-
       // Reset the form fields to an empty state
       setAddrecipe({
         name: '',
         description: '',
         ingredients: [],
         image: null,
-      });
-    } catch (error) {
+              });
+
+     } catch (error) {
       console.error('Error during form submission:', error);
     }
+
   };
 
   const handleAddFavoritesClick = (recipeData) => {
