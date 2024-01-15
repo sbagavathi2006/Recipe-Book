@@ -6,6 +6,7 @@ export default function DisplayResultsComponent({
   setShowAddRecipeForm,
   loadingSearch,
   setLoadingRecipe,
+  setUpdateStatus,
 }) {
   const apiKey = config.API_KEY;
 
@@ -33,6 +34,7 @@ export default function DisplayResultsComponent({
       setRecipe(null);
     } finally {
       setLoadingRecipe(false);
+      setUpdateStatus(false);
     }
   };
 

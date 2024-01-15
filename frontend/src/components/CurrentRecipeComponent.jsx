@@ -119,10 +119,20 @@ export default function CurrentRecipeComponent({
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setAddrecipe({ ...addrecipe, image: reader.result });
-        setErrors({ ...errors, image: null });
+        if (reader.result) {
+          setAddrecipe({ ...addrecipe, image: reader.result });
+          setErrors({ ...errors, image: null });
+          console.log(addrecipe.image.length);
+        } else {
+          // Handle the case where the file couldn't be read
+          setErrors({ ...errors, image: 'Error reading the selected file' });
+        }
       };
       reader.readAsDataURL(file);
+    } else {
+      // Handle the case where no file is selected
+      setAddrecipe({ ...addrecipe, image: null }); // Set image to null or some default value
+      setErrors({ ...errors, image: 'Please select an image' });
     }
   };
 
@@ -149,6 +159,7 @@ export default function CurrentRecipeComponent({
       };
     }
     if (!addrecipe.image) {
+
       newErrors = { ...newErrors, image: 'Please upload recipe image.' };
     }
     // If there are errors, update the state and stop the submission
@@ -157,14 +168,15 @@ export default function CurrentRecipeComponent({
       return;
     }
 
-    // concatenate the quantity and name together to match the recipe format in the database
-
     const recipeToAdd = {
       ...addrecipe,
       userCreated: true,
     };
 
     try {
+      console.log(
+        `Inside the update/add request: ${JSON.stringify(recipeToAdd)}`
+      );
       const response = await fetch(
         `http://localhost:8080/recipe/${updateStatus ? 'update' : 'add'}`,
         {
@@ -241,8 +253,10 @@ export default function CurrentRecipeComponent({
 
   useEffect(() => {
     console.log('Recipe in useEffect', recipe);
-    if (recipe?.title && recipe?.image) {
-      let {
+    // if (recipe?.title && recipe?.image) {
+    if ((recipe?.name || recipe?.title) && recipe?.image) {
+      const {
+        name,
         title,
         image,
         extendedIngredients,
@@ -252,6 +266,7 @@ export default function CurrentRecipeComponent({
       } = recipe;
 
       // Choose the appropriate property based on availability
+      const recipeName = name || title;
       const actualIngredients = extendedIngredients || ingredients;
       const actualDescription = plainTextInstructions || description;
 
@@ -260,7 +275,7 @@ export default function CurrentRecipeComponent({
 
       // Build out displayedRecipe object to update displayed content
       const updatedDisplayedRecipe = {
-        name: title,
+        name: recipeName,
         description: truncatedDescription,
         image: image,
         ingredients: actualIngredients.map((ingredient) => ({
@@ -487,7 +502,7 @@ export default function CurrentRecipeComponent({
                 type="text"
                 id="recipe-ingredient-original"
                 name="original-name"
-                placeholder="Original Name"
+                placeholder="Full Description"
                 onChange={(e) => setOriginalName(e.target.value)}
                 value={originalName}
               />
