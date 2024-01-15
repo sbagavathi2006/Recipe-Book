@@ -41,7 +41,6 @@ function App() {
   };
 
   const handleUpdateStatus = (bool) => {
-    console.log('click');
     setUpdateStatus(bool);
   };
 
@@ -84,6 +83,7 @@ function App() {
           setShowAddRecipeForm={handleShowAddRecipeForm}
           loadingSearch={loadingSearch}
           setLoadingRecipe={handleLoadingRecipe}
+          setUpdateStatus={handleUpdateStatus}
         />
 
         <CurrentRecipeComponent
