@@ -249,8 +249,10 @@ export default function CurrentRecipeComponent({
 
   useEffect(() => {
     console.log('Recipe in useEffect', recipe);
-    if (recipe?.title && recipe?.image) {
-      let {
+    // if (recipe?.title && recipe?.image) {
+    if ((recipe?.name || recipe?.title) && recipe?.image) {
+      const {
+        name,
         title,
         image,
         extendedIngredients,
@@ -260,6 +262,7 @@ export default function CurrentRecipeComponent({
       } = recipe;
 
       // Choose the appropriate property based on availability
+      const recipeName = name || title;
       const actualIngredients = extendedIngredients || ingredients;
       const actualDescription = plainTextInstructions || description;
 
@@ -268,7 +271,7 @@ export default function CurrentRecipeComponent({
 
       // Build out displayedRecipe object to update displayed content
       const updatedDisplayedRecipe = {
-        name: title,
+        name: recipeName,
         description: truncatedDescription,
         image: image,
         ingredients: actualIngredients.map((ingredient) => ({
@@ -495,7 +498,7 @@ export default function CurrentRecipeComponent({
                 type="text"
                 id="recipe-ingredient-original"
                 name="original-name"
-                placeholder="Original Name"
+                placeholder="Full Description"
                 onChange={(e) => setOriginalName(e.target.value)}
                 value={originalName}
               />
