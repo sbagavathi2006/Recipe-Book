@@ -22,7 +22,7 @@ public class Recipe extends AbstractEntity {
 
 
     @NotNull
-    @Column(columnDefinition = "VARBINARY(1000)")
+    @Column(columnDefinition = "LONGTEXT")
     private String image;
 
     @NotNull
