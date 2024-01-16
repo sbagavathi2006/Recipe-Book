@@ -132,8 +132,8 @@ export default function FavoriteRecipesComponent({
                     <span
                       onClick={() => {
                         setShowAddRecipeForm(false);
+                        setUpdateStatus(false);
                         setRecipe(recipe);
-                        console.log(recipe);
                       }}
                     >
                       {recipe.name}
@@ -155,7 +155,7 @@ export default function FavoriteRecipesComponent({
                           className="editIcon"
                           onClick={() => {
                             setUpdateStatus(true);
-                            setShowAddRecipeForm(true);
+                            setRecipe(recipe);
                           }}
                         />
                       </div>
