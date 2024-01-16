@@ -92,6 +92,7 @@ export default function CurrentRecipeComponent({
     // Clear the input fields after adding an ingredient
     setIngredientName('');
     setOriginalName('');
+    setErrors({ ...errors, ingredients: '' });
   };
 
   const onInputChange = (e) => {
@@ -160,7 +161,8 @@ export default function CurrentRecipeComponent({
       };
     }
     if (!addrecipe.image) {
-      newErrors = { ...newErrors, image: 'Please enter recipe image url.' };
+
+      newErrors = { ...newErrors, image: 'Please upload recipe image.' };
     }
     // If there are errors, update the state and stop the submission
     if (Object.keys(newErrors).length > 0) {
