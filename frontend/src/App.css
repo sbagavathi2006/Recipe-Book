@@ -511,15 +511,21 @@ label {
 
 .comment {
   text-align: left;
+  font-size: 16px;
+  color: rgb(158, 103, 0);
 }
 
-.commentSection {
+.commentP {
+  text-align: left;
+}
+
+/* .commentSection {
   display: flex;
   flex-direction: row;
   margin: 25px 0;
   justify-content: center;
   align-items: center;
-}
+} */
 
 .editIcon {
   margin-left: 10px;
