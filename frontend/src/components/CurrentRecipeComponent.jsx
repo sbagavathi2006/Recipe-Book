@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import PrintButton from './PrintButtonComponent';
 
 export default function CurrentRecipeComponent({
@@ -52,7 +54,7 @@ export default function CurrentRecipeComponent({
       setShoppingList(newShoppingList);
       console.log(shoppingList);
     }
-  };
+  }; 
 
   const handleOpenShoppingList = () => {
     const shoppingListWindow = window.open('', '_blank');
@@ -79,6 +81,7 @@ export default function CurrentRecipeComponent({
 
   const clearShoppingList = () => {
     setShoppingList([]);
+    setShoppingListCount(0);
   };
 
   const addIngredient = () => {
@@ -572,6 +575,13 @@ export default function CurrentRecipeComponent({
             >
               Shopping List ({shoppingListCount})
             </button>
+              <FontAwesomeIcon
+              icon={faTimes}
+              alt="Delete"
+              onClick={() => {
+                 clearShoppingList();
+                }}
+                  />
           </p>
         </div>
         <div>
