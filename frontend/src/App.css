@@ -508,8 +508,13 @@ label {
 }
 
 .comment {
-  color: black;
+  text-align: left;
   font-size: 16px;
+  color: rgb(158, 103, 0);
+}
+
+.commentP {
+  text-align: left;
 }
 
 /* .commentSection {

@@ -710,7 +710,7 @@ export default function CurrentRecipeComponent({
                   {comment.username} -{' '}
                   {new Date(comment.createdAt).toLocaleString()}
                 </div>
-                <p>{comment.text}</p>
+                <p className="commentP">{comment.text}</p>
               </div>
             ))}
         </div>
