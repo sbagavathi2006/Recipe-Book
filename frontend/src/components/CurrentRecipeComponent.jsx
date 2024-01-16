@@ -165,7 +165,6 @@ export default function CurrentRecipeComponent({
       };
     }
     if (!addrecipe.image) {
-
       newErrors = { ...newErrors, image: 'Please upload recipe image.' };
     }
     // If there are errors, update the state and stop the submission
@@ -658,7 +657,7 @@ export default function CurrentRecipeComponent({
                       }}
                     />
                     <label htmlFor="{`ingredientCheckbox${index}`}">
-                      {ingredient.originalName}
+                      {ingredient.originalName} {ingredient.name}
                     </label>
                   </div>
                 </li>
