@@ -37,6 +37,9 @@ public class AuthenticationFilter implements HandlerInterceptor {
                              HttpServletResponse response,
                              Object handler) throws IOException {
 
+        // Log request URI for debugging
+        System.out.println("Request URI: " + request.getRequestURI());
+
         // Allow OPTIONS requests without authentication
         if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
             return true;
@@ -49,6 +52,9 @@ public class AuthenticationFilter implements HandlerInterceptor {
 
         HttpSession session = request.getSession();
         User user = authenticationController.getUserFromSession(session);
+
+        // Log user information for debugging
+        System.out.println("User: " + user);
 
         // The user is logged in
         if (user != null) {

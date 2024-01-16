@@ -102,6 +102,7 @@ public class RecipeController {
         }
     }
 
+    @Transactional
     @PutMapping("update")
     public ResponseEntity<List<Recipe>> updateRecipe(@RequestBody RecipeDTO recipeDTO, HttpServletRequest request) {
         HttpSession session = request.getSession();
@@ -109,19 +110,35 @@ public class RecipeController {
         Recipe existingRecipe = recipeRepository.findByName(recipeDTO.getName());
 
         if (existingRecipe != null && existingRecipe.getUser() != null && existingRecipe.getUser().equals(user)) {
-            // Create Ingredients and associate them with the Recipe
-            List<Ingredient> ingredients = new ArrayList<>();
+            // Remove existing ingredients, image, and description
+            existingRecipe.setImage(null); // Set to null if replacing with a new image
+            existingRecipe.setDescription(null); // Set to null if replacing with a new description
+
+            for (Ingredient ingredient : existingRecipe.getIngredients()) {
+                ingredient.setRecipe(null);
+            }
+
+            // Use a temporary list for new ingredients
+            List<Ingredient> newIngredients = new ArrayList<>();
             for (IngredientDTO ingredientDTO : recipeDTO.getIngredients()) {
                 Ingredient ingredient = new Ingredient(ingredientDTO.getName(), ingredientDTO.getOriginalName(), existingRecipe);
                 ingredient.setRecipe(existingRecipe);
-                ingredients.add(ingredient);
+                newIngredients.add(ingredient);
             }
 
-            // Set the list of ingredients in the Recipe
-            existingRecipe.setIngredients(ingredients);
+            // Clear existing ingredients and set the new ones
+            existingRecipe.getIngredients().clear();
+            existingRecipe.setIngredients(newIngredients);
+
+            // Set the new image and description in the Recipe
+            existingRecipe.setImage(recipeDTO.getImage()); // Set to the new image
+            existingRecipe.setDescription(recipeDTO.getDescription()); // Set to the new description
 
             recipeRepository.save(existingRecipe);
             List<Recipe> recipesByUserId = recipeRepository.findByUserId(user.getId());
+            // Log recipes retrieved by user ID for debugging
+            System.out.println("Recipes By User ID: " + recipesByUserId);
+
             return ResponseEntity.ok().body(recipesByUserId);
         } else {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();

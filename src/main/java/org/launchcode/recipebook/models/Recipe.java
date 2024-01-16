@@ -26,7 +26,7 @@ public class Recipe extends AbstractEntity {
     private String image;
 
     @NotNull
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "recipe", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnoreProperties("recipe")
     private List<Ingredient> ingredients;
 
