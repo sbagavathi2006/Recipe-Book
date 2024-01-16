@@ -10,10 +10,17 @@ export default function PrintButton({ currentRecipeId }) {
       const printDocument = printWindow.document;
       const contentToPrint = recipeToPrint.cloneNode(true);
 
+      //remove checkboxes next to ingredients to add to shopping list
       const checkboxesToRemove = contentToPrint.querySelectorAll('input[type="checkbox"]');
       checkboxesToRemove.forEach((checkbox) => {
         checkbox.remove();
       });
+
+      //remove instructions to check the box to add the ingredient to shopping list
+      const shoppingListParagraph = contentToPrint.querySelector('.shoppingListP');
+      if (shoppingListParagraph) {
+      shoppingListParagraph.remove();
+      }
 
       printDocument.body.appendChild(contentToPrint);
       printWindow.print();
