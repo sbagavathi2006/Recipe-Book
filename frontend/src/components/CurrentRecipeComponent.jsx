@@ -8,6 +8,8 @@ export default function CurrentRecipeComponent({
   setUpdate,
   loadingRecipe,
   updateStatus,
+  currentUserId,
+  currentRecipeId,
 }) {
   const [displayedRecipe, setDisplayedRecipe] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
@@ -18,6 +20,7 @@ export default function CurrentRecipeComponent({
   const [originalName, setOriginalName] = useState('');
   const [description, setDescription] = useState('');
   const [name, setName] = useState('');
+  const [currentRecipeList, setCurrentRecipeList] = useState(null);
   const [addrecipe, setAddrecipe] = useState({
     name: '',
     description: '',
@@ -291,6 +294,39 @@ export default function CurrentRecipeComponent({
   }, [recipe]);
 
   useEffect(() => {
+    // Define an async function to fetch data
+    const fetchData = async () => {
+      try {
+        // Fetch recipe data from the server
+        const response = await fetch('http://localhost:8080/recipe/get', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+  
+        // Parse the response and set the recipe list
+        const data = await response.json();
+        setCurrentRecipeList(data);
+      } catch (error) {
+        console.error('There was a problem fetching the data: ', error);
+      }
+    };
+  
+    // // Check if the recipe is in the database before fetching data
+    // if (hasRecipeInDatabase) {
+    //   fetchData();
+    // }
+    fetchData(); // Initial call when the component mounts
+  }, [recipe]);
+
+  const isRecipeInList = currentRecipeList?.some((r) => r.id === recipe?.id);
+
+  useEffect(() => {
     // Fetch comments when the recipe changes
     const fetchComments = async () => {
       if (recipe?.id) {
@@ -313,10 +349,18 @@ export default function CurrentRecipeComponent({
     fetchComments();
   }, [recipe]);
 
-  const submitComment = async (e) => {
-    e.preventDefault();
 
+  const submitComment = async (e) => {
+    // e.preventDefault();
+    const recipeIdToComment = document.getElementById(currentRecipeId);
+    // const userIdToComment = document.getElementById(currentUserId);
     const { text } = comment;
+    const recipeToAdd = {
+      text: comment.text,
+      recipeId: recipeIdToComment,
+      // username: userIdToComment,
+      username: comment.username,
+    };
 
     try {
       const response = await fetch('http://localhost:8080/comment/add', {
@@ -337,14 +381,14 @@ export default function CurrentRecipeComponent({
 
       // Fetch comments again after submitting a new comment
       setComments([...comments, newComment]);
-
+      setUpdate(1);
       // Reset the form fields to an empty state
       setComment({
         text: '',
         recipeId: '',
         username: '',
-      });
-      
+           });
+     
     } catch (error) {
       console.error('Error during form submission:', error);
     }
@@ -616,8 +660,8 @@ export default function CurrentRecipeComponent({
           </div>
           <PrintButton currentRecipeId="recipeToPrint" />
         </div>
-
-        <div className="commentSection">
+        {isRecipeInList && (
+        <div>
           <textarea
             name="text"
             placeholder="Add your comments here..."
@@ -638,19 +682,24 @@ export default function CurrentRecipeComponent({
           >
             Post Comment
           </button>
+          
           {comments
             .slice()
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
             .map((comment) => (
-              <div key={comment.id} className="comment">
-                <small>
+              <div key={comment.id}>
+                
+                <div className="comment">
                   {comment.username} -{' '}
                   {new Date(comment.createdAt).toLocaleString()}
-                </small>
+                </div>
+                
                 <p>{comment.text}</p>
+                
               </div>
             ))}
         </div>
+         )}
       </div>
     );
   }
