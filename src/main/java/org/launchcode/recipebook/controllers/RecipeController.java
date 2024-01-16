@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.launchcode.recipebook.models.Ingredient;
 import org.launchcode.recipebook.models.Recipe;
 import org.launchcode.recipebook.models.User;
+import org.launchcode.recipebook.models.data.CommentRepository;
 import org.launchcode.recipebook.models.data.RecipeRepository;
 import org.launchcode.recipebook.models.data.UserRepository;
 import org.launchcode.recipebook.models.dto.IngredientDTO;
@@ -28,6 +29,9 @@ import java.util.List;
 @Controller
 @RequestMapping("recipe")
 public class RecipeController {
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Autowired
     private RecipeRepository recipeRepository;
@@ -94,6 +98,7 @@ public class RecipeController {
         Recipe existingRecipe = recipeRepository.findByName(recipeDTO.getName());
 
         if (existingRecipe != null && existingRecipe.getUser().getId() == user.getId()) {
+            commentRepository.deleteByRecipe(existingRecipe);
             recipeRepository.delete(existingRecipe);
             List<Recipe> recipesByUserId = recipeRepository.findByUserId(user.getId());
             return ResponseEntity.ok().body(recipesByUserId);
