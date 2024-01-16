@@ -214,6 +214,7 @@ export default function CurrentRecipeComponent({
         image: null,
               });
 
+
      } catch (error) {
       console.error('Error during form submission:', error);
     }
@@ -343,6 +344,7 @@ export default function CurrentRecipeComponent({
         recipeId: '',
         username: '',
       });
+      
     } catch (error) {
       console.error('Error during form submission:', error);
     }
