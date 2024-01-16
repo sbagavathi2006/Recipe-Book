@@ -89,7 +89,6 @@ export default function CurrentRecipeComponent({
         { originalName: originalName, name: ingredientName },
       ],
     });
-
     // Clear the input fields after adding an ingredient
     setIngredientName('');
     setOriginalName('');
@@ -137,14 +136,17 @@ export default function CurrentRecipeComponent({
   };
 
   const onSubmit = async (e) => {
+    console.log('Recipe Name Test:' + addrecipe.name);
     if (e) {
       e.preventDefault();
     }
     //Basic client side validations
     let newErrors = {};
 
-    if (!name.trim()) {
-      newErrors = { ...newErrors, name: 'Please enter recipe title.' };
+    if (!updateStatus) {
+      if (!name.trim()) {
+        newErrors = { ...newErrors, name: 'Please enter recipe title.' };
+      }
     }
     if (!description.trim()) {
       newErrors = {
@@ -168,10 +170,17 @@ export default function CurrentRecipeComponent({
       return;
     }
 
-    const recipeToAdd = {
+    let recipeToAdd = {
       ...addrecipe,
       userCreated: true,
     };
+
+    if (updateStatus) {
+      recipeToAdd = {
+        ...recipeToAdd,
+        name: displayedRecipe.name,
+      };
+    }
 
     try {
       console.log(
@@ -199,26 +208,22 @@ export default function CurrentRecipeComponent({
       setSuccessMessage(
         `Recipe ${updateStatus ? 'updated' : 'added'} successfully!!`
       );
-
       setTimeout(() => {
         setSuccessMessage('');
-      }, 4000);
+        // Change update state to re-render favorites recipe list
+        setUpdate(1);
+      }, 3000);
 
-      // Change update state to re-render favorites recipe list
-      setUpdate(1);
       // Reset the form fields to an empty state
       setAddrecipe({
         name: '',
         description: '',
         ingredients: [],
         image: null,
-              });
-
-
-     } catch (error) {
+      });
+    } catch (error) {
       console.error('Error during form submission:', error);
     }
-
   };
 
   const handleAddFavoritesClick = (recipeData) => {
@@ -344,7 +349,6 @@ export default function CurrentRecipeComponent({
         recipeId: '',
         username: '',
       });
-      
     } catch (error) {
       console.error('Error during form submission:', error);
     }
@@ -363,6 +367,8 @@ export default function CurrentRecipeComponent({
       </div>
     );
   } else if (updateStatus) {
+    console.log('Recipe: ' + displayedRecipe.name);
+
     return (
       <div className="currentRecipe">
         {successMessage && (
@@ -376,9 +382,10 @@ export default function CurrentRecipeComponent({
               type="text"
               id="recipe-name"
               name="name"
-              placeholder="Your recipe's title"
+              placeholder={displayedRecipe.name}
               onChange={(e) => onInputChange(e)}
-              value={name}
+              value={displayedRecipe.name}
+              disabled
             />
             <div className="error-message">{errors.name}</div>
           </div>
@@ -402,22 +409,39 @@ export default function CurrentRecipeComponent({
               <div key={index} className="input-container">
                 <input
                   type="text"
-                  className="ingredient"
-                  placeholder="Ingredient"
-                  value={ingredient}
+                  className="ingredient-quantity"
+                  placeholder="Ingredient Quantity"
+                  value={ingredient.originalName}
+                  disabled
+                />
+                <input
+                  type="text"
+                  className="ingredient-name"
+                  placeholder="Ingredient Name"
+                  value={ingredient.name}
                   disabled
                 />
               </div>
             ))}
+            <p>Example: 1 cup of carrots ----------------- carrots</p>
             <div className="input-container">
               <input
+                className="ingredient-original"
                 type="text"
-                className="ingredient"
+                id="recipe-ingredient-original"
+                name="original-name"
+                placeholder="Full Description"
+                onChange={(e) => setOriginalName(e.target.value)}
+                value={originalName}
+              />
+              <input
+                className="ingredient-name"
+                type="text"
                 id="recipe-ingredient-name"
                 name="ingredient-name"
                 placeholder="Ingredient Name"
-                onChange={(e) => setIngredient(e.target.value)}
-                value={ingredient}
+                onChange={(e) => setIngredientName(e.target.value)}
+                value={ingredientName}
               />
               <button type="button" onClick={addIngredient}>
                 Add
