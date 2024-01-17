@@ -57,7 +57,7 @@ export default function CurrentRecipeComponent({
       setShoppingList(newShoppingList);
       console.log(shoppingList);
     }
-  }; 
+  };
 
   const handleOpenShoppingList = () => {
     const shoppingListWindow = window.open('', '_blank');
@@ -388,8 +388,7 @@ export default function CurrentRecipeComponent({
         text: '',
         recipeId: '',
         username: '',
-           });
-
+      });
     } catch (error) {
       console.error('Error during form submission:', error);
     }
@@ -629,21 +628,23 @@ export default function CurrentRecipeComponent({
             >
               <span className="star"></span> Add to Favorites
             </button>
-            <button
-              className="shopping-btn"
-              onClick={() => {
-                handleOpenShoppingList();
-              }}
-            >
-              Shopping List ({shoppingListCount})
-            </button>
-              <FontAwesomeIcon
-              icon={faTimes}
-              alt="Delete"
-              onClick={() => {
-                 clearShoppingList();
+            <div className="shopping-list-div">
+              <button
+                className="shopping-btn"
+                onClick={() => {
+                  handleOpenShoppingList();
                 }}
-                  />
+              >
+                Shopping List ({shoppingListCount})
+              </button>
+              <FontAwesomeIcon
+                icon={faTimes}
+                alt="Delete"
+                onClick={() => {
+                  clearShoppingList();
+                }}
+              />
+            </div>
           </p>
         </div>
         <div>
@@ -689,41 +690,43 @@ export default function CurrentRecipeComponent({
           <PrintButton currentRecipeId="recipeToPrint" />
         </div>
         {isRecipeInList && (
-        <div>
-          <textarea
-            name="text"
-            placeholder="Add your comments here..."
-            value={comment.text}
-            onChange={(e) =>
-              setComment({
-                text: e.target.value,
-                recipeId: comment.recipeId, // Preserve the recipeId
-                username: comment.username, // Preserve the username
-              })
-            }
-          />
-          <button
-            onClick={() => {
-              submitComment();
-              setUpdate(1);
-            }}
-          >
-            Post Comment
-          </button>
-          {comments
-            .slice()
-            .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
-            .map((comment) => (
-              <div key={comment.id}>
-                <div className="comment">
-                  {comment.username} -{' '}
-                  {new Date(comment.createdAt).toLocaleString()}
+          <div>
+            <div className="comments-div">
+              <textarea
+                name="text"
+                placeholder="Add your comments here..."
+                value={comment.text}
+                onChange={(e) =>
+                  setComment({
+                    text: e.target.value,
+                    recipeId: comment.recipeId, // Preserve the recipeId
+                    username: comment.username, // Preserve the username
+                  })
+                }
+              />
+              <button
+                onClick={() => {
+                  submitComment();
+                  setUpdate(1);
+                }}
+              >
+                Post Comment
+              </button>
+            </div>
+            {comments
+              .slice()
+              .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+              .map((comment) => (
+                <div key={comment.id}>
+                  <div className="comment">
+                    {comment.username} -{' '}
+                    {new Date(comment.createdAt).toLocaleString()}
+                  </div>
+                  <p className="commentP">{comment.text}</p>
                 </div>
-                <p className="commentP">{comment.text}</p>
-              </div>
-            ))}
-        </div>
-         )}
+              ))}
+          </div>
+        )}
       </div>
     );
   }
