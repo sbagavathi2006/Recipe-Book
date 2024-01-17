@@ -324,19 +324,24 @@ input#searchInput {
 }
 
 .current-title-favorite {
-  display: inline;
   font-size: 20px;
 }
 
 .current-title-favorite p {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   margin: 10px;
 }
 
 .shopping-btn {
   background-color: var(--white-color);
+  margin: 0;
   color: #333;
-  border: 1px solid;
-  border-radius: 4px;
+  border-right: 1px solid;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
 }
 
 .shopping-btn:hover {
@@ -345,15 +350,19 @@ input#searchInput {
 
 .favorite-btn {
   display: inline-block;
-  padding: 4px 15px 4px 3px;
+  padding: 6px 15px 4px 3px;
   font-size: 16px;
   border: none;
-  background-color: var(--white-color);
+  background-color: rgb(232, 232, 232);
   color: #333;
   position: relative;
   border: 1px solid;
   border-radius: 4px;
   margin-left: 10px;
+}
+
+.favorite-btn span {
+  color: yellow;
 }
 
 .favorite-btn:hover {
@@ -519,13 +528,13 @@ label {
   text-align: left;
 }
 
-/* .commentSection {
+.comments-div {
   display: flex;
   flex-direction: row;
   margin: 25px 0;
   justify-content: center;
   align-items: center;
-} */
+}
 
 .editIcon {
   margin-left: 10px;
@@ -534,4 +543,27 @@ label {
 .shoppingListP {
   color: rgb(158, 103, 0);
   font-size: 16px;
+}
+
+.shopping-list-div {
+  background-color: var(--white-color);
+  font-size: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid;
+  border-radius: 4px;
+}
+
+.shopping-list-div .svg-inline--fa {
+  margin-left: 5px;
+  margin-right: 5px;
+  background-color: var(--white-color);
+  border: 1px solid;
+  border-radius: 4px;
+}
+
+.shopping-list-div .svg-inline--fa:hover {
+  background-color: #ffc6c6;
 }
