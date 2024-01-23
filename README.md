@@ -6,6 +6,8 @@ The Recipe Book application enables users to effortlessly search and explore a v
 
 ## Tech Stack
 ***
-* Frontend - React, CSS
-* Backend - Spring Boot, Java
+* Frontend - React, CSS, JavaScript
+* Backend - Spring Boot, Java, Thymleaf
 * Database - MySQL
+* External API - Spoonacular API
+***
